@@ -1,0 +1,317 @@
+local ScreenGui = Instance.new("ScreenGui")
+local MainFrame = Instance.new("Frame")
+local BetaText = Instance.new("TextLabel")
+local TeletransportesButton = Instance.new("TextButton")
+local InfiniteYieldButton = Instance.new("TextButton")
+local BloxFruitsScriptButton = Instance.new("TextButton")
+local AllChestTweenButton = Instance.new("TextButton")
+local TeletransportarFrutasButton = Instance.new("TextButton") -- Botón de Frutas
+local BackButton = Instance.new("TextButton")
+local CloseButton = Instance.new("TextButton")
+
+-- Configuración del ScreenGui
+ScreenGui.Parent = game.CoreGui
+ScreenGui.Name = "CustomMenu"
+ScreenGui.ResetOnSpawn = false
+
+-- Configuración del MainFrame
+MainFrame.Parent = ScreenGui
+MainFrame.Size = UDim2.new(0, 600, 0, 300) -- Menú más grande
+MainFrame.Position = UDim2.new(0.5, -300, 0.5, -150)
+MainFrame.BackgroundColor3 = Color3.fromRGB(45, 45, 45)
+MainFrame.BorderSizePixel = 0
+MainFrame.Visible = true
+MainFrame.Active = true
+MainFrame.Draggable = true
+
+-- Configuración de BetaText
+BetaText.Parent = MainFrame
+BetaText.Size = UDim2.new(0, 40, 0, 20)
+BetaText.Position = UDim2.new(0, 555, 0, 275)
+BetaText.Text = "Beta"
+BetaText.BackgroundColor3 = Color3.fromRGB(45, 45, 45)
+BetaText.TextColor3 = Color3.fromRGB(130, 130, 130)
+BetaText.TextSize = 10
+
+-- Configuración de TeletransportesButton
+TeletransportesButton.Parent = MainFrame
+TeletransportesButton.Size = UDim2.new(0, 240, 0, 50)
+TeletransportesButton.Position = UDim2.new(0, 10, 0, 10)
+TeletransportesButton.Text = "Teletransportes"
+TeletransportesButton.BackgroundColor3 = Color3.fromRGB(65, 65, 65)
+TeletransportesButton.TextColor3 = Color3.new(1, 1, 1)
+TeletransportesButton.Font = Enum.Font.SourceSansBold
+TeletransportesButton.TextSize = 24
+
+-- Configuración de InfiniteYieldButton
+InfiniteYieldButton.Parent = MainFrame
+InfiniteYieldButton.Size = UDim2.new(0, 240, 0, 50)
+InfiniteYieldButton.Position = UDim2.new(0, 270, 0, 10)
+InfiniteYieldButton.Text = "Infinite Yield"
+InfiniteYieldButton.BackgroundColor3 = Color3.fromRGB(65, 65, 65)
+InfiniteYieldButton.TextColor3 = Color3.new(1, 1, 1)
+InfiniteYieldButton.Font = Enum.Font.SourceSansBold
+InfiniteYieldButton.TextSize = 24
+
+-- Configuración de BloxFruitsScriptButton
+BloxFruitsScriptButton.Parent = MainFrame
+BloxFruitsScriptButton.Size = UDim2.new(0, 240, 0, 50)
+BloxFruitsScriptButton.Position = UDim2.new(0, 10, 0, 65)
+BloxFruitsScriptButton.Text = "Blox Fruits"
+BloxFruitsScriptButton.BackgroundColor3 = Color3.fromRGB(65, 65, 65)
+BloxFruitsScriptButton.TextColor3 = Color3.new(1, 1, 1)
+BloxFruitsScriptButton.Font = Enum.Font.SourceSansBold
+BloxFruitsScriptButton.TextSize = 24
+
+-- Configuración de AllChestTweenButton
+AllChestTweenButton.Parent = MainFrame
+AllChestTweenButton.Size = UDim2.new(0, 240, 0, 50)
+AllChestTweenButton.Position = UDim2.new(0, 60, 0, 10)
+AllChestTweenButton.Text = "Todos Los Cofres/ OFF"
+AllChestTweenButton.BackgroundColor3 = Color3.fromRGB(65, 65, 65)
+AllChestTweenButton.TextColor3 = Color3.new(1, 1, 1)
+AllChestTweenButton.Font = Enum.Font.SourceSansBold
+AllChestTweenButton.TextSize = 24
+AllChestTweenButton.Visible = false
+
+-- Configuración de TeletransportarFrutasButton
+TeletransportarFrutasButton.Parent = MainFrame
+TeletransportarFrutasButton.Size = UDim2.new(0, 240, 0, 50)
+TeletransportarFrutasButton.Position = UDim2.new(0, 305, 0, 10)
+TeletransportarFrutasButton.Text = "Teletransportar a Frutas/ OFF"
+TeletransportarFrutasButton.BackgroundColor3 = Color3.fromRGB(65, 65, 65)
+TeletransportarFrutasButton.TextColor3 = Color3.new(1, 1, 1)
+TeletransportarFrutasButton.Font = Enum.Font.SourceSansBold
+TeletransportarFrutasButton.TextSize = 23
+TeletransportarFrutasButton.Visible = false
+
+-- Configuración de BackButton
+BackButton.Parent = MainFrame
+BackButton.Size = UDim2.new(0, 50, 0, 50)
+BackButton.Position = UDim2.new(0, 0, 0, 0)
+BackButton.Text = "<"
+BackButton.BackgroundColor3 = Color3.fromRGB(255, 85, 85)
+BackButton.TextColor3 = Color3.new(1, 1, 1)
+BackButton.Font = Enum.Font.SourceSansBold
+BackButton.TextSize = 20
+BackButton.Visible = false
+
+-- Configuración de CloseButton
+CloseButton.Parent = MainFrame
+CloseButton.Size = UDim2.new(0, 50, 0, 50)
+CloseButton.Position = UDim2.new(1, -50, 0, 0) -- Esquina superior derecha
+CloseButton.Text = "X"
+CloseButton.BackgroundColor3 = Color3.fromRGB(255, 85, 85)
+CloseButton.TextColor3 = Color3.new(1, 1, 1)
+CloseButton.Font = Enum.Font.SourceSansBold
+CloseButton.TextSize = 24
+CloseButton.Visible = true
+
+-- Funcionalidad del botón Infinite Yield
+InfiniteYieldButton.MouseButton1Click:Connect(function()
+    loadstring(game:HttpGet('https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source'))()
+end)
+
+BloxFruitsScriptButton.MouseButton1Click:Connect(function()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/Lucasbekk3315-code/Blox-Fruits-redz-hub/refs/heads/main/Script%20blox%20fruits%20roblox%20redz%20hub"))()
+end)
+
+-- Funcionalidad del botón Teletransportes
+TeletransportesButton.MouseButton1Click:Connect(function()
+    TeletransportesButton.Visible = false
+    InfiniteYieldButton.Visible = false
+    BloxFruitsScriptButton.Visible = false
+    AllChestTweenButton.Visible = true
+    TeletransportarFrutasButton.Visible = true
+    BackButton.Visible = true
+end)
+
+local TweenService = game:GetService("TweenService")
+local player = game.Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+local humanoidRootPart = character:WaitForChild("HumanoidRootPart")
+
+local isTweening = false
+local speed = 325 -- Velocidad equivalente a WalkSpeed 50 (ajustable)
+local initialPosition -- Para guardar la posición inicial del jugador
+
+local function tweenToPosition(destinationCFrame)
+    if not humanoidRootPart then return end
+
+    local distance = (humanoidRootPart.Position - destinationCFrame.Position).Magnitude
+    local time = distance / speed
+
+    local tweenInfo = TweenInfo.new(time, Enum.EasingStyle.Linear)
+    local tween = TweenService:Create(humanoidRootPart, tweenInfo, {CFrame = destinationCFrame})
+
+    tween:Play()
+    tween.Completed:Wait()
+end
+
+local locations = {
+    "Boat Castle",
+    "Great Tree",
+    "Haunted Castle",
+    "Ice Cream Island",
+    "Peanut Island",
+    "Port",
+    "TikiOutspot",
+    "Waterfall"
+}
+
+AllChestTweenButton.MouseButton1Click:Connect(function()
+    if isTweening then
+        -- Si el sistema está activo, desactívalo y regresa al jugador a su posición inicial
+        isTweening = false
+        AllChestTweenButton.Text = "Todos Los Cofres/ OFF"
+        if initialPosition then
+            tweenToPosition(initialPosition)
+        end
+        return
+    end
+
+    -- Guardar la posición inicial y activar el sistema
+    initialPosition = humanoidRootPart.CFrame
+    isTweening = true
+    AllChestTweenButton.Text = "Todos Los Cofres/ ON"
+
+    coroutine.wrap(function()
+        for _, locationName in ipairs(locations) do
+            if not isTweening then break end
+
+            local location = workspace.Map:FindFirstChild(locationName)
+            if location then
+                for _, descendant in ipairs(location:GetDescendants()) do
+                    if descendant:IsA("BasePart") and descendant.Name:find("^Chest") then
+                        if not isTweening then break end
+                        tweenToPosition(descendant.CFrame)
+                        wait(1.5) -- Esperar 2 segundos en el lugar del cofre
+                    end
+                end
+            end
+
+            wait(0.5) -- Espera entre ubicaciones
+        end
+
+        isTweening = false
+        AllChestTweenButton.Text = "Todos Los Cofres/ OFF"
+    end)()
+end)
+
+-- Función para teletransportarse a una Tool o Modelo, exactamente a la posición del objeto
+local function TeletransportarAObjeto(objeto)
+    -- Verificar si el objeto es una herramienta o un modelo con PrimaryPart
+    if objeto:IsA("Tool") then
+        -- Si es una herramienta, teletransportar al jugador a la posición de la herramienta
+        local jugador = game.Players.LocalPlayer
+        local personaje = jugador.Character
+        local humanoidRootPart = personaje and personaje:FindFirstChild("HumanoidRootPart")
+
+        if humanoidRootPart then
+            -- Teletransportar al jugador a la posición exacta de la herramienta
+            humanoidRootPart.CFrame = objeto.Handle.CFrame
+            print("Teletransportado a la Tool: " .. objeto.Name) -- Depuración
+        else
+            print("No se encontró el HumanoidRootPart del jugador.") -- Depuración
+        end
+    elseif objeto:IsA("Model") and objeto.PrimaryPart then
+        -- Si es un modelo, teletransportar al jugador a su PrimaryPart
+        local jugador = game.Players.LocalPlayer
+        local personaje = jugador.Character
+        local humanoidRootPart = personaje and personaje:FindFirstChild("HumanoidRootPart")
+
+        if humanoidRootPart then
+            -- Teletransportar al jugador a la posición exacta del PrimaryPart del modelo
+            humanoidRootPart.CFrame = objeto.PrimaryPart.CFrame
+            print("Teletransportado al Modelo: " .. objeto.Name) -- Depuración
+        else
+            print("No se encontró el HumanoidRootPart del jugador.") -- Depuración
+        end
+    else
+        print("El objeto no es una herramienta ni un modelo con PrimaryPart.") -- Depuración
+    end
+end
+
+-- Funcionalidad del botón de Teletransportar a Frutas
+TeletransportarFrutasButton.MouseButton1Click:Connect(function()
+    if TeletransportarFrutasButton.Text == "Teletransportar a Frutas/ OFF" then
+        TeletransportarFrutasButton.Text = "Teletransportar a Frutas/ ON"
+        print("Teletransporte activado.") -- Depuración
+        
+        -- Activar la búsqueda de frutas en Workspace
+        while TeletransportarFrutasButton.Text == "Teletransportar a Frutas/ ON" do
+            -- Comprobar si hay algún objeto con "Fruit" en su nombre
+            for _, child in pairs(workspace:GetChildren()) do
+                if string.lower(child.Name):find("fruit") then
+                    print("Objeto encontrado: " .. child.Name) -- Depuración
+                    TeletransportarAObjeto(child)
+                    break -- Teletransportarse solo a la primera fruta que encuentre
+                end
+            end
+            wait(0.05) -- Esperar un segundo antes de comprobar nuevamente
+        end
+    else
+        TeletransportarFrutasButton.Text = "Teletransportar a Frutas/ OFF"
+        print("Teletransporte desactivado.") -- Depuración
+    end
+end)
+
+-- Detectar cuando se agrega un nuevo hijo a Workspace
+workspace.ChildAdded:Connect(function(child)
+    -- Verificar si el nombre del nuevo hijo contiene "fruit" (sin importar mayúsculas/minúsculas)
+    if string.lower(child.Name):find("fruit") then
+        print("Nuevo objeto agregado: " .. child.Name) -- Depuración
+        -- Verificar si el teletransporte está activado
+        if TeletransportarFrutasButton.Text == "Teletransportar a Frutas/ ON" then
+            -- Teletransportar al jugador a la posición del objeto recién agregado
+            TeletransportarAObjeto(child)
+        end
+    end
+end)
+
+
+
+
+
+-- Funcionalidad del botón de regreso
+BackButton.MouseButton1Click:Connect(function()
+    AllChestTweenButton.Visible = false
+    TeletransportarFrutasButton.Visible = false
+    BackButton.Visible = false
+    TeletransportesButton.Visible = true
+    InfiniteYieldButton.Visible = true
+    BloxFruitsScriptButton.Visible = true
+end)
+
+-- Funcionalidad del botón de cierre (X)
+CloseButton.MouseButton1Click:Connect(function()
+    ScreenGui:Destroy()
+end)
+
+-- Controlar el cierre y apertura del menú con Alt
+local UserInputService = game:GetService("UserInputService")
+local isAltPressed = false -- Estado para evitar que se activen múltiples eventos al mantener Alt
+
+UserInputService.InputBegan:Connect(function(input, isProcessed)
+    if isProcessed then return end -- Ignorar si el input ya fue procesado
+    if input.KeyCode == Enum.KeyCode.LeftAlt then
+        if not isAltPressed then
+            isAltPressed = true
+            MainFrame.Visible = not MainFrame.Visible
+        end
+    end
+end)
+
+UserInputService.InputEnded:Connect(function(input)
+    if input.KeyCode == Enum.KeyCode.LeftAlt then
+        isAltPressed = false
+    end
+end)
+
+wait(3)
+
+game.StarterGui:SetCore("SendNotification", {
+    Title = "Leelo completo.";
+    Text = "Gracias por usar mi script, Para poder minimizarlo presiona *Alt* y para agrandarlo Presionalo de nuevo, eso es todo Gracias.";
+    Duration = 15;
+})
