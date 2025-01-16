@@ -224,6 +224,8 @@ end)
 -- Detectar cuando se presiona la tecla de activación
 UserInputService.InputBegan:Connect(function(input, gameProcessed)
     if gameProcessed then return end
+
+    -- Verificar si se presionó la tecla asignada o el clic derecho o el botón 4 o 5
     if TeclaAsignada and input.UserInputType == Enum.UserInputType.Keyboard then
         -- Verifica si la tecla presionada coincide con la tecla asignada
         if input.KeyCode == TeclaDeAimbot then
@@ -240,6 +242,24 @@ UserInputService.InputBegan:Connect(function(input, gameProcessed)
             Objetivo = nil -- Limpiar el objetivo cuando se desactiva
         end
         Notificar("Aimbot", AimbotActivado and "Aimbot Activado" or "Aimbot Desactivado", 1)
+    elseif input.UserInputType == Enum.UserInputType.MouseButton4 then
+        -- Activar/desactivar el aimbot con el botón 4 del mouse
+        if TeclaAsignada and TeclaDeAimbot == Enum.UserInputType.MouseButton4 then
+            AimbotActivado = not AimbotActivado
+            if not AimbotActivado then
+                Objetivo = nil -- Limpiar el objetivo cuando se desactiva
+            end
+            Notificar("Aimbot", AimbotActivado and "Aimbot Activado" or "Aimbot Desactivado", 1)
+        end
+    elseif input.UserInputType == Enum.UserInputType.MouseButton5 then
+        -- Activar/desactivar el aimbot con el botón 5 del mouse
+        if TeclaAsignada and TeclaDeAimbot == Enum.UserInputType.MouseButton5 then
+            AimbotActivado = not AimbotActivado
+            if not AimbotActivado then
+                Objetivo = nil -- Limpiar el objetivo cuando se desactiva
+            end
+            Notificar("Aimbot", AimbotActivado and "Aimbot Activado" or "Aimbot Desactivado", 1)
+        end
     end
 end)
 
@@ -292,6 +312,7 @@ local function CrearMenuDeTecla()
     CajaTexto.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
     CajaTexto.Parent = Marco
     
+
     CajaTexto.FocusLost:Connect(function(enterPressed)
         if enterPressed then
             local tecla = CajaTexto.Text:upper()
@@ -300,6 +321,16 @@ local function CrearMenuDeTecla()
                 TeclaDeAimbot = Enum.KeyCode.Unknown -- Desactivar asignación de tecla
                 TeclaAsignada = true
                 Notificar("Tecla Aimbot", "Clic derecho asignado para activar el aimbot.", 3)
+            elseif tecla == "BOTON4" then
+                TeclaDeAimbot = Enum.UserInputType.MouseButton4 -- Asignar el botón 4 del mouse
+                TeclaAsignada = true
+                ClickDerechoAsignado = false
+                Notificar("Tecla Aimbot", "Botón 4 del mouse asignado para activar el aimbot.", 3)
+            elseif tecla == "BOTON5" then
+                TeclaDeAimbot = Enum.UserInputType.MouseButton5 -- Asignar el botón 5 del mouse
+                TeclaAsignada = true
+                ClickDerechoAsignado = false
+                Notificar("Tecla Aimbot", "Botón 5 del mouse asignado para activar el aimbot.", 3)
             else
                 local teclaValida = false
                 -- Validar si la tecla es válida
@@ -321,6 +352,7 @@ local function CrearMenuDeTecla()
     end)
 end
 
+
 --- Controlar el cierre y apertura del menú con Ctrl derecho
 UserInputService.InputBegan:Connect(function(input, gameProcessed)
     if gameProcessed then return end
@@ -334,7 +366,6 @@ end)
 
 CrearMenuDeTecla()
 Notificar("Aimbot", "Aimbot Inicializado. Asigna una tecla o escribe 'click' para usar clic derecho, Ctrl Derecho Para togglear Visibilidad.", 10)
-
 end)
 
 -- Funcionalidad del botón Teletransportes
