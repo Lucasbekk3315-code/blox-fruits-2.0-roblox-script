@@ -63,6 +63,17 @@ BloxFruitsScriptButton.TextColor3 = Color3.new(1, 1, 1)
 BloxFruitsScriptButton.Font = Enum.Font.SourceSansBold
 BloxFruitsScriptButton.TextSize = 24
 
+-- Configuración de AimLockBloxButton
+local AimLockBloxButton = Instance.new("TextButton")
+AimLockBloxButton.Parent = MainFrame
+AimLockBloxButton.Size = UDim2.new(0, 240, 0, 50)
+AimLockBloxButton.Position = UDim2.new(0, 270, 0, 65) -- Ajusta la posición según sea necesario
+AimLockBloxButton.Text = "AimLock Blox"
+AimLockBloxButton.BackgroundColor3 = Color3.fromRGB(65, 65, 65)
+AimLockBloxButton.TextColor3 = Color3.new(1, 1, 1)
+AimLockBloxButton.Font = Enum.Font.SourceSansBold
+AimLockBloxButton.TextSize = 24
+
 -- Configuración de AllChestTweenButton
 AllChestTweenButton.Parent = MainFrame
 AllChestTweenButton.Size = UDim2.new(0, 240, 0, 50)
@@ -114,6 +125,200 @@ end)
 
 BloxFruitsScriptButton.MouseButton1Click:Connect(function()
     loadstring(game:HttpGet("https://raw.githubusercontent.com/Lucasbekk3315-code/Blox-Fruits-redz-hub/refs/heads/main/Script%20blox%20fruits%20roblox%20redz%20hub"))()
+end)
+
+AimLockBloxButton.MouseButton1Click:Connect(function()
+    local Players = game:GetService("Players")
+local RunService = game:GetService("RunService")
+local UserInputService = game:GetService("UserInputService")
+local Camera = workspace.CurrentCamera
+local StarterGui = game:GetService("StarterGui")
+local LocalPlayer = Players.LocalPlayer
+
+local AimbotActivado = false
+local TeclaDeAimbot = Enum.KeyCode.E
+local Objetivo = nil
+local TeclaAsignada = false
+local PantallaGui = nil
+
+-- Función para enviar notificaciones
+local function Notificar(titulo, texto, duracion)
+    pcall(function()
+        StarterGui:SetCore("SendNotification", {
+            Title = titulo,
+            Text = texto,
+            Duration = duracion or 3
+        })
+    end)
+end
+
+-- Verificar si un jugador es enemigo
+local function EsEnemigo(jugador)
+    if not jugador.Team or jugador.TeamColor == BrickColor.White() or jugador.TeamColor == BrickColor.Black() then
+        return false
+    end
+    if LocalPlayer.Team and jugador.Team then
+        return LocalPlayer.Team ~= jugador.Team
+    end
+    return true
+end
+
+-- Obtener el jugador más cercano al mouse
+local function ObtenerJugadorMasCercanoAlMouse()
+    local posicionMouse = UserInputService:GetMouseLocation()
+    local jugadorMasCercano = nil
+    local distanciaMasCercana = math.huge
+
+    for _, jugador in ipairs(Players:GetPlayers()) do
+        if jugador ~= LocalPlayer and EsEnemigo(jugador) and jugador.Character and jugador.Character:FindFirstChild("HumanoidRootPart") then
+            local torso = jugador.Character.HumanoidRootPart
+            local posicionPantalla, enPantalla = Camera:WorldToScreenPoint(torso.Position)
+
+            if enPantalla then
+                local distancia = (Vector2.new(posicionPantalla.X, posicionPantalla.Y) - posicionMouse).Magnitude
+                if distancia < distanciaMasCercana then
+                    distanciaMasCercana = distancia
+                    jugadorMasCercano = jugador
+                end
+            end
+        end
+    end
+
+    return jugadorMasCercano
+end
+
+-- Apuntar al objetivo
+local function ApuntarA(parteObjetivo)
+    if parteObjetivo then
+        Camera.CFrame = CFrame.new(Camera.CFrame.Position, parteObjetivo.Position)
+    end
+end
+
+-- Validar el objetivo
+local function ValidarObjetivo(jugador)
+    if jugador and jugador.Character and jugador.Character:FindFirstChild("HumanoidRootPart") then
+        return true -- Siempre consideramos válido el objetivo actual
+    end
+    return false
+end
+
+-- Actualizar constantemente el objetivo mientras el aimbot está activado
+RunService.RenderStepped:Connect(function()
+    if AimbotActivado then
+        if not Objetivo then
+            Objetivo = ObtenerJugadorMasCercanoAlMouse()
+        end
+
+        if Objetivo and ValidarObjetivo(Objetivo) then
+            local parteObjetivo = Objetivo.Character:FindFirstChild("HumanoidRootPart")
+            if parteObjetivo then
+                ApuntarA(parteObjetivo)
+            end
+        else
+            Objetivo = nil -- Si el objetivo deja de ser válido, se limpia
+        end
+    end
+end)
+
+-- Detectar cuando se presiona la tecla de activación
+UserInputService.InputBegan:Connect(function(input, gameProcessed)
+    if gameProcessed then return end
+    if TeclaAsignada and input.UserInputType == Enum.UserInputType.Keyboard then
+        -- Verifica si la tecla presionada coincide con la tecla asignada
+        if input.KeyCode == TeclaDeAimbot then
+            AimbotActivado = not AimbotActivado
+            if not AimbotActivado then
+                Objetivo = nil -- Limpiar el objetivo cuando se desactiva
+            end
+            Notificar("Aimbot", AimbotActivado and "Aimbot Activado" or "Aimbot Desactivado", 1)
+        end
+    end
+end)
+
+-- Crear el menú para asignar la tecla
+local function CrearMenuDeTecla()
+    PantallaGui = Instance.new("ScreenGui")
+    PantallaGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
+    
+    local Marco = Instance.new("Frame")
+    Marco.Size = UDim2.new(0, 300, 0, 150)
+    Marco.Position = UDim2.new(0.5, -150, 0.5, -75)
+    Marco.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+    Marco.Parent = PantallaGui
+    Marco.Active = true
+    Marco.Draggable = true
+    
+    local Titulo = Instance.new("TextLabel")
+    Titulo.Size = UDim2.new(1, 0, 0, 30)
+    Titulo.Text = "AimLock Blox"
+    Titulo.TextColor3 = Color3.fromRGB(255, 255, 255)
+    Titulo.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+    Titulo.TextSize = 20
+    Titulo.Parent = Marco
+
+    local BotonCerrar = Instance.new("TextButton")
+    BotonCerrar.Size = UDim2.new(0, 30, 0, 30)
+    BotonCerrar.Position = UDim2.new(1, -35, 0, 5)
+    BotonCerrar.Text = "X"
+    BotonCerrar.TextColor3 = Color3.fromRGB(255, 255, 255)
+    BotonCerrar.BackgroundColor3 = Color3.fromRGB(200, 50, 50)
+    BotonCerrar.Parent = Marco
+
+    BotonCerrar.MouseButton1Click:Connect(function()
+        AimbotActivado = false
+        TeclaAsignada = false
+        TeclaDeAimbot = nil
+        if PantallaGui then
+            PantallaGui:Destroy()
+        end
+        Notificar("Aimbot", "Aimbot Desactivado y Menú Cerrado", 3)
+    end)
+
+    local CajaTexto = Instance.new("TextBox")
+    CajaTexto.Size = UDim2.new(0, 260, 0, 40)
+    CajaTexto.Position = UDim2.new(0, 20, 0, 40)
+    CajaTexto.Text = "Presiona Aqui."
+    CajaTexto.PlaceholderText = "Presiona una tecla..."
+    CajaTexto.TextColor3 = Color3.fromRGB(255, 255, 255)
+    CajaTexto.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+    CajaTexto.Parent = Marco
+    
+    CajaTexto.FocusLost:Connect(function(enterPressed)
+        if enterPressed then
+            local tecla = CajaTexto.Text:upper()
+            local teclaValida = false
+            -- Validar si la tecla es válida
+            for _, keyCode in pairs(Enum.KeyCode:GetEnumItems()) do
+                if keyCode.Name == tecla then
+                    TeclaDeAimbot = keyCode
+                    TeclaAsignada = true
+                    Notificar("Tecla Aimbot", "Tecla asignada a: " .. tecla, 3)
+                    teclaValida = true
+                    break
+                end
+            end
+            if not teclaValida then
+                Notificar("Error", "Tecla inválida, intenta de nuevo.", 3)
+            end
+        end
+    end)
+end
+
+--- Controlar el cierre y apertura del menú con Ctrl derecho
+UserInputService.InputBegan:Connect(function(input, gameProcessed)
+    if gameProcessed then return end
+    if input.KeyCode == Enum.KeyCode.RightControl then
+        if PantallaGui and PantallaGui:FindFirstChild("Frame") then
+            local Marco = PantallaGui:FindFirstChild("Frame")
+            Marco.Visible = not Marco.Visible
+        end
+    end
+end)
+
+
+CrearMenuDeTecla()
+Notificar("Aimbot", "Aimbot Inicializado. Asigna una tecla para activar, Ctrl Derecho Para togglear Visibilidad.", 10)
+
 end)
 
 -- Funcionalidad del botón Teletransportes
@@ -270,9 +475,6 @@ workspace.ChildAdded:Connect(function(child)
 end)
 
 
-
-
-
 -- Funcionalidad del botón de regreso
 BackButton.MouseButton1Click:Connect(function()
     AllChestTweenButton.Visible = false
@@ -308,10 +510,10 @@ UserInputService.InputEnded:Connect(function(input)
     end
 end)
 
-wait(3)
+wait(1)
 
 game.StarterGui:SetCore("SendNotification", {
     Title = "Leelo completo.";
     Text = "Gracias por usar mi script, Para poder minimizarlo presiona *Alt* y para agrandarlo Presionalo de nuevo, eso es todo Gracias.";
-    Duration = 15;
+    Duration = 10;
 })
