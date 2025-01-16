@@ -385,8 +385,18 @@ local character = player.Character or player.CharacterAdded:Wait()
 local humanoidRootPart = character:WaitForChild("HumanoidRootPart")
 
 local isTweening = false
-local speed = 325 -- Velocidad equivalente a WalkSpeed 50 (ajustable)
+local speed = 375 -- Velocidad equivalente a WalkSpeed 50 (ajustable)
 local initialPosition -- Para guardar la posición inicial del jugador
+
+-- Función para verificar si un objeto tiene un TouchInterest
+local function hasTouchInterest(object)
+    for _, descendant in ipairs(object:GetDescendants()) do
+        if descendant:IsA("TouchTransmitter") then
+            return true
+        end
+    end
+    return false
+end
 
 local function tweenToPosition(destinationCFrame)
     if not humanoidRootPart then return end
@@ -401,23 +411,22 @@ local function tweenToPosition(destinationCFrame)
     tween.Completed:Wait()
 end
 
-local locations = {
-    "Boat Castle",
-    "Great Tree",
-    "Haunted Castle",
-    "Ice Cream Island",
-    "Peanut Island",
-    "Port",
-    "TikiOutspot",
-    "Waterfall"
-}
+local function teleportToPosition(destinationCFrame)
+    if not humanoidRootPart then return end
+    humanoidRootPart.CFrame = destinationCFrame
+end
 
 AllChestTweenButton.MouseButton1Click:Connect(function()
     if isTweening then
         -- Si el sistema está activo, desactívalo y regresa al jugador a su posición inicial
         isTweening = false
         AllChestTweenButton.Text = "Todos Los Cofres/ OFF"
-        if initialPosition then
+        
+        -- Verificar la distancia a la posición inicial antes de teletransportarse
+        local distanceToInitial = (humanoidRootPart.Position - initialPosition.Position).Magnitude
+        if distanceToInitial <= 375 then
+            teleportToPosition(initialPosition)
+        else
             tweenToPosition(initialPosition)
         end
         return
@@ -429,27 +438,95 @@ AllChestTweenButton.MouseButton1Click:Connect(function()
     AllChestTweenButton.Text = "Todos Los Cofres/ ON"
 
     coroutine.wrap(function()
-        for _, locationName in ipairs(locations) do
-            if not isTweening then break end
+        -- Buscar directamente en workspace.Map
+        local map = workspace.Map
+        local closestChest = nil
+        local closestDistance = math.huge -- Inicializar con un valor muy alto
 
-            local location = workspace.Map:FindFirstChild(locationName)
-            if location then
-                for _, descendant in ipairs(location:GetDescendants()) do
-                    if descendant:IsA("BasePart") and descendant.Name:find("^Chest") then
-                        if not isTweening then break end
-                        tweenToPosition(descendant.CFrame)
-                        wait(1.5) -- Esperar 2 segundos en el lugar del cofre
+        while isTweening do
+            closestChest = nil
+            closestDistance = math.huge -- Reiniciar la distancia más cercana
+
+            -- Buscar el cofre más cercano con TouchInterest
+            for _, object in ipairs(map:GetDescendants()) do
+                if object:IsA("BasePart") and object.Name:find("^Chest") then
+                    local distance = (humanoidRootPart.Position - object.Position).Magnitude
+
+                    -- Verificar si el objeto tiene TouchInterest
+                    if hasTouchInterest(object) and distance < closestDistance then
+                        closestChest = object
+                        closestDistance = distance
                     end
                 end
             end
 
-            wait(0.5) -- Espera entre ubicaciones
+            -- Si encontramos un cofre con TouchInterest
+            if closestChest then
+                if closestDistance <= 375 then
+                    -- Si está a 100 studs o menos, teletransportarse directamente
+                    teleportToPosition(closestChest.CFrame)
+                else
+                    -- Si está más lejos de 100 studs, usar tween
+                    tweenToPosition(closestChest.CFrame)
+                end
+                wait(0.3) -- Esperar un poco antes de seguir buscando
+
+                -- Si el cofre ya no tiene TouchInterest, buscar el siguiente más cercano
+                if not hasTouchInterest(closestChest) then
+                    closestChest = nil
+                end
+            else
+                -- Si no hay cofres con TouchInterest, esperar antes de buscar de nuevo
+                wait(0.1)
+            end
         end
 
-        isTweening = false
+        -- Cuando se desactiva, regresar a la posición inicial
+        local distanceToInitial = (humanoidRootPart.Position - initialPosition.Position).Magnitude
+        if distanceToInitial <= 375 then
+            teleportToPosition(initialPosition)
+        else
+            tweenToPosition(initialPosition)
+        end
+
         AllChestTweenButton.Text = "Todos Los Cofres/ OFF"
     end)()
 end)
+
+
+-- Función para teletransportarse a una Tool o Modelo, exactamente a la posición del objeto
+local function TeletransportarAObjeto(objeto)
+    -- Verificar si el objeto es una herramienta o un modelo con PrimaryPart
+    if objeto:IsA("Tool") then
+        -- Si es una herramienta, teletransportar al jugador a la posición de la herramienta
+        local jugador = game.Players.LocalPlayer
+        local personaje = jugador.Character
+        local humanoidRootPart = personaje and personaje:FindFirstChild("HumanoidRootPart")
+
+        if humanoidRootPart then
+            -- Teletransportar al jugador a la posición exacta de la herramienta
+            humanoidRootPart.CFrame = objeto.Handle.CFrame
+            print("Teletransportado a la Tool: " .. objeto.Name) -- Depuración
+        else
+            print("No se encontró el HumanoidRootPart del jugador.") -- Depuración
+        end
+    elseif objeto:IsA("Model") and objeto.PrimaryPart then
+        -- Si es un modelo, teletransportar al jugador a su PrimaryPart
+        local jugador = game.Players.LocalPlayer
+        local personaje = jugador.Character
+        local humanoidRootPart = personaje and personaje:FindFirstChild("HumanoidRootPart")
+
+        if humanoidRootPart then
+            -- Teletransportar al jugador a la posición exacta del PrimaryPart del modelo
+            humanoidRootPart.CFrame = objeto.PrimaryPart.CFrame
+            print("Teletransportado al Modelo: " .. objeto.Name) -- Depuración
+        else
+            print("No se encontró el HumanoidRootPart del jugador.") -- Depuración
+        end
+    else
+        print("El objeto no es una herramienta ni un modelo con PrimaryPart.") -- Depuración
+    end
+end
 
 -- Función para teletransportarse a una Tool o Modelo, exactamente a la posición del objeto
 local function TeletransportarAObjeto(objeto)
