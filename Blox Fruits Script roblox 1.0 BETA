@@ -128,7 +128,7 @@ BloxFruitsScriptButton.MouseButton1Click:Connect(function()
 end)
 
 AimLockBloxButton.MouseButton1Click:Connect(function()
-    local Players = game:GetService("Players")
+local Players = game:GetService("Players")
 local RunService = game:GetService("RunService")
 local UserInputService = game:GetService("UserInputService")
 local Camera = workspace.CurrentCamera
@@ -140,6 +140,7 @@ local TeclaDeAimbot = Enum.KeyCode.E
 local Objetivo = nil
 local TeclaAsignada = false
 local PantallaGui = nil
+local ClickDerechoAsignado = false
 
 -- Función para enviar notificaciones
 local function Notificar(titulo, texto, duracion)
@@ -232,6 +233,13 @@ UserInputService.InputBegan:Connect(function(input, gameProcessed)
             end
             Notificar("Aimbot", AimbotActivado and "Aimbot Activado" or "Aimbot Desactivado", 1)
         end
+    elseif ClickDerechoAsignado and input.UserInputType == Enum.UserInputType.MouseButton2 then
+        -- Activar/desactivar el aimbot con el clic derecho
+        AimbotActivado = not AimbotActivado
+        if not AimbotActivado then
+            Objetivo = nil -- Limpiar el objetivo cuando se desactiva
+        end
+        Notificar("Aimbot", AimbotActivado and "Aimbot Activado" or "Aimbot Desactivado", 1)
     end
 end)
 
@@ -268,6 +276,7 @@ local function CrearMenuDeTecla()
         AimbotActivado = false
         TeclaAsignada = false
         TeclaDeAimbot = nil
+        ClickDerechoAsignado = false
         if PantallaGui then
             PantallaGui:Destroy()
         end
@@ -278,7 +287,7 @@ local function CrearMenuDeTecla()
     CajaTexto.Size = UDim2.new(0, 260, 0, 40)
     CajaTexto.Position = UDim2.new(0, 20, 0, 40)
     CajaTexto.Text = "Presiona Aqui."
-    CajaTexto.PlaceholderText = "Presiona una tecla..."
+    CajaTexto.PlaceholderText = "Presiona una tecla... o escribe 'click' para asignar el clic derecho"
     CajaTexto.TextColor3 = Color3.fromRGB(255, 255, 255)
     CajaTexto.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
     CajaTexto.Parent = Marco
@@ -286,19 +295,27 @@ local function CrearMenuDeTecla()
     CajaTexto.FocusLost:Connect(function(enterPressed)
         if enterPressed then
             local tecla = CajaTexto.Text:upper()
-            local teclaValida = false
-            -- Validar si la tecla es válida
-            for _, keyCode in pairs(Enum.KeyCode:GetEnumItems()) do
-                if keyCode.Name == tecla then
-                    TeclaDeAimbot = keyCode
-                    TeclaAsignada = true
-                    Notificar("Tecla Aimbot", "Tecla asignada a: " .. tecla, 3)
-                    teclaValida = true
-                    break
+            if tecla == "CLICK" then
+                ClickDerechoAsignado = true
+                TeclaDeAimbot = Enum.KeyCode.Unknown -- Desactivar asignación de tecla
+                TeclaAsignada = true
+                Notificar("Tecla Aimbot", "Clic derecho asignado para activar el aimbot.", 3)
+            else
+                local teclaValida = false
+                -- Validar si la tecla es válida
+                for _, keyCode in pairs(Enum.KeyCode:GetEnumItems()) do
+                    if keyCode.Name == tecla then
+                        TeclaDeAimbot = keyCode
+                        TeclaAsignada = true
+                        ClickDerechoAsignado = false
+                        Notificar("Tecla Aimbot", "Tecla asignada a: " .. tecla, 3)
+                        teclaValida = true
+                        break
+                    end
                 end
-            end
-            if not teclaValida then
-                Notificar("Error", "Tecla inválida, intenta de nuevo.", 3)
+                if not teclaValida then
+                    Notificar("Error", "Tecla inválida, intenta de nuevo.", 3)
+                end
             end
         end
     end)
@@ -315,9 +332,8 @@ UserInputService.InputBegan:Connect(function(input, gameProcessed)
     end
 end)
 
-
 CrearMenuDeTecla()
-Notificar("Aimbot", "Aimbot Inicializado. Asigna una tecla para activar, Ctrl Derecho Para togglear Visibilidad.", 10)
+Notificar("Aimbot", "Aimbot Inicializado. Asigna una tecla o escribe 'click' para usar clic derecho, Ctrl Derecho Para togglear Visibilidad.", 10)
 
 end)
 
