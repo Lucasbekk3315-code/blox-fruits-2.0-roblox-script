@@ -28,7 +28,7 @@ toggleButton.Name = "ToggleButton"
 toggleButton.Parent = screenGui
 toggleButton.AnchorPoint = Vector2.new(0.5, 0.5) -- Corregido
 toggleButton.Size = UDim2.new(0.035, 0, 0.07, 0)
-toggleButton.Position = UDim2.new(0.5, -25, 0.5, -100) -- Ajusta la posición inicial si es necesario
+toggleButton.Position = UDim2.new(0.7, 0, 0.5, 0) -- Ajusta la posición inicial si es necesario
 toggleButton.Image = "rbxassetid://128823460334294" -- Cambia este ID por el de tu imagen
 toggleButton.BackgroundTransparency = 1
 
