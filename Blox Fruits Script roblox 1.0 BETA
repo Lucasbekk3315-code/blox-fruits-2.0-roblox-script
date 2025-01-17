@@ -14,9 +14,39 @@ ScreenGui.Parent = game.CoreGui
 ScreenGui.Name = "CustomMenu"
 ScreenGui.ResetOnSpawn = false
 
+local player = game.Players.LocalPlayer
+local playerGui = player:WaitForChild("PlayerGui")
+
+-- Crear el ScreenGui
+local screenGui = Instance.new("ScreenGui")
+screenGui.Name = "ToggleGui"
+screenGui.Parent = playerGui
+
+-- Crear el botón
+local toggleButton = Instance.new("ImageButton")
+toggleButton.Name = "ToggleButton"
+toggleButton.Parent = screenGui
+toggleButton.AnchorPoint = Vector2.new(0.5, 0.5) -- Corregido
+toggleButton.Size = UDim2.new(0.035, 0, 0.07, 0)
+toggleButton.Position = UDim2.new(0.5, -25, 0.5, -100) -- Ajusta la posición inicial si es necesario
+toggleButton.Image = "rbxassetid://128823460334294" -- Cambia este ID por el de tu imagen
+toggleButton.BackgroundTransparency = 1
+
+-- Referencia al Frame existente
+local frame = MainFrame -- Cambia "NombreDeTuFrame" por el nombre exacto de tu Frame
+
+toggleButton.Draggable = true
+toggleButton.Active = true
+
+-- Alternar visibilidad del Frame
+toggleButton.MouseButton1Click:Connect(function()
+    frame.Visible = not frame.Visible
+end)
+
 -- Configuración del MainFrame
 MainFrame.Parent = ScreenGui
-MainFrame.Size = UDim2.new(0, 600, 0, 300) -- Menú más grande
+MainFrame.AnchorPoint = Vector2.new(0.5, 0.5) -- Corregido
+MainFrame.Size = UDim2.new(0.44, 0, 0.455, 0) -- Menú más grande
 MainFrame.Position = UDim2.new(0.5, -300, 0.5, -150)
 MainFrame.BackgroundColor3 = Color3.fromRGB(45, 45, 45)
 MainFrame.BorderSizePixel = 0
@@ -26,8 +56,9 @@ MainFrame.Draggable = true
 
 -- Configuración de BetaText
 BetaText.Parent = MainFrame
+BetaText.AnchorPoint = Vector2.new(0.5, 0.5) -- Corregido
 BetaText.Size = UDim2.new(0, 40, 0, 20)
-BetaText.Position = UDim2.new(0, 555, 0, 275)
+BetaText.Position = UDim2.new(0.95, 0, 0.95, 0)
 BetaText.Text = "Beta"
 BetaText.BackgroundColor3 = Color3.fromRGB(45, 45, 45)
 BetaText.TextColor3 = Color3.fromRGB(130, 130, 130)
@@ -35,8 +66,9 @@ BetaText.TextSize = 10
 
 -- Configuración de TeletransportesButton
 TeletransportesButton.Parent = MainFrame
+TeletransportesButton.AnchorPoint = Vector2.new(0.5, 0.5) -- Corregido
 TeletransportesButton.Size = UDim2.new(0, 240, 0, 50)
-TeletransportesButton.Position = UDim2.new(0, 10, 0, 10)
+TeletransportesButton.Position = UDim2.new(0.21, 0, 0.11, 0)
 TeletransportesButton.Text = "Teletransportes"
 TeletransportesButton.BackgroundColor3 = Color3.fromRGB(65, 65, 65)
 TeletransportesButton.TextColor3 = Color3.new(1, 1, 1)
@@ -45,8 +77,9 @@ TeletransportesButton.TextSize = 24
 
 -- Configuración de InfiniteYieldButton
 InfiniteYieldButton.Parent = MainFrame
+InfiniteYieldButton.AnchorPoint = Vector2.new(0.5, 0.5) -- Corregido
 InfiniteYieldButton.Size = UDim2.new(0, 240, 0, 50)
-InfiniteYieldButton.Position = UDim2.new(0, 270, 0, 10)
+InfiniteYieldButton.Position = UDim2.new(0.65, 0, 0.11, 0)
 InfiniteYieldButton.Text = "Infinite Yield"
 InfiniteYieldButton.BackgroundColor3 = Color3.fromRGB(65, 65, 65)
 InfiniteYieldButton.TextColor3 = Color3.new(1, 1, 1)
@@ -55,8 +88,9 @@ InfiniteYieldButton.TextSize = 24
 
 -- Configuración de BloxFruitsScriptButton
 BloxFruitsScriptButton.Parent = MainFrame
+BloxFruitsScriptButton.AnchorPoint = Vector2.new(0.5, 0.5) -- Corregido
 BloxFruitsScriptButton.Size = UDim2.new(0, 240, 0, 50)
-BloxFruitsScriptButton.Position = UDim2.new(0, 10, 0, 65)
+BloxFruitsScriptButton.Position = UDim2.new(0.21, 0, 0.3, 0)
 BloxFruitsScriptButton.Text = "Blox Fruits Script"
 BloxFruitsScriptButton.BackgroundColor3 = Color3.fromRGB(65, 65, 65)
 BloxFruitsScriptButton.TextColor3 = Color3.new(1, 1, 1)
@@ -66,8 +100,9 @@ BloxFruitsScriptButton.TextSize = 23
 -- Configuración de AimLockBloxButton
 local AimLockBloxButton = Instance.new("TextButton")
 AimLockBloxButton.Parent = MainFrame
+AimLockBloxButton.AnchorPoint = Vector2.new(0.5, 0.5) -- Corregido
 AimLockBloxButton.Size = UDim2.new(0, 240, 0, 50)
-AimLockBloxButton.Position = UDim2.new(0, 270, 0, 65) -- Ajusta la posición según sea necesario
+AimLockBloxButton.Position = UDim2.new(0.65, 0, 0.3, 0) -- Ajusta la posición según sea necesario
 AimLockBloxButton.Text = "AimLock Blox"
 AimLockBloxButton.BackgroundColor3 = Color3.fromRGB(65, 65, 65)
 AimLockBloxButton.TextColor3 = Color3.new(1, 1, 1)
@@ -76,6 +111,7 @@ AimLockBloxButton.TextSize = 24
 
 -- Configuración de AllChestTweenButton
 AllChestTweenButton.Parent = MainFrame
+AllChestTweenButton.AnchorPoint = Vector2.new(0.5, 0.5) -- Corregido
 AllChestTweenButton.Size = UDim2.new(0, 240, 0, 50)
 AllChestTweenButton.Position = UDim2.new(0, 60, 0, 10)
 AllChestTweenButton.Text = "Todos Los Cofres/ OFF"
@@ -87,6 +123,7 @@ AllChestTweenButton.Visible = false
 
 -- Configuración de TeletransportarFrutasButton
 TeletransportarFrutasButton.Parent = MainFrame
+TeletransportarFrutasButton.AnchorPoint = Vector2.new(0.5, 0.5) -- Corregido
 TeletransportarFrutasButton.Size = UDim2.new(0, 240, 0, 50)
 TeletransportarFrutasButton.Position = UDim2.new(0, 305, 0, 10)
 TeletransportarFrutasButton.Text = "Teletransportar a Frutas/ OFF"
@@ -98,6 +135,7 @@ TeletransportarFrutasButton.Visible = false
 
 -- Configuración de TeletransportarseAJugadorButton
 local TeletransportarseAJugadorButton = Instance.new("TextButton")
+TeletransportarseAJugadorButton.AnchorPoint = Vector2.new(0.5, 0.5) -- Corregido
 TeletransportarseAJugadorButton.Parent = MainFrame
 TeletransportarseAJugadorButton.Size = UDim2.new(0, 240, 0, 50)
 TeletransportarseAJugadorButton.Position = UDim2.new(0, 60, 0, 65) -- Ajusta la posición debajo de los botones anteriores
@@ -113,6 +151,7 @@ TeletransportarseAJugadorButton.Visible = false
 -- Configuración de TeletransportarseAJugadorTextBox
 local TeletransportarseAJugadorTextBox = Instance.new("TextBox")
 TeletransportarseAJugadorTextBox.Parent = MainFrame
+TeletransportarseAJugadorTextBox.AnchorPoint = Vector2.new(0.5, 0.5) -- Corregido
 TeletransportarseAJugadorTextBox.Size = UDim2.new(0, 240, 0, 40)  -- Un poco menos de alto que el botón
 TeletransportarseAJugadorTextBox.Position = UDim2.new(0, 60, 0, 115)  -- Debajo del botón
 TeletransportarseAJugadorTextBox.Text = "Escribe Aqui El Nombre"
@@ -127,6 +166,7 @@ TeletransportarseAJugadorTextBox.Visible = false
 
 -- Configuración de BackButton
 BackButton.Parent = MainFrame
+BackButton.AnchorPoint = Vector2.new(0.5, 0.5) -- Corregido
 BackButton.Size = UDim2.new(0, 50, 0, 50)
 BackButton.Position = UDim2.new(0, 0, 0, 0)
 BackButton.Text = "<"
@@ -138,8 +178,9 @@ BackButton.Visible = false
 
 -- Configuración de CloseButton
 CloseButton.Parent = MainFrame
+CloseButton.AnchorPoint = Vector2.new(0.5, 0.5) -- Corregido
 CloseButton.Size = UDim2.new(0, 50, 0, 50)
-CloseButton.Position = UDim2.new(1, -50, 0, 0) -- Esquina superior derecha
+CloseButton.Position = UDim2.new(0.95, 0, 0.1, 0) -- Esquina superior derecha
 CloseButton.Text = "X"
 CloseButton.BackgroundColor3 = Color3.fromRGB(255, 85, 85)
 CloseButton.TextColor3 = Color3.new(1, 1, 1)
@@ -736,6 +777,7 @@ end)
 -- Funcionalidad del botón de cierre (X)
 CloseButton.MouseButton1Click:Connect(function()
     ScreenGui:Destroy()
+    screenGui:Destroy()
 end)
 
 -- Controlar el cierre y apertura del menú con Alt
