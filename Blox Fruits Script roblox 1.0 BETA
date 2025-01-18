@@ -223,14 +223,8 @@ local function Notificar(titulo, texto, duracion)
     end)
 end
 
--- Verificar si un jugador es enemigo
+-- Verificar si un jugador es válido (siempre devuelve true para apuntar a cualquiera)
 local function EsEnemigo(jugador)
-    if not jugador.Team or jugador.TeamColor == BrickColor.White() or jugador.TeamColor == BrickColor.Black() then
-        return false
-    end
-    if LocalPlayer.Team and jugador.Team then
-        return LocalPlayer.Team ~= jugador.Team
-    end
     return true
 end
 
@@ -446,7 +440,7 @@ local character = player.Character or player.CharacterAdded:Wait()
 local humanoidRootPart = character:WaitForChild("HumanoidRootPart")
 
 local isTweening = false
-local speed = 375 -- Velocidad equivalente a WalkSpeed 50 (ajustable)
+local speed = 360 -- Velocidad equivalente a WalkSpeed 50 (ajustable)
 
 -- Función para tween a una posición
 local function tweenToPosition(destinationCFrame)
@@ -507,13 +501,21 @@ TeletransportarseAJugadorButton.MouseButton1Click:Connect(function()
 
         if targetPlayer and targetPlayer.Character and targetPlayer.Character:FindFirstChild("HumanoidRootPart") then
             isTweening = true
-            local targetCFrame = targetPlayer.Character.HumanoidRootPart.CFrame
-            local distance = (humanoidRootPart.Position - targetCFrame.Position).Magnitude
+            local targetHumanoidRootPart = targetPlayer.Character.HumanoidRootPart
 
-            if distance <= 375 then
-                teleportToPosition(targetCFrame)
-            else
-                tweenToPosition(targetCFrame)
+            while true do
+                local distance = (humanoidRootPart.Position - targetHumanoidRootPart.Position).Magnitude
+
+                if distance <= 20 then -- Distancia mínima para considerar que "tocó" al jugador
+                    print("Jugador tocado.")
+                    break
+                elseif distance <= 360 then
+                    teleportToPosition(targetHumanoidRootPart.CFrame)
+                else
+                    tweenToPosition(targetHumanoidRootPart.CFrame)
+                end
+
+                task.wait(0.01) -- Pequeña espera para evitar sobrecargar el script
             end
 
             isTweening = false
@@ -546,7 +548,7 @@ local character = player.Character or player.CharacterAdded:Wait()
 local humanoidRootPart = character:WaitForChild("HumanoidRootPart")
 
 local isTweening = false
-local speed = 375 -- Velocidad equivalente a WalkSpeed 50 (ajustable)
+local speed = 360 -- Velocidad equivalente a WalkSpeed 50 (ajustable)
 local initialPosition -- Para guardar la posición inicial del jugador
 
 -- Función para verificar si un objeto tiene un TouchInterest
@@ -585,7 +587,7 @@ AllChestTweenButton.MouseButton1Click:Connect(function()
         
         -- Verificar la distancia a la posición inicial antes de teletransportarse
         local distanceToInitial = (humanoidRootPart.Position - initialPosition.Position).Magnitude
-        if distanceToInitial <= 375 then
+        if distanceToInitial <= 360 then
             teleportToPosition(initialPosition)
         else
             tweenToPosition(initialPosition)
@@ -623,7 +625,7 @@ AllChestTweenButton.MouseButton1Click:Connect(function()
 
             -- Si encontramos un cofre con TouchInterest
             if closestChest then
-                if closestDistance <= 375 then
+                if closestDistance <= 360 then
                     -- Si está a 100 studs o menos, teletransportarse directamente
                     teleportToPosition(closestChest.CFrame)
                 else
@@ -644,7 +646,7 @@ AllChestTweenButton.MouseButton1Click:Connect(function()
 
         -- Cuando se desactiva, regresar a la posición inicial
         local distanceToInitial = (humanoidRootPart.Position - initialPosition.Position).Magnitude
-        if distanceToInitial <= 375 then
+        if distanceToInitial <= 360 then
             teleportToPosition(initialPosition)
         else
             tweenToPosition(initialPosition)
