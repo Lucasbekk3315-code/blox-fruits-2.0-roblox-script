@@ -109,6 +109,18 @@ AimLockBloxButton.TextColor3 = Color3.new(1, 1, 1)
 AimLockBloxButton.Font = Enum.Font.SourceSansBold
 AimLockBloxButton.TextSize = 24
 
+-- AimLockNPCButton Configuration
+local AimLockNPCButton = Instance.new("TextButton")
+AimLockNPCButton.Parent = MainFrame
+AimLockNPCButton.AnchorPoint = Vector2.new(0.5, 0.5) -- Corrected
+AimLockNPCButton.Size = UDim2.new(0.4, 0, 0.17, 0)
+AimLockNPCButton.Position = UDim2.new(0.21, 0, 0.47, 0) -- Adjust position below "Blox Fruits Script"
+AimLockNPCButton.Text = "AimLock NPC"
+AimLockNPCButton.BackgroundColor3 = Color3.fromRGB(65, 65, 65)
+AimLockNPCButton.TextColor3 = Color3.new(1, 1, 1)
+AimLockNPCButton.Font = Enum.Font.SourceSansBold
+AimLockNPCButton.TextSize = 24
+
 -- Configuración de AllChestTweenButton
 AllChestTweenButton.Parent = MainFrame
 AllChestTweenButton.AnchorPoint = Vector2.new(0.5, 0.5) -- Corregido
@@ -429,6 +441,258 @@ end)
 CrearMenuDeTecla()
 Notificar("Aimbot", "Aimbot Inicializado. Asigna una tecla o escribe 'click' para usar clic derecho, Ctrl Derecho Para togglear Visibilidad.", 10)
 end)
+
+
+
+-- English AimLockNPCButton --
+local menuOpen = false  -- Variable para verificar si el menú ya está abierto
+
+AimLockNPCButton.MouseButton1Click:Connect(function()
+    if menuOpen then
+        return  -- Si el menú ya está abierto, no hacer nada
+    end
+
+    menuOpen = true  -- Marcamos que el menú está abierto
+
+    local Players = game:GetService("Players")
+    local RunService = game:GetService("RunService")
+    local UserInputService = game:GetService("UserInputService")
+    local Camera = workspace.CurrentCamera
+    local StarterGui = game:GetService("StarterGui")
+    local LocalPlayer = Players.LocalPlayer
+
+    local AimbotActivated = false
+    local AimbotKey = Enum.KeyCode.E
+    local Target = nil
+    local KeyAssigned = false
+    local GuiScreen = nil
+    local RightClickAssigned = false
+
+    -- Function to send notifications
+    local function Notify(title, text, duration)
+        pcall(function()
+            StarterGui:SetCore("SendNotification", {
+                Title = title,
+                Text = text,
+                Duration = duration or 3
+            })
+        end)
+    end
+
+    -- Check if an NPC is valid (all NPCs in "workspace.Enemies" are considered enemies)
+    local function IsEnemy(npc)
+        return npc and npc:FindFirstChild("HumanoidRootPart")
+    end
+
+    -- Get the closest NPC to the mouse
+    local function GetClosestNpcToMouse()
+        local mousePosition = UserInputService:GetMouseLocation()
+        local closestNpc = nil
+        local closestDistance = math.huge
+
+        for _, npc in ipairs(workspace.Enemies:GetChildren()) do
+            if IsEnemy(npc) then
+                local torso = npc.HumanoidRootPart
+                local screenPosition, onScreen = Camera:WorldToScreenPoint(torso.Position)
+
+                if onScreen then
+                    local distance = (Vector2.new(screenPosition.X, screenPosition.Y) - mousePosition).Magnitude
+                    if distance < closestDistance then
+                        closestDistance = distance
+                        closestNpc = npc
+                    end
+                end
+            end
+        end
+
+        return closestNpc
+    end
+
+    -- Aim at the target (NPC)
+    local function AimAt(targetPart)
+        if targetPart then
+            Camera.CFrame = CFrame.new(Camera.CFrame.Position, targetPart.Position)
+        end
+    end
+
+    -- Validate the target (NPC)
+    local function ValidateTarget(npc)
+        if npc and npc:FindFirstChild("HumanoidRootPart") then
+            return true
+        end
+        return false
+    end
+
+    -- Deactivate aimbot if the NPC's humanoid health is 0
+    local function CheckNpcHealth()
+        if Target then
+            local humanoid = Target:FindFirstChild("Humanoid")
+            if humanoid and humanoid.Health == 0 then
+                AimbotActivated = false
+                Target = nil
+                Notify("Aimbot", "NPC eliminado, Aimbot desactivado.", 3)
+            end
+        end
+    end
+
+    -- Constantly update the target while the aimbot is activated
+    RunService.Heartbeat:Connect(function()
+        if AimbotActivated then
+            if not Target or not ValidateTarget(Target) then
+                Target = GetClosestNpcToMouse()
+            end
+
+            if Target then
+                local targetPart = Target:FindFirstChild("HumanoidRootPart")
+                if targetPart then
+                    AimAt(targetPart)
+                end
+            end
+
+            -- Check if the NPC has health 0 and deactivate the aimbot
+            CheckNpcHealth()
+        end
+    end)
+
+    -- Detect when the activation key is pressed
+    UserInputService.InputBegan:Connect(function(input, gameProcessed)
+        if gameProcessed then return end
+
+        -- Check if the assigned key or right-click or mouse button 4 or 5 is pressed
+        if KeyAssigned and input.UserInputType == Enum.UserInputType.Keyboard then
+            -- Check if the pressed key matches the assigned key
+            if input.KeyCode == AimbotKey then
+                AimbotActivated = not AimbotActivated
+                if not AimbotActivated then
+                    Target = nil -- Clear the target when deactivated
+                end
+                Notify("Aimbot", AimbotActivated and "Aimbot Activado" or "Aimbot Desactivado", 1)
+            end
+        elseif RightClickAssigned and input.UserInputType == Enum.UserInputType.MouseButton2 then
+            -- Toggle aimbot with right-click
+            AimbotActivated = not AimbotActivated
+            if not AimbotActivated then
+                Target = nil -- Clear the target when deactivated
+            end
+            Notify("Aimbot", AimbotActivated and "Aimbot Activado" or "Aimbot Desactivado", 1)
+        elseif input.UserInputType == Enum.UserInputType.MouseButton4 then
+            -- Toggle aimbot with mouse button 4
+            if KeyAssigned and AimbotKey == Enum.UserInputType.MouseButton4 then
+                AimbotActivated = not AimbotActivated
+                if not AimbotActivated then
+                    Target = nil -- Clear the target when deactivated
+                end
+                Notify("Aimbot", AimbotActivated and "Aimbot Activado" or "Aimbot Desactivado", 1)
+            end
+        elseif input.UserInputType == Enum.UserInputType.MouseButton5 then
+            -- Toggle aimbot with mouse button 5
+            if KeyAssigned and AimbotKey == Enum.UserInputType.MouseButton5 then
+                AimbotActivated = not AimbotActivated
+                if not AimbotActivated then
+                    Target = nil -- Clear the target when deactivated
+                end
+                Notify("Aimbot", AimbotActivated and "Aimbot Activado" or "Aimbot Desactivado", 1)
+            end
+        end
+    end)
+
+    -- Create the key assignment menu
+    local function CreateKeyMenu()
+        GuiScreen = Instance.new("ScreenGui")
+        GuiScreen.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
+        
+        local Frame = Instance.new("Frame")
+        Frame.Size = UDim2.new(0, 300, 0, 150)
+        Frame.Position = UDim2.new(0.5, -150, 0.5, -75)
+        Frame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+        Frame.Parent = GuiScreen
+        Frame.Active = true
+        Frame.Draggable = true
+        
+        local Title = Instance.new("TextLabel")
+        Title.Size = UDim2.new(1, 0, 0, 30)
+        Title.Text = "AimLock NPC"
+        Title.TextColor3 = Color3.fromRGB(255, 255, 255)
+        Title.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+        Title.TextSize = 20
+        Title.Parent = Frame
+
+        local CloseButton = Instance.new("TextButton")
+        CloseButton.Size = UDim2.new(0, 30, 0, 30)
+        CloseButton.Position = UDim2.new(1, -35, 0, 5)
+        CloseButton.Text = "X"
+        CloseButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+        CloseButton.BackgroundColor3 = Color3.fromRGB(200, 50, 50)
+        CloseButton.Parent = Frame
+
+        CloseButton.MouseButton1Click:Connect(function()
+            AimbotActivated = false
+            KeyAssigned = false
+            AimbotKey = nil
+            RightClickAssigned = false
+            if GuiScreen then
+                GuiScreen:Destroy() -- Destroy the ScreenGui
+            end
+            if Frame then
+                Frame:Destroy() -- Destroy the menu frame
+            end
+            Notify("Aimbot", "Aimbot Desactivado y Menú Cerrado", 3)
+            menuOpen = false  -- Marcar que el menú está cerrado
+        end)
+
+        local TextBox = Instance.new("TextBox")
+        TextBox.Size = UDim2.new(0, 260, 0, 40)
+        TextBox.Position = UDim2.new(0, 20, 0, 40)
+        TextBox.Text = "Press Here."
+        TextBox.PlaceholderText = "Press a key... or type 'click' to assign right-click"
+        TextBox.TextColor3 = Color3.fromRGB(255, 255, 255)
+        TextBox.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+        TextBox.Parent = Frame
+        
+        TextBox.FocusLost:Connect(function(enterPressed)
+            if enterPressed then
+                local key = TextBox.Text:upper()
+                if key == "CLICK" then
+                    RightClickAssigned = true
+                    AimbotKey = Enum.KeyCode.Unknown -- Disable key assignment
+                    KeyAssigned = true
+                    Notify("Aimbot Key", "Right-click assigned to activate aimbot.", 3)
+                elseif key == "BUTTON4" then
+                    AimbotKey = Enum.UserInputType.MouseButton4 -- Assign mouse button 4
+                    KeyAssigned = true
+                    RightClickAssigned = false
+                    Notify("Aimbot Key", "Mouse button 4 assigned to activate aimbot.", 3)
+                elseif key == "BUTTON5" then
+                    AimbotKey = Enum.UserInputType.MouseButton5 -- Assign mouse button 5
+                    KeyAssigned = true
+                    RightClickAssigned = false
+                    Notify("Aimbot Key", "Mouse button 5 assigned to activate aimbot.", 3)
+                else
+                    local validKey = false
+                    -- Check if it's a valid key
+                    for _, keyCode in pairs(Enum.KeyCode:GetEnumItems()) do
+                        if keyCode.Name == key then
+                            AimbotKey = keyCode
+                            KeyAssigned = true
+                            validKey = true
+                            break
+                        end
+                    end
+                    if validKey then
+                        Notify("Aimbot Key", "Key assigned to activate aimbot.", 3)
+                    else
+                        Notify("Invalid Key", "The key you entered is not valid.", 3)
+                    end
+                end
+            end
+        end)
+    end
+
+    -- Create the key assignment menu when the AimLockNPCButton is clicked
+    CreateKeyMenu()
+end)
+
+
 
 
 local TweenService = game:GetService("TweenService")
