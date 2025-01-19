@@ -703,7 +703,7 @@ local character = player.Character or player.CharacterAdded:Wait()
 local humanoidRootPart = character:WaitForChild("HumanoidRootPart")
 
 local isTweening = false
-local speed = 360 -- Velocidad equivalente a WalkSpeed 50 (ajustable)
+local speed = 340 -- Velocidad equivalente a WalkSpeed 50 (ajustable)
 
 -- Función para tween a una posición
 local function tweenToPosition(destinationCFrame)
@@ -772,7 +772,7 @@ TeletransportarseAJugadorButton.MouseButton1Click:Connect(function()
                 if distance <= 20 then -- Distancia mínima para considerar que "tocó" al jugador
                     print("Jugador tocado.")
                     break
-                elseif distance <= 360 then
+                elseif distance <= 340 then
                     teleportToPosition(targetHumanoidRootPart.CFrame)
                 else
                     tweenToPosition(targetHumanoidRootPart.CFrame)
@@ -812,7 +812,7 @@ local character = player.Character or player.CharacterAdded:Wait()
 local humanoidRootPart = character:WaitForChild("HumanoidRootPart")
 
 local isTweening = false
-local speed = 360 -- Velocidad equivalente a WalkSpeed 50 (ajustable)
+local speed = 340 -- Velocidad equivalente a WalkSpeed 50 (ajustable)
 local initialPosition -- Para guardar la posición inicial del jugador
 
 -- Función para verificar si un objeto tiene un TouchInterest
@@ -851,7 +851,7 @@ AllChestTweenButton.MouseButton1Click:Connect(function()
         
         -- Verificar la distancia a la posición inicial antes de teletransportarse
         local distanceToInitial = (humanoidRootPart.Position - initialPosition.Position).Magnitude
-        if distanceToInitial <= 360 then
+        if distanceToInitial <= 340 then
             teleportToPosition(initialPosition)
         else
             tweenToPosition(initialPosition)
@@ -889,7 +889,7 @@ AllChestTweenButton.MouseButton1Click:Connect(function()
 
             -- Si encontramos un cofre con TouchInterest
             if closestChest then
-                if closestDistance <= 360 then
+                if closestDistance <= 340 then
                     -- Si está a 100 studs o menos, teletransportarse directamente
                     teleportToPosition(closestChest.CFrame)
                 else
@@ -910,7 +910,7 @@ AllChestTweenButton.MouseButton1Click:Connect(function()
 
         -- Cuando se desactiva, regresar a la posición inicial
         local distanceToInitial = (humanoidRootPart.Position - initialPosition.Position).Magnitude
-        if distanceToInitial <= 360 then
+        if distanceToInitial <= 340 then
             teleportToPosition(initialPosition)
         else
             tweenToPosition(initialPosition)
