@@ -270,17 +270,15 @@ end
 -- Actualizar constantemente el objetivo mientras el aimbot está activado
 RunService.Heartbeat:Connect(function()
     if AimbotActivado then
-        if not Objetivo then
+        if not Objetivo or not ValidarObjetivo(Objetivo) then
             Objetivo = ObtenerJugadorMasCercanoAlMouse()
         end
 
-        if Objetivo and ValidarObjetivo(Objetivo) then
+        if Objetivo then
             local parteObjetivo = Objetivo.Character:FindFirstChild("HumanoidRootPart")
             if parteObjetivo then
                 ApuntarA(parteObjetivo)
             end
-        else
-            Objetivo = nil -- Si el objetivo deja de ser válido, se limpia
         end
     end
 end)
