@@ -523,17 +523,18 @@ AimLockNPCButton.MouseButton1Click:Connect(function()
         return false
     end
 
-    -- Deactivate aimbot if the NPC's humanoid health is 0
-    local function CheckNpcHealth()
-        if Target then
-            local humanoid = Target:FindFirstChild("Humanoid")
-            if humanoid and humanoid.Health == 0 then
-                AimbotActivated = false
-                Target = nil
-                Notify("Aimbot", "NPC eliminado, Aimbot desactivado.", 3)
-            end
+    -- Deactivate aimbot if the NPC's humanoid health is 0, but instead of deactivating, switch to the next closest NPC
+local function CheckNpcHealth()
+    if Target then
+        local humanoid = Target:FindFirstChild("Humanoid")
+        if humanoid and humanoid.Health == 0 then
+            -- Notify that the current NPC is eliminated
+            Notify("Aimbot", "NPC eliminado, cambiando de objetivo.", 3)
+            -- Find a new target
+            Target = GetClosestNpcToMouse()
         end
     end
+end
 
     -- Constantly update the target while the aimbot is activated
     RunService.Heartbeat:Connect(function()
