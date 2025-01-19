@@ -268,7 +268,7 @@ local function ValidarObjetivo(jugador)
 end
 
 -- Actualizar constantemente el objetivo mientras el aimbot está activado
-RunService.RenderStepped:Connect(function()
+RunService.Heartbeat:Connect(function()
     if AimbotActivado then
         if not Objetivo then
             Objetivo = ObtenerJugadorMasCercanoAlMouse()
