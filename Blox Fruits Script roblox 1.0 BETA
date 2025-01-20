@@ -121,6 +121,18 @@ AimLockNPCButton.TextColor3 = Color3.new(1, 1, 1)
 AimLockNPCButton.Font = Enum.Font.SourceSansBold
 AimLockNPCButton.TextSize = 24
 
+-- Crear el botón Server Hop debajo de AimLockBloxButton
+local ServerHopButton = Instance.new("TextButton")
+ServerHopButton.Name = "ServerHopButton"
+ServerHopButton.Size = UDim2.new(0.4, 0, 0.17, 0) -- Mismo tamaño que AimLockBloxButton
+ServerHopButton.Position = UDim2.new(0.5, 0, 0.5, 0) -- Debajo del AimLockBloxButton
+ServerHopButton.Text = "Server Hop"
+ServerHopButton.TextSize = 24
+ServerHopButton.Font = Enum.Font.SourceSansBold
+ServerHopButton.BackgroundColor3 = Color3.fromRGB(65, 65, 65) -- Mismo color de fondo
+ServerHopButton.TextColor3 = Color3.new(1, 1, 1)
+ServerHopButton.Parent = screenGui
+
 -- Configuración de AllChestTweenButton
 AllChestTweenButton.Parent = MainFrame
 AllChestTweenButton.AnchorPoint = Vector2.new(0.5, 0.5) -- Corregido
@@ -200,6 +212,10 @@ CloseButton.Font = Enum.Font.SourceSansBold
 CloseButton.TextSize = 24
 CloseButton.Visible = true
 
+-- Variables necesarias
+local TeleportService = game:GetService("TeleportService")
+local PlaceId = game.PlaceId -- ID del lugar actual
+
 -- Funcionalidad del botón Infinite Yield
 InfiniteYieldButton.MouseButton1Click:Connect(function()
     loadstring(game:HttpGet('https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source'))()
@@ -207,6 +223,21 @@ end)
 
 BloxFruitsScriptButton.MouseButton1Click:Connect(function()
     loadstring(game:HttpGet("https://raw.githubusercontent.com/Lucasbekk3315-code/Blox-Fruits-redz-hub/refs/heads/main/Script%20blox%20fruits%20roblox%20redz%20hub"))()
+end)
+
+-- Función para intentar cambiar de servidor
+local function hopToAnotherServer()
+    local success, errorMessage = pcall(function()
+        TeleportService:Teleport(PlaceId) -- Intenta teletransportar al jugador
+    end)
+    if not success then
+        warn("Error al intentar cambiar de servidor: " .. tostring(errorMessage))
+    end
+end
+
+-- Conectar el botón de Server Hop a la función
+ServerHopButton.MouseButton1Click:Connect(function()
+    hopToAnotherServer()
 end)
 
 AimLockBloxButton.MouseButton1Click:Connect(function()
