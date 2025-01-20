@@ -831,6 +831,7 @@ TeletransportesButton.MouseButton1Click:Connect(function()
     BloxFruitsScriptButton.Visible = false
     AimLockBloxButton.Visible = false
     AimLockNPCButton.Visible = false
+    ServerHopButton.Visible = false
     AllChestTweenButton.Visible = true
     TeletransportarseAJugadorButton.Visible = true
     TeletransportarseAJugadorTextBox.Visible = true
@@ -1071,6 +1072,7 @@ BackButton.MouseButton1Click:Connect(function()
     BloxFruitsScriptButton.Visible = true
     AimLockBloxButton.Visible = true
     AimLockNPCButton.Visible = true
+    ServerHopButton.Visible = true
 end)
 
 -- Funcionalidad del botón de cierre (X)
