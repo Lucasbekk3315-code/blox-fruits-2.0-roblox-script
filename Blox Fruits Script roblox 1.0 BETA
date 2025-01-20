@@ -476,7 +476,7 @@ end)
 
 
 
--- English AimLockNPCButton --
+-- AimLockNPCButton --
 local menuOpen = false  -- Variable para verificar si el menú ya está abierto
 
 AimLockNPCButton.MouseButton1Click:Connect(function()
@@ -733,28 +733,42 @@ local Players = game:GetService("Players")
 local player = Players.LocalPlayer
 local character = player.Character or player.CharacterAdded:Wait()
 local humanoidRootPart = character:WaitForChild("HumanoidRootPart")
+local humanoid = character:WaitForChild("Humanoid")
 
 local isTweening = false
 local speed = 340 -- Velocidad equivalente a WalkSpeed 50 (ajustable)
+local currentTween = nil
+
+-- Función para detener el tween actual
+local function stopCurrentTween()
+    if currentTween then
+        currentTween:Cancel()
+        currentTween = nil
+    end
+end
+
+-- Función para desactivar o activar colisiones en el personaje
+local function setCollisionEnabled(enabled)
+    if not character then return end
+    for _, part in ipairs(character:GetDescendants()) do
+        if part:IsA("BasePart") then
+            part.CanCollide = enabled
+        end
+    end
+end
 
 -- Función para tween a una posición
 local function tweenToPosition(destinationCFrame)
     if not humanoidRootPart then return end
 
+    stopCurrentTween() -- Detener cualquier tween en progreso
+
     local distance = (humanoidRootPart.Position - destinationCFrame.Position).Magnitude
     local time = distance / speed
 
     local tweenInfo = TweenInfo.new(time, Enum.EasingStyle.Linear)
-    local tween = TweenService:Create(humanoidRootPart, tweenInfo, {CFrame = destinationCFrame})
-
-    tween:Play()
-    tween.Completed:Wait()
-end
-
--- Función para teletransportarse directamente
-local function teleportToPosition(destinationCFrame)
-    if not humanoidRootPart then return end
-    humanoidRootPart.CFrame = destinationCFrame
+    currentTween = TweenService:Create(humanoidRootPart, tweenInfo, {CFrame = destinationCFrame})
+    currentTween:Play()
 end
 
 -- Función para autocompletar el nombre del jugador
@@ -798,21 +812,26 @@ TeletransportarseAJugadorButton.MouseButton1Click:Connect(function()
             isTweening = true
             local targetHumanoidRootPart = targetPlayer.Character.HumanoidRootPart
 
+            -- Desactivar colisiones mientras se hace el tween
+            setCollisionEnabled(false)
+
             while true do
                 local distance = (humanoidRootPart.Position - targetHumanoidRootPart.Position).Magnitude
 
-                if distance <= 20 then -- Distancia mínima para considerar que "tocó" al jugador
-                    print("Jugador tocado.")
+                if distance <= 40 then -- Detener el tween si está a 40 studs o menos
+                    print("Jugador alcanzado. Deteniendo tween.")
+                    stopCurrentTween() -- Detener cualquier tween activo
                     break
-                elseif distance <= 340 then
-                    teleportToPosition(targetHumanoidRootPart.CFrame)
                 else
+                    -- Actualizar el tween hacia la nueva posición del jugador
                     tweenToPosition(targetHumanoidRootPart.CFrame)
                 end
 
-                task.wait(0.01) -- Pequeña espera para evitar sobrecargar el script
+                task.wait(0.5) -- Actualizar la posición cada 0.5 segundos
             end
 
+            -- Reactivar colisiones al terminar
+            setCollisionEnabled(true)
             isTweening = false
         else
             warn("Jugador no encontrado o no tiene un personaje válido.")
@@ -821,6 +840,16 @@ TeletransportarseAJugadorButton.MouseButton1Click:Connect(function()
         warn("No se encontró un jugador con ese nombre.")
     end
 end)
+
+-- Detectar cuando el jugador muere y reactivar colisiones
+player.CharacterAdded:Connect(function(newCharacter)
+    character = newCharacter
+    humanoidRootPart = character:WaitForChild("HumanoidRootPart")
+    humanoid = character:WaitForChild("Humanoid")
+    setCollisionEnabled(true) -- Reactivar colisiones cuando reaparece
+end)
+
+
 
 
 
@@ -838,6 +867,9 @@ TeletransportesButton.MouseButton1Click:Connect(function()
     TeletransportarFrutasButton.Visible = true
     BackButton.Visible = true
 end)
+
+
+
 
 local TweenService = game:GetService("TweenService")
 local player = game.Players.LocalPlayer
@@ -875,6 +907,74 @@ local function teleportToPosition(destinationCFrame)
     if not humanoidRootPart then return end
     humanoidRootPart.CFrame = destinationCFrame
 end
+
+-- Función para manejar la reapertura del personaje después de la muerte
+local function onCharacterAdded(newCharacter)
+    character = newCharacter
+    humanoidRootPart = character:WaitForChild("HumanoidRootPart")
+    initialPosition = humanoidRootPart.CFrame -- Guardar la posición inicial al reaparecer
+
+    -- Si el sistema estaba activo antes de la muerte, reactivar la búsqueda de cofres
+    if isTweening then
+        coroutine.wrap(function()
+            -- Buscar directamente en workspace.Map
+            local map = workspace.Map
+            local closestChest = nil
+            local closestDistance = math.huge -- Inicializar con un valor muy alto
+
+            while isTweening do
+                closestChest = nil
+                closestDistance = math.huge -- Reiniciar la distancia más cercana
+
+                -- Buscar el cofre más cercano con TouchInterest
+                for _, object in ipairs(map:GetDescendants()) do
+                    if object:IsA("BasePart") and object.Name:find("^Chest") then
+                        local distance = (humanoidRootPart.Position - object.Position).Magnitude
+
+                        -- Verificar si el objeto tiene TouchInterest
+                        if hasTouchInterest(object) and distance < closestDistance then
+                            closestChest = object
+                            closestDistance = distance
+                        end
+                    end
+                end
+
+                -- Si encontramos un cofre con TouchInterest
+                if closestChest then
+                    if closestDistance <= 340 then
+                        -- Si está a 100 studs o menos, teletransportarse directamente
+                        teleportToPosition(closestChest.CFrame)
+                    else
+                        -- Si está más lejos de 100 studs, usar tween
+                        tweenToPosition(closestChest.CFrame)
+                    end
+                    wait(0.3) -- Esperar un poco antes de seguir buscando
+
+                    -- Si el cofre ya no tiene TouchInterest, buscar el siguiente más cercano
+                    if not hasTouchInterest(closestChest) then
+                        closestChest = nil
+                    end
+                else
+                    -- Si no hay cofres con TouchInterest, esperar antes de buscar de nuevo
+                    wait(0.1)
+                end
+            end
+
+            -- Cuando se desactiva, regresar a la posición inicial
+            local distanceToInitial = (humanoidRootPart.Position - initialPosition.Position).Magnitude
+            if distanceToInitial <= 340 then
+                teleportToPosition(initialPosition)
+            else
+                tweenToPosition(initialPosition)
+            end
+
+            AllChestTweenButton.Text = "Todos Los Cofres/ OFF"
+        end)()
+    end
+end
+
+-- Escuchar cuando el personaje es agregado (después de morir)
+player.CharacterAdded:Connect(onCharacterAdded)
 
 AllChestTweenButton.MouseButton1Click:Connect(function()
     if isTweening then
@@ -929,7 +1029,7 @@ AllChestTweenButton.MouseButton1Click:Connect(function()
                     -- Si está más lejos de 100 studs, usar tween
                     tweenToPosition(closestChest.CFrame)
                 end
-                wait(0.3) -- Esperar un poco antes de seguir buscando
+                wait(0.5) -- Esperar un poco antes de seguir buscando
 
                 -- Si el cofre ya no tiene TouchInterest, buscar el siguiente más cercano
                 if not hasTouchInterest(closestChest) then
@@ -937,7 +1037,7 @@ AllChestTweenButton.MouseButton1Click:Connect(function()
                 end
             else
                 -- Si no hay cofres con TouchInterest, esperar antes de buscar de nuevo
-                wait(0.1)
+                wait(0.4)
             end
         end
 
@@ -954,39 +1054,9 @@ AllChestTweenButton.MouseButton1Click:Connect(function()
 end)
 
 
--- Función para teletransportarse a una Tool o Modelo, exactamente a la posición del objeto
-local function TeletransportarAObjeto(objeto)
-    -- Verificar si el objeto es una herramienta o un modelo con PrimaryPart
-    if objeto:IsA("Tool") then
-        -- Si es una herramienta, teletransportar al jugador a la posición de la herramienta
-        local jugador = game.Players.LocalPlayer
-        local personaje = jugador.Character
-        local humanoidRootPart = personaje and personaje:FindFirstChild("HumanoidRootPart")
 
-        if humanoidRootPart then
-            -- Teletransportar al jugador a la posición exacta de la herramienta
-            humanoidRootPart.CFrame = objeto.Handle.CFrame
-            print("Teletransportado a la Tool: " .. objeto.Name) -- Depuración
-        else
-            print("No se encontró el HumanoidRootPart del jugador.") -- Depuración
-        end
-    elseif objeto:IsA("Model") and objeto.PrimaryPart then
-        -- Si es un modelo, teletransportar al jugador a su PrimaryPart
-        local jugador = game.Players.LocalPlayer
-        local personaje = jugador.Character
-        local humanoidRootPart = personaje and personaje:FindFirstChild("HumanoidRootPart")
 
-        if humanoidRootPart then
-            -- Teletransportar al jugador a la posición exacta del PrimaryPart del modelo
-            humanoidRootPart.CFrame = objeto.PrimaryPart.CFrame
-            print("Teletransportado al Modelo: " .. objeto.Name) -- Depuración
-        else
-            print("No se encontró el HumanoidRootPart del jugador.") -- Depuración
-        end
-    else
-        print("El objeto no es una herramienta ni un modelo con PrimaryPart.") -- Depuración
-    end
-end
+
 
 -- Función para teletransportarse a una Tool o Modelo, exactamente a la posición del objeto
 local function TeletransportarAObjeto(objeto)
@@ -1023,26 +1093,32 @@ local function TeletransportarAObjeto(objeto)
 end
 
 -- Funcionalidad del botón de Teletransportar a Frutas
+local isTeletransportActive = false  -- Variable para saber si el teletransporte está activado
+
 TeletransportarFrutasButton.MouseButton1Click:Connect(function()
-    if TeletransportarFrutasButton.Text == "Teletransportar a Frutas/ OFF" then
+    if isTeletransportActive then
+        isTeletransportActive = false
+        TeletransportarFrutasButton.Text = "Teletransportar a Frutas/ OFF"
+        print("Teletransporte desactivado.") -- Depuración
+    else
+        isTeletransportActive = true
         TeletransportarFrutasButton.Text = "Teletransportar a Frutas/ ON"
         print("Teletransporte activado.") -- Depuración
         
         -- Activar la búsqueda de frutas en Workspace
-        while TeletransportarFrutasButton.Text == "Teletransportar a Frutas/ ON" do
-            -- Comprobar si hay algún objeto con "Fruit" en su nombre
-            for _, child in pairs(workspace:GetChildren()) do
-                if string.lower(child.Name):find("fruit") then
-                    print("Objeto encontrado: " .. child.Name) -- Depuración
-                    TeletransportarAObjeto(child)
-                    break -- Teletransportarse solo a la primera fruta que encuentre
+        coroutine.wrap(function()
+            while isTeletransportActive do
+                -- Comprobar si hay algún objeto con "Fruit" en su nombre
+                for _, child in pairs(workspace:GetChildren()) do
+                    if string.lower(child.Name):find("fruit") then
+                        print("Objeto encontrado: " .. child.Name) -- Depuración
+                        TeletransportarAObjeto(child)
+                        break -- Teletransportarse solo a la primera fruta que encuentre
+                    end
                 end
+                wait(0.05) -- Esperar un segundo antes de comprobar nuevamente
             end
-            wait(0.05) -- Esperar un segundo antes de comprobar nuevamente
-        end
-    else
-        TeletransportarFrutasButton.Text = "Teletransportar a Frutas/ OFF"
-        print("Teletransporte desactivado.") -- Depuración
+        end)()
     end
 end)
 
@@ -1052,12 +1128,40 @@ workspace.ChildAdded:Connect(function(child)
     if string.lower(child.Name):find("fruit") then
         print("Nuevo objeto agregado: " .. child.Name) -- Depuración
         -- Verificar si el teletransporte está activado
-        if TeletransportarFrutasButton.Text == "Teletransportar a Frutas/ ON" then
+        if isTeletransportActive then
             -- Teletransportar al jugador a la posición del objeto recién agregado
             TeletransportarAObjeto(child)
         end
     end
 end)
+
+-- Función para manejar la reapertura del personaje después de la muerte
+local function onCharacterAdded(newCharacter)
+    -- Esperar a que el personaje reaparezca
+    local jugador = game.Players.LocalPlayer
+    local personaje = newCharacter
+    local humanoidRootPart = personaje:WaitForChild("HumanoidRootPart")
+
+    -- Si el teletransporte está activado, continuar buscando frutas
+    if isTeletransportActive then
+        coroutine.wrap(function()
+            while isTeletransportActive do
+                -- Comprobar si hay algún objeto con "Fruit" en su nombre
+                for _, child in pairs(workspace:GetChildren()) do
+                    if string.lower(child.Name):find("fruit") then
+                        print("Objeto encontrado: " .. child.Name) -- Depuración
+                        TeletransportarAObjeto(child)
+                        break -- Teletransportarse solo a la primera fruta que encuentre
+                    end
+                end
+                wait(0.05) -- Esperar un segundo antes de comprobar nuevamente
+            end
+        end)()
+    end
+end
+
+-- Escuchar cuando el personaje es agregado (después de morir)
+game.Players.LocalPlayer.CharacterAdded:Connect(onCharacterAdded)
 
 
 -- Funcionalidad del botón de regreso
@@ -1077,6 +1181,7 @@ end)
 
 -- Funcionalidad del botón de cierre (X)
 CloseButton.MouseButton1Click:Connect(function()
+    setCollisionEnabled(true) -- Reactivar colisiones
     ScreenGui:Destroy()
     screenGui:Destroy()
 end)
