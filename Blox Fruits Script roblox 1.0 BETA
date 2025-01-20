@@ -125,13 +125,14 @@ AimLockNPCButton.TextSize = 24
 local ServerHopButton = Instance.new("TextButton")
 ServerHopButton.Name = "ServerHopButton"
 ServerHopButton.Size = UDim2.new(0.4, 0, 0.17, 0) -- Mismo tamaño que AimLockBloxButton
-ServerHopButton.Position = UDim2.new(0.5, 0, 0.5, 0) -- Debajo del AimLockBloxButton
+ServerHopButton.Position = UDim2.new(0.65, 0, 0.47, 0) -- Debajo del AimLockBloxButton
+ServerHopButton.AnchorPoint = Vector2.new(0.5, 0.5) -- Asegura que el ancla esté centrada
 ServerHopButton.Text = "Server Hop"
 ServerHopButton.TextSize = 24
 ServerHopButton.Font = Enum.Font.SourceSansBold
 ServerHopButton.BackgroundColor3 = Color3.fromRGB(65, 65, 65) -- Mismo color de fondo
 ServerHopButton.TextColor3 = Color3.new(1, 1, 1)
-ServerHopButton.Parent = screenGui
+ServerHopButton.Parent = MainFrame
 
 -- Configuración de AllChestTweenButton
 AllChestTweenButton.Parent = MainFrame
