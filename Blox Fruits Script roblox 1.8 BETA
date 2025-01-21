@@ -122,17 +122,17 @@ AimLockNPCButton.Font = Enum.Font.SourceSansBold
 AimLockNPCButton.TextSize = 24
 
 -- Crear el botón Server Hop debajo de AimLockBloxButton
-local ServerHopButton = Instance.new("TextButton")
-ServerHopButton.Name = "ServerHopButton"
-ServerHopButton.Size = UDim2.new(0.4, 0, 0.17, 0) -- Mismo tamaño que AimLockBloxButton
-ServerHopButton.Position = UDim2.new(0.65, 0, 0.47, 0) -- Debajo del AimLockBloxButton
-ServerHopButton.AnchorPoint = Vector2.new(0.5, 0.5) -- Asegura que el ancla esté centrada
-ServerHopButton.Text = "Server Hop"
-ServerHopButton.TextSize = 24
-ServerHopButton.Font = Enum.Font.SourceSansBold
-ServerHopButton.BackgroundColor3 = Color3.fromRGB(65, 65, 65) -- Mismo color de fondo
-ServerHopButton.TextColor3 = Color3.new(1, 1, 1)
-ServerHopButton.Parent = MainFrame
+local RejoinButton = Instance.new("TextButton")
+RejoinButton.Name = "RejoinButton"
+RejoinButton.Size = UDim2.new(0.4, 0, 0.17, 0) -- Mismo tamaño que AimLockBloxButton
+RejoinButton.Position = UDim2.new(0.65, 0, 0.47, 0) -- Debajo del AimLockBloxButton
+RejoinButton.AnchorPoint = Vector2.new(0.5, 0.5) -- Asegura que el ancla esté centrada
+RejoinButton.Text = "Rejoin"
+RejoinButton.TextSize = 24
+RejoinButton.Font = Enum.Font.SourceSansBold
+RejoinButton.BackgroundColor3 = Color3.fromRGB(65, 65, 65) -- Mismo color de fondo
+RejoinButton.TextColor3 = Color3.new(1, 1, 1)
+RejoinButton.Parent = MainFrame
 
 -- Configuración de AllChestTweenButton
 AllChestTweenButton.Parent = MainFrame
@@ -236,7 +236,7 @@ local function rejoinServer()
 end
 
 -- Conectar el botón de Rejoin a la función
-ServerHopButton.MouseButton1Click:Connect(function()
+RejoinButton.MouseButton1Click:Connect(function()
     rejoinServer()
 end)
 
@@ -859,7 +859,7 @@ TeletransportesButton.MouseButton1Click:Connect(function()
     BloxFruitsScriptButton.Visible = false
     AimLockBloxButton.Visible = false
     AimLockNPCButton.Visible = false
-    ServerHopButton.Visible = false
+    RejoinButton.Visible = false
     AllChestTweenButton.Visible = true
     TeletransportarseAJugadorButton.Visible = true
     TeletransportarseAJugadorTextBox.Visible = true
@@ -1175,7 +1175,7 @@ BackButton.MouseButton1Click:Connect(function()
     BloxFruitsScriptButton.Visible = true
     AimLockBloxButton.Visible = true
     AimLockNPCButton.Visible = true
-    ServerHopButton.Visible = true
+    RejoinButton.Visible = true
 end)
 
 -- Funcionalidad del botón de cierre (X)
