@@ -223,7 +223,7 @@ InfiniteYieldButton.MouseButton1Click:Connect(function()
 end)
 
 BloxFruitsScriptButton.MouseButton1Click:Connect(function()
-    loadstring(game:HttpGet("https://raw.githubusercontent.com/Lucasbekk3315-code/raito-hub-blox-fruits/refs/heads/main/Blox%20Fruits%20Script%20Raito%20Hub"))()
+    loadstring(game:HttpGet("https://github.com/Lucasbekk3315-code/Blox-Fruits-redz-hub/blob/main/Script%20blox%20fruits%20roblox%20redz%20hub"))()
 end)
 
 -- Función para intentar cambiar de servidor
