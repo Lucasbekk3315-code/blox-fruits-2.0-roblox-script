@@ -158,6 +158,19 @@ TeletransportarFrutasButton.Font = Enum.Font.SourceSansBold
 TeletransportarFrutasButton.TextSize = 23
 TeletransportarFrutasButton.Visible = false
 
+-- Configuración del botón Mares
+local MaresButton = Instance.new("TextButton")
+MaresButton.Parent = MainFrame
+MaresButton.AnchorPoint = Vector2.new(0.5, 0.5) -- Centrado
+MaresButton.Size = UDim2.new(0.4, 0, 0.17, 0) -- Mismo tamaño que los otros botones
+MaresButton.Position = UDim2.new(0.705, 0, 0.28, 0) -- Debajo de "Teletransportar a Frutas"
+MaresButton.Text = "Mares"
+MaresButton.BackgroundColor3 = Color3.fromRGB(65, 65, 65)
+MaresButton.TextColor3 = Color3.new(1, 1, 1)
+MaresButton.Font = Enum.Font.SourceSansBold
+MaresButton.TextSize = 23
+MaresButton.Visible = false -- Cambia a `true` si quieres que sea visible de inmediato
+
 -- Configuración de TeletransportarseAJugadorButton
 local TeletransportarseAJugadorButton = Instance.new("TextButton")
 TeletransportarseAJugadorButton.AnchorPoint = Vector2.new(0.5, 0.5) -- Corregido
@@ -221,6 +234,14 @@ end)
 
 BloxFruitsScriptButton.MouseButton1Click:Connect(function()
     loadstring(game:HttpGet("https://raw.githubusercontent.com/Lucasbekk3315-code/Blox-Fruits-redz-hub/refs/heads/main/Script%20blox%20fruits%20roblox%20redz%20hub"))()
+end)
+
+MaresButton.MouseButton1Click:Connect(function()
+    MaresButton.Visible = false
+    TeletransportarFrutasButton.Visible = false
+    AllChestTweenButton.Visible = false
+    TeletransportarseAJugadorButton.Visible = false
+    TeletransportarseAJugadorTextBox.Visible = false
 end)
 
 local TeleportService = game:GetService("TeleportService")
@@ -864,6 +885,7 @@ TeletransportesButton.MouseButton1Click:Connect(function()
     TeletransportarseAJugadorButton.Visible = true
     TeletransportarseAJugadorTextBox.Visible = true
     TeletransportarFrutasButton.Visible = true
+    MaresButton.Visible = true
     BackButton.Visible = true
 end)
 
@@ -1166,6 +1188,7 @@ game.Players.LocalPlayer.CharacterAdded:Connect(onCharacterAdded)
 -- Funcionalidad del botón de regreso
 BackButton.MouseButton1Click:Connect(function()
     AllChestTweenButton.Visible = false
+    MaresButton.Visible = false
     TeletransportarFrutasButton.Visible = false
     TeletransportarseAJugadorButton.Visible = false
     TeletransportarseAJugadorTextBox.Visible = false
