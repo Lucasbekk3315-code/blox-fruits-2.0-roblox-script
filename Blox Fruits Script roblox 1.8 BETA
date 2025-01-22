@@ -158,6 +158,30 @@ TeletransportarFrutasButton.Font = Enum.Font.SourceSansBold
 TeletransportarFrutasButton.TextSize = 23
 TeletransportarFrutasButton.Visible = false
 
+-- Configuración del botón Mares
+local MaresButton = Instance.new("TextButton")
+MaresButton.Parent = MainFrame
+MaresButton.AnchorPoint = Vector2.new(0.5, 0.5) -- Centrado
+MaresButton.Size = UDim2.new(0.4, 0, 0.17, 0) -- Mismo tamaño que los otros botones
+MaresButton.Position = UDim2.new(0.705, 0, 0.28, 0) -- Debajo de "Teletransportar a Frutas"
+MaresButton.Text = "Mares"
+MaresButton.BackgroundColor3 = Color3.fromRGB(65, 65, 65)
+MaresButton.TextColor3 = Color3.new(1, 1, 1)
+MaresButton.Font = Enum.Font.SourceSansBold
+MaresButton.TextSize = 23
+MaresButton.Visible = false -- Cambia a `true` si quieres que sea visible de inmediato
+
+local Mar1Button = Instance.new("TextButton")
+Mar1Button.Parent = MainFrame
+Mar1Button.AnchorPoint = Vector2.new(0.5, 0.5) -- Centrado
+Mar1Button.Size = UDim2.new(0.4, 0, 0.17, 0) -- Mismo tamaño que los otros botones
+Mar1Button.Position = UDim2.new(0.3, 0, 0.11, 0)
+Mar1Button.Text = "Mar 1"
+Mar1Button.BackgroundColor3 = Color3.fromRGB(65, 65, 65)
+Mar1Button.TextColor3 = Color3.new(1, 1, 1)
+Mar1Button.Font = Enum.Font.SourceSansBold
+Mar1Button.TextSize = 23
+Mar1Button.Visible = false
 
 -- Configuración de TeletransportarseAJugadorButton
 local TeletransportarseAJugadorButton = Instance.new("TextButton")
@@ -220,9 +244,59 @@ InfiniteYieldButton.MouseButton1Click:Connect(function()
     loadstring(game:HttpGet('https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source'))()
 end)
 
+
 BloxFruitsScriptButton.MouseButton1Click:Connect(function()
     loadstring(game:HttpGet("https://raw.githubusercontent.com/Lucasbekk3315-code/Blox-Fruits-redz-hub/refs/heads/main/Script%20blox%20fruits%20roblox%20redz%20hub"))()
 end)
+
+
+MaresButton.MouseButton1Click:Connect(function()
+    MaresButton.Visible = false
+    TeletransportarFrutasButton.Visible = false
+    AllChestTweenButton.Visible = false
+    TeletransportarseAJugadorButton.Visible = false
+    TeletransportarseAJugadorTextBox.Visible = false
+    Mar1Button.Visible = true
+end)
+
+
+local TweenService = game:GetService("TweenService")
+local player = game.Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+
+-- Obtener el NPC al que se debe mover el jugador
+local npc = workspace.NPCs:FindFirstChild("Sea Captain")
+
+local function moveToNpc()
+    -- Verificar si el ID del juego es el correcto
+    if game.PlaceId == 4442272183 then
+        if npc then
+            -- Calcular la distancia entre el jugador y el NPC
+            local distance = (npc.HumanoidRootPart.Position - character.HumanoidRootPart.Position).Magnitude
+            local walkSpeed = 340
+            local timeToReach = distance / walkSpeed
+
+            -- Crear el tween para mover al jugador
+            local goal = {CFrame = npc.HumanoidRootPart.CFrame}
+            local tweenInfo = TweenInfo.new(timeToReach, Enum.EasingStyle.Linear, Enum.EasingDirection.InOut)
+            local tween = TweenService:Create(character.HumanoidRootPart, tweenInfo, goal)
+
+            -- Reproducir el tween
+            tween:Play()
+            tween.Completed:Connect(function()
+                -- Acción al completar el movimiento (si es necesario)
+            end)
+        end
+    else
+        -- Opcional: puedes agregar un mensaje o una acción si el ID del juego no es el correcto
+        print("Este script solo funciona en el juego con ID 4442272183")
+    end
+end
+
+-- Conectar el botón para mover al NPC
+Mar1Button.MouseButton1Click:Connect(moveToNpc)
+
+
 
 
 local TeleportService = game:GetService("TeleportService")
@@ -866,6 +940,7 @@ TeletransportesButton.MouseButton1Click:Connect(function()
     TeletransportarseAJugadorButton.Visible = true
     TeletransportarseAJugadorTextBox.Visible = true
     TeletransportarFrutasButton.Visible = true
+    MaresButton.Visible = true
     BackButton.Visible = true
 end)
 
@@ -1168,6 +1243,8 @@ game.Players.LocalPlayer.CharacterAdded:Connect(onCharacterAdded)
 -- Funcionalidad del botón de regreso
 BackButton.MouseButton1Click:Connect(function()
     AllChestTweenButton.Visible = false
+    Mar1Button.Visible = false
+    MaresButton.Visible = false
     TeletransportarFrutasButton.Visible = false
     TeletransportarseAJugadorButton.Visible = false
     TeletransportarseAJugadorTextBox.Visible = false
