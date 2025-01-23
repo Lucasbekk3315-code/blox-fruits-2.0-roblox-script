@@ -183,6 +183,30 @@ Mar1Button.Font = Enum.Font.SourceSansBold
 Mar1Button.TextSize = 23
 Mar1Button.Visible = false
 
+local Mar2Button = Instance.new("TextButton")
+Mar2Button.Parent = MainFrame
+Mar2Button.AnchorPoint = Vector2.new(0.5, 0.5) -- Corregido
+Mar2Button.Size = UDim2.new(0.4, 0, 0.17, 0)
+Mar2Button.Position = UDim2.new(0.705, 0, 0.11, 0)
+Mar2Button.Text = "Mar 2"
+Mar2Button.BackgroundColor3 = Color3.fromRGB(65, 65, 65)
+Mar2Button.TextColor3 = Color3.new(1, 1, 1)
+Mar2Button.Font = Enum.Font.SourceSansBold
+Mar2Button.TextSize = 23
+Mar2Button.Visible = false
+
+local Mar3Button = Instance.new("TextButton")
+Mar3Button.Parent = MainFrame
+Mar3Button.AnchorPoint = Vector2.new(0.5, 0.5) -- Corregido
+Mar3Button.Size = UDim2.new(0.4, 0, 0.17, 0)
+Mar3Button.Position = UDim2.new(0.3, 0, 0.28, 0)
+Mar3Button.Text = "Mar 3"
+Mar3Button.BackgroundColor3 = Color3.fromRGB(65, 65, 65)
+Mar3Button.TextColor3 = Color3.new(1, 1, 1)
+Mar3Button.Font = Enum.Font.SourceSansBold
+Mar3Button.TextSize = 23
+Mar3Button.Visible = false
+
 -- Configuración de TeletransportarseAJugadorButton
 local TeletransportarseAJugadorButton = Instance.new("TextButton")
 TeletransportarseAJugadorButton.AnchorPoint = Vector2.new(0.5, 0.5) -- Corregido
@@ -213,6 +237,19 @@ TeletransportarseAJugadorTextBox.TextWrap = true
 TeletransportarseAJugadorTextBox.TextWrapped = true
 TeletransportarseAJugadorTextBox.ClearTextOnFocus = true  -- Limpia el texto cuando el jugador hace clic en el cuadro
 TeletransportarseAJugadorTextBox.Visible = false
+
+local AutoHakiKen = Instance.new("TextButton")
+AutoHakiKen.Name = "AutoHakiKen"
+AutoHakiKen.Size = UDim2.new(0.4, 0, 0.17, 0) -- Mismo tamaño que AimLockBloxButton
+AutoHakiKen.Position = UDim2.new(0.705, 0, 0.45, 0) -- Debajo del AimLockBloxButton
+AutoHakiKen.AnchorPoint = Vector2.new(0.5, 0.5) -- Asegura que el ancla esté centrada
+AutoHakiKen.Text = "Auto Haki Ken"
+AutoHakiKen.TextSize = 24
+AutoHakiKen.Font = Enum.Font.SourceSansBold
+AutoHakiKen.BackgroundColor3 = Color3.fromRGB(65, 65, 65) -- Mismo color de fondo
+AutoHakiKen.TextColor3 = Color3.new(1, 1, 1)
+AutoHakiKen.Parent = MainFrame
+AutoHakiKen.Visible = false
 
 -- Configuración de BackButton
 BackButton.Parent = MainFrame
@@ -257,44 +294,324 @@ MaresButton.MouseButton1Click:Connect(function()
     TeletransportarseAJugadorButton.Visible = false
     TeletransportarseAJugadorTextBox.Visible = false
     Mar1Button.Visible = true
+    Mar2Button.Visible = true
+    Mar3Button.Visible = true
 end)
 
 
-local TweenService = game:GetService("TweenService")
-local player = game.Players.LocalPlayer
-local character = player.Character or player.CharacterAdded:Wait()
+local TweenService1 = game:GetService("TweenService")
+local player1 = game.Players.LocalPlayer
+local character1 = player1.Character or player1.CharacterAdded:Wait()
 
--- Obtener el NPC al que se debe mover el jugador
-local npc = workspace.NPCs:FindFirstChild("Sea Captain")
+-- CFrames objetivo para diferentes juegos
+local targetCFrameGame3 = CFrame.new(
+    106.253479, 19.3599586, 2832.37158, 
+    -0.0656991452, 5.74360159e-09, -0.997839451, 
+    1.88883575e-10, 1, 5.74360159e-09, 
+    0.997839451, 1.88883575e-10, -0.0656991452
+)
 
-local function moveToNpc()
-    -- Verificar si el ID del juego es el correcto
+-- Cambia este CFrame al que desees para el juego con ID 7449423635
+local targetCFrameGame4 = CFrame.new(
+    200.123456, 25.678901, 3000.123456, 
+    -0.123456789, 0, -0.987654321, 
+    0, 1, 0, 
+    0.987654321, 0, -0.123456789
+)
+
+local function moveToCFrame()
+    -- Determinar el CFrame objetivo según el ID del juego
+    local targetCFrame
     if game.PlaceId == 4442272183 then
-        if npc then
-            -- Calcular la distancia entre el jugador y el NPC
-            local distance = (npc.HumanoidRootPart.Position - character.HumanoidRootPart.Position).Magnitude
-            local walkSpeed = 340
-            local timeToReach = distance / walkSpeed
-
-            -- Crear el tween para mover al jugador
-            local goal = {CFrame = npc.HumanoidRootPart.CFrame}
-            local tweenInfo = TweenInfo.new(timeToReach, Enum.EasingStyle.Linear, Enum.EasingDirection.InOut)
-            local tween = TweenService:Create(character.HumanoidRootPart, tweenInfo, goal)
-
-            -- Reproducir el tween
-            tween:Play()
-            tween.Completed:Connect(function()
-                -- Acción al completar el movimiento (si es necesario)
-            end)
-        end
+        targetCFrame = targetCFrameGame3
+    elseif game.PlaceId == 7449423635 then
+        targetCFrame = targetCFrameGame4
     else
-        -- Opcional: puedes agregar un mensaje o una acción si el ID del juego no es el correcto
-        print("Este script solo funciona en el juego con ID 4442272183")
+        print("Este script no está configurado para este juego.")
+        return
+    end
+
+    if character1 and character1:FindFirstChild("HumanoidRootPart") then
+        -- Calcular la distancia entre el jugador y el CFrame objetivo
+        local distance1 = (targetCFrame.Position - character1.HumanoidRootPart.Position).Magnitude
+        local walkSpeed1 = 340
+        local timeToReach1 = distance1 / walkSpeed1
+
+        -- Crear el tween para mover al jugador
+        local goal1 = {CFrame = targetCFrame}
+        local tweenInfo1 = TweenInfo.new(timeToReach1, Enum.EasingStyle.Linear, Enum.EasingDirection.InOut)
+        local tween1 = TweenService1:Create(character1.HumanoidRootPart, tweenInfo1, goal1)
+
+        -- Reproducir el tween
+        tween1:Play()
+        tween1.Completed:Connect(function()
+            print("Movimiento completado.")
+        end)
+    else
+        print("El personaje o su HumanoidRootPart no están disponibles.")
     end
 end
 
--- Conectar el botón para mover al NPC
-Mar1Button.MouseButton1Click:Connect(moveToNpc)
+-- Conectar el botón para mover al CFrame
+Mar1Button.MouseButton1Click:Connect(moveToCFrame)
+
+
+
+local TweenService2 = game:GetService("TweenService")
+local player2 = game.Players.LocalPlayer
+local character2 = player2.Character or player2.CharacterAdded:Wait()
+
+-- CFrames objetivo para diferentes juegos
+local targetCFrameGame1 = CFrame.new(
+    -1166.52283, 7.73542881, 1729.3916, 
+    0.353035539, 2.71882357e-08, -0.935609937, 
+    2.47146481e-08, 1, 3.83849965e-08, 
+    0.935609937, -3.6674539e-08, 0.353035539
+)
+
+-- Cambia este CFrame al que desees para el juego con ID 7449423635
+local targetCFrameGame2 = CFrame.new(
+    -387.621246, 20.6934395, 5441.47021, 0.728105068, -1.03781339e-08, -0.685465515, -7.74841169e-09, 1, -2.33706743e-08, 0.685465515, 2.23275762e-08, 0.728105068
+)
+
+local function moveToCFrame2()
+    -- Determinar el CFrame objetivo según el ID del juego
+    local targetCFrame
+    if game.PlaceId == 2753915549 then
+        targetCFrame = targetCFrameGame1
+    elseif game.PlaceId == 7449423635 then
+        targetCFrame = targetCFrameGame2
+    else
+        print("Este script no está configurado para este juego.")
+        return
+    end
+
+    if character2 and character2:FindFirstChild("HumanoidRootPart") then
+        -- Calcular la distancia entre el jugador y el CFrame objetivo
+        local distance2 = (targetCFrame.Position - character2.HumanoidRootPart.Position).Magnitude
+        local walkSpeed2 = 340
+        local timeToReach2 = distance2 / walkSpeed2
+
+        -- Crear el tween para mover al jugador
+        local goal2 = {CFrame = targetCFrame}
+        local tweenInfo2 = TweenInfo.new(timeToReach2, Enum.EasingStyle.Linear, Enum.EasingDirection.InOut)
+        local tween2 = TweenService2:Create(character2.HumanoidRootPart, tweenInfo2, goal2)
+
+        -- Reproducir el tween
+        tween2:Play()
+        tween2.Completed:Connect(function()
+            print("Movimiento completado.")
+        end)
+    else
+        print("El personaje o su HumanoidRootPart no están disponibles.")
+    end
+end
+
+-- Conectar el botón para mover al CFrame
+Mar2Button.MouseButton1Click:Connect(moveToCFrame2)
+
+
+local TweenService3 = game:GetService("TweenService")
+local player3 = game.Players.LocalPlayer
+local character3 = player3.Character or player3.CharacterAdded:Wait()
+
+-- CFrames objetivo para diferentes juegos
+local targetCFrameGame5 = CFrame.new(
+    -1908.35522, 6.5207653, -2536.69995, 
+    -0.836797655, 6.05827424e-08, -0.547512293, 
+    6.91875783e-08, 1, 4.90718666e-09, 
+    0.547512293, -3.37747252e-08, -0.836797655
+)
+
+-- Cambia este CFrame al que desees para el juego con ID 7449423635
+local targetCFrameGame6 = CFrame.new(
+    -1166.52283, 7.73542881, 1729.3916, 
+    0.353035539, 2.71882357e-08, -0.935609937, 
+    2.47146481e-08, 1, 3.83849965e-08, 
+    0.935609937, -3.6674539e-08, 0.353035539
+)
+
+local function moveToCFrame3()
+    -- Determinar el CFrame objetivo según el ID del juego
+    local targetCFrame
+    if game.PlaceId == 4442272183 then
+        targetCFrame = targetCFrameGame5
+    elseif game.PlaceId == 2753915549 then
+        targetCFrame = targetCFrameGame6
+    else
+        print("Este script no está configurado para este juego.")
+        return
+    end
+
+    if character3 and character3:FindFirstChild("HumanoidRootPart") then
+        -- Calcular la distancia entre el jugador y el CFrame objetivo
+        local distance3 = (targetCFrame.Position - character3.HumanoidRootPart.Position).Magnitude
+        local walkSpeed3 = 340
+        local timeToReach3 = distance3 / walkSpeed3
+
+        -- Crear el tween para mover al jugador
+        local goal3 = {CFrame = targetCFrame}
+        local tweenInfo3 = TweenInfo.new(timeToReach3, Enum.EasingStyle.Linear, Enum.EasingDirection.InOut)
+        local tween3 = TweenService3:Create(character3.HumanoidRootPart, tweenInfo3, goal3)
+
+        -- Reproducir el tween
+        tween3:Play()
+        tween3.Completed:Connect(function()
+            print("Movimiento completado.")
+        end)
+    else
+        print("El personaje o su HumanoidRootPart no están disponibles.")
+    end
+end
+
+-- Conectar el botón para mover al CFrame
+Mar3Button.MouseButton1Click:Connect(moveToCFrame3)
+
+
+
+local TweenService7 = game:GetService("TweenService")
+local StarterGui7 = game:GetService("StarterGui")
+
+-- Los lugares a los que te teletransportarás
+local locations7 = {
+    CFrame.new(-1421.69861, 48.3352776, 22.1260223, 0.458441496, -3.33502612e-08, -0.888724566, -6.87463739e-08, 1, -7.29882501e-08, 0.888724566, 9.45574286e-08, 0.458441496), -- Lugar 1
+    CFrame.new(-1181.14807, 20.8615398, 187.746506, 0.888406456, -0.0463902466, 0.456707835, -0.000148137333, 0.994851828, 0.101340532, -0.459057927, -0.0900992379, 0.883825719), -- Lugar 2
+    CFrame.new(-1647.68457, 23.3353443, 438.075775, 0.187695593, -4.79490438e-08, 0.982227266, 6.37158282e-09, 1, 4.75990909e-08, -0.982227266, -2.67579714e-09, 0.187695593), -- Lugar 3
+    CFrame.new(-1323.73792, 31.3516502, -461.364807, -0.755672812, 0.000290932163, -0.654949248, -3.01427208e-05, 1, 0.000478983886, 0.654949307, 0.000381697057, -0.755672753), -- Lugar 4
+    CFrame.new(-1152.52246, 2.60643291, -700.588928, -0.0948770195, -1.62659148e-08, -0.995489001, -6.89705315e-09, 1, -1.56822857e-08, 0.995489001, 5.37805178e-09, -0.0948770195), -- Lugar 5
+    CFrame.new(-1610.67029, 12.1398087, 162.875473, -0.897944927, -3.29255201e-08, -0.440107793, -3.64219943e-08, 1, -5.01183484e-10, 0.440107793, 1.55795679e-08, -0.897944927), -- Lugar 6
+    CFrame.new(1113.95642, 5.00469446, 4350.33643, -0.651566386, -9.5056734e-08, 0.758591652, -6.9535254e-08, 1, 6.55819292e-08, -0.758591652, -1.00178816e-08, -0.651566386), -- Lugar 7
+    CFrame.new(1113.49866, 7.79696465, 4365.14258, -0.838356137, 6.45036158e-09, -0.545122921, -1.48282684e-08, 1, 3.46375657e-08, 0.545122921, 3.71218469e-08, -0.838356137), -- Lugar 8
+    CFrame.new(1395.91125, 37.382988, -1319.90405, 0.481315285, 4.88058616e-09, 0.876547575, -4.80260915e-08, 1, 2.08033271e-08, -0.876547575, -5.21101136e-08, 0.481315285), -- Lugar 9
+    CFrame.new(1455.67676, 88.287178, -1388.90222, 0.396173328, -2.30966068e-09, -0.918175757, 3.4424037e-08, 1, 1.23377522e-08, 0.918175757, -3.64952051e-08, 0.396173328), -- Lugar 10
+    CFrame.new(-909.743591, 13.7870445, 4077.18311, -0.203163564, -2.1227351e-09, -0.979144812, -2.49593235e-08, 1, 3.01088288e-09, 0.979144812, 2.5050495e-08, -0.203163564), -- Lugar 11
+    CFrame.new(-2860.51758, 7.59728956, 5384.34473, -0.928020716, -1.84903062e-08, 0.372528553, 1.32719258e-08, 1, 8.26968218e-08, -0.372528553, 8.16885404e-08, -0.928020716), -- Lugar 12
+    CFrame.new(-909.743591, 13.7870445, 4077.18311, -0.203163564, -2.1227351e-09, -0.979144812, -2.49593235e-08, 1, 3.01088288e-09, 0.979144812, 2.5050495e-08, -0.203163564), -- Lugar 13
+    CFrame.new(-1406.62476, 29.8870106, 6.3510375, 0.859951854, 3.99091213e-08, 0.510375142, 4.23934748e-10, 1, -7.8909963e-08, -0.510375142, 6.80751384e-08, 0.859951854), -- Lugar 14
+    CFrame.new(-8037.17969, 5756.06787, -1932.35388, -0.999919832, -5.74872816e-10, 0.0126614952, -7.40978875e-11, 1, 3.95514803e-08, -0.0126614952, 3.95473698e-08, -0.999919832), -- Lugar 15
+}
+
+-- Función para teletransportarse con Tween
+local function teleportWithTween7()
+    local speed7 = 340  -- Velocidad del movimiento (en studs por segundo)
+
+    for i, location7 in ipairs(locations7) do
+        -- Calcula la distancia entre el lugar actual y el siguiente
+        local currentPos7 = game.Players.LocalPlayer.Character.HumanoidRootPart.Position
+        local distance7 = (currentPos7 - location7.Position).Magnitude
+        
+        -- Calcula la duración del tween en función de la distancia y la velocidad
+        local duration7 = distance7 / speed7
+        
+        -- Crea el Tween
+        local tweenInfo7 = TweenInfo.new(duration7, Enum.EasingStyle.Linear, Enum.EasingDirection.InOut)
+        local goal7 = {CFrame = location7}
+        local tween7 = TweenService7:Create(game.Players.LocalPlayer.Character.HumanoidRootPart, tweenInfo7, goal7)
+        
+        tween7:Play()
+        tween7.Completed:Wait()  -- Espera a que el tween termine
+
+        -- Asegura que el jugador se quede flotando en la posición durante 1 segundo
+        local elapsedTime7 = 0
+        while elapsedTime7 < 1 do
+            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = location7
+            elapsedTime7 = elapsedTime7 + 0.1
+            wait(0.1)
+        end
+
+        -- En la posición 7, espera 10 segundos antes de continuar
+        if i == 7 then
+            wait(10)
+        end
+
+        -- En la posición 9, espera 4 segundos antes de continuar
+        if i == 9 then
+            wait(4)
+        end
+
+        -- En la posición 6, muestra un mensaje
+        if i == 6 then
+            StarterGui7:SetCore("SendNotification", {
+                Title = "Aviso",
+                Text = "Equipa la antorcha antes de llegar.",
+                Duration = 5
+            })
+        end
+
+        -- En la posición 8, muestra un mensaje
+        if i == 8 then
+            StarterGui7:SetCore("SendNotification", {
+                Title = "Aviso",
+                Text = "Equipa la taza antes de llegar.",
+                Duration = 5
+            })
+        end
+
+       -- En la posición 10, muestra un mensaje
+        if i == 10 then
+            StarterGui7:SetCore("SendNotification", {
+                Title = "Aviso",
+                Text = "Habla con el npc tienes 10 segundos.",
+                Duration = 10
+            })
+            wait(10)
+        end
+
+         -- En la posición 11, muestra un mensaje
+        if i == 11 then
+            StarterGui7:SetCore("SendNotification", {
+                Title = "Aviso",
+                Text = "Habla con el npc tienes 10 segundos.",
+                Duration = 10
+            })
+            wait(10)
+        end
+
+                 -- En la posición 12, muestra un mensaje
+        if i == 12 then
+            StarterGui7:SetCore("SendNotification", {
+                Title = "Aviso",
+                Text = "Mata al npc tienes 30 segundos.",
+                Duration = 29
+            })
+            wait(30)
+        end
+
+        -- En la posición 13, muestra un mensaje
+        if i == 13 then
+            StarterGui7:SetCore("SendNotification", {
+                Title = "Aviso",
+                Text = "Habla con el npc tienes 10 segundos.",
+                Duration = 10
+            })
+            wait(10)
+        end
+
+        -- En la posición 14, muestra un mensaje
+        if i == 14 then
+            StarterGui7:SetCore("SendNotification", {
+                Title = "Aviso!",
+                Text = "Equipa la reliquia y mata al npc tienes 30 segundos.",
+                Duration = 5
+            })
+            wait(45)
+        end
+
+       -- En la posición 15, muestra un mensaje
+        if i == 15 then
+            StarterGui7:SetCore("SendNotification", {
+                Title = "Completado!",
+                Text = "Compralo aqui por 750k de dinero.",
+                Duration = 6
+            })
+        end
+    end
+end
+
+-- Acción al presionar el botón
+AutoHakiKen.MouseButton1Click:Connect(function()
+    teleportWithTween7()
+end)
 
 
 
@@ -941,6 +1258,7 @@ TeletransportesButton.MouseButton1Click:Connect(function()
     TeletransportarseAJugadorTextBox.Visible = true
     TeletransportarFrutasButton.Visible = true
     MaresButton.Visible = true
+    AutoHakiKen.Visible = true
     BackButton.Visible = true
 end)
 
@@ -1243,6 +1561,9 @@ game.Players.LocalPlayer.CharacterAdded:Connect(onCharacterAdded)
 -- Funcionalidad del botón de regreso
 BackButton.MouseButton1Click:Connect(function()
     AllChestTweenButton.Visible = false
+    AutoHakiKen.Visible = false
+    Mar3Button.Visible = false
+    Mar2Button.Visible = false
     Mar1Button.Visible = false
     MaresButton.Visible = false
     TeletransportarFrutasButton.Visible = false
