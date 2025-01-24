@@ -293,6 +293,7 @@ MaresButton.MouseButton1Click:Connect(function()
     AllChestTweenButton.Visible = false
     TeletransportarseAJugadorButton.Visible = false
     TeletransportarseAJugadorTextBox.Visible = false
+    AutoHakiKen.Visible = false
     Mar1Button.Visible = true
     Mar2Button.Visible = true
     Mar3Button.Visible = true
