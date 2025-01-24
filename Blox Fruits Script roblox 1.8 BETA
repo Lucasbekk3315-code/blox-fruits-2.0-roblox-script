@@ -652,23 +652,19 @@ end)
 
 
 
+RejoinButton.MouseButton1Click:Connect(function()
 
-local TeleportService = game:GetService("TeleportService")
-
--- Función para reconectar al lugar actual
-local function rejoinServer()
-    local success, errorMessage = pcall(function()
-        TeleportService:Teleport(game.PlaceId) -- Reconectar al lugar actual
-    end)
-    if not success then
-        warn("Error al intentar reconectar al servidor: " .. tostring(errorMessage))
-    end
+if #game.Players:GetPlayers() <= 1 then
+    game.Players.LocalPlayer:Kick("\nRejoining...")
+    task.wait()
+    game:GetService("TeleportService"):Teleport(game.PlaceId, game.Players.LocalPlayer)
+else
+    game:GetService("TeleportService"):TeleportToPlaceInstance(game.PlaceId, game.JobId, game.Players.LocalPlayer)
 end
 
--- Conectar el botón de Rejoin a la función
-RejoinButton.MouseButton1Click:Connect(function()
-    rejoinServer()
 end)
+
+
 
 AimLockBloxButton.MouseButton1Click:Connect(function()
 local Players = game:GetService("Players")
