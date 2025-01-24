@@ -299,6 +299,42 @@ MaresButton.MouseButton1Click:Connect(function()
 end)
 
 
+local Activado8 = true
+local player8 = game.Players.LocalPlayer
+
+
+local function setVisionRadius8()
+    -- Verifica si existe "VisionRadius"
+    if player8:FindFirstChild("VisionRadius") then
+        local visionRadius = player8.VisionRadius
+
+        -- Cambia el valor de VisionRadius
+        visionRadius.Value = 10000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+    end
+end
+
+
+
+local function monitorPlayer8()
+    while true do
+        if Activado8 == true then
+            -- Si el personaje existe, aplica el cambio
+            if player8.Character and player8.Character:FindFirstChild("Humanoid") then
+                setVisionRadius8()
+            else
+                -- Espera a que reaparezca el personaje
+                player8.CharacterAdded:Wait()
+            end
+        end
+        wait(1) -- Espera 1 segundo antes de la próxima verificación
+    end
+end
+
+-- Inicia el monitoreo
+task.spawn(monitorPlayer8)
+
+
+
 local TweenService1 = game:GetService("TweenService")
 local player1 = game.Players.LocalPlayer
 local character1 = player1.Character or player1.CharacterAdded:Wait()
@@ -1062,7 +1098,7 @@ end
                 Frame:Destroy() -- Destroy the menu frame
             end
             Notify("Aimbot", "Aimbot Desactivado y Menú Cerrado", 3)
-            menuOpen = false  -- Marcar que el menú está cerrado
+            menuOpen = false
         end)
 
         local TextBox = Instance.new("TextBox")
