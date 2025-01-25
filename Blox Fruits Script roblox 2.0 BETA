@@ -1,3 +1,10 @@
+if game.CoreGui:FindFirstChild("CustomMenu") or game.Players.LocalPlayer.PlayerGui:FindFirstChild("ToggleGui") then
+   game.CoreGui.CustomMenu:Destroy()
+   game.Players.LocalPlayer.PlayerGui.ToggleGui:Destroy()
+end
+
+wait(2)
+
 local ScreenGui = Instance.new("ScreenGui")
 local MainFrame = Instance.new("Frame")
 local BetaText = Instance.new("TextLabel")
