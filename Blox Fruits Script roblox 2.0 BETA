@@ -1,9 +1,16 @@
-if game.CoreGui:FindFirstChild("CustomMenu") or game.Players.LocalPlayer.PlayerGui:FindFirstChild("ToggleGui") then
-   game.CoreGui.CustomMenu:Destroy()
-   game.Players.LocalPlayer.PlayerGui.ToggleGui:Destroy()
+local customMenu = game.CoreGui:FindFirstChild("CustomMenu")
+local toggleGui = game.Players.LocalPlayer.PlayerGui:FindFirstChild("ToggleGui")
+
+if customMenu or toggleGui then
+    if customMenu then
+        customMenu:Destroy()
+    end
+    if toggleGui then
+        toggleGui:Destroy()
+    end
+    wait(2) -- Espera solo si se eliminó algo
 end
 
-wait(2)
 
 local ScreenGui = Instance.new("ScreenGui")
 local MainFrame = Instance.new("Frame")
