@@ -226,7 +226,7 @@ local TeletransportarseAJugadorButton = Instance.new("TextButton")
 TeletransportarseAJugadorButton.AnchorPoint = Vector2.new(0.5, 0.5) -- Corregido
 TeletransportarseAJugadorButton.Parent = MainFrame
 TeletransportarseAJugadorButton.Size = UDim2.new(0.4, 0, 0.17, 0)
-TeletransportarseAJugadorButton.Position = UDim2.new(0.3, 0, 0.28, 0) -- Ajusta la posición debajo de los botones anteriores
+TeletransportarseAJugadorButton.Position = UDim2.new(0.3, 0, 0.45, 0) -- Ajusta la posición debajo de los botones anteriores
 TeletransportarseAJugadorButton.Text = "Teletransportarse a Jugador"
 TeletransportarseAJugadorButton.BackgroundColor3 = Color3.fromRGB(65, 65, 65)
 TeletransportarseAJugadorButton.TextColor3 = Color3.new(1, 1, 1)
@@ -241,7 +241,7 @@ local TeletransportarseAJugadorTextBox = Instance.new("TextBox")
 TeletransportarseAJugadorTextBox.Parent = MainFrame
 TeletransportarseAJugadorTextBox.AnchorPoint = Vector2.new(0.5, 0.5) -- Corregido
 TeletransportarseAJugadorTextBox.Size = UDim2.new(0.4, 0, 0.12, 0)
-TeletransportarseAJugadorTextBox.Position = UDim2.new(0.3, 0, 0.4, 0)  -- Debajo del botón
+TeletransportarseAJugadorTextBox.Position = UDim2.new(0.3, 0, 0.6, 0)  -- Debajo del botón
 TeletransportarseAJugadorTextBox.Text = "Escribe Aqui El Nombre"
 TeletransportarseAJugadorTextBox.BackgroundColor3 = Color3.fromRGB(65, 65, 65)
 TeletransportarseAJugadorTextBox.TextColor3 = Color3.new(1, 1, 1)
@@ -264,6 +264,18 @@ AutoHakiKen.BackgroundColor3 = Color3.fromRGB(65, 65, 65) -- Mismo color de fond
 AutoHakiKen.TextColor3 = Color3.new(1, 1, 1)
 AutoHakiKen.Parent = MainFrame
 AutoHakiKen.Visible = false
+
+local AllDiamGoldChestTweenButton = Instance.new("TextButton")
+AllDiamGoldChestTweenButton.Parent = MainFrame
+AllDiamGoldChestTweenButton.AnchorPoint = Vector2.new(0.5, 0.5)
+AllDiamGoldChestTweenButton.Size = UDim2.new(0.4, 0, 0.17, 0)
+AllDiamGoldChestTweenButton.Position = UDim2.new(0.3, 0, 0.28, 0)
+AllDiamGoldChestTweenButton.Text = "Cofres de mas valor/ OFF"
+AllDiamGoldChestTweenButton.BackgroundColor3 = Color3.fromRGB(65, 65, 65)
+AllDiamGoldChestTweenButton.TextColor3 = Color3.new(1, 1, 1)
+AllDiamGoldChestTweenButton.Font = Enum.Font.SourceSansBold
+AllDiamGoldChestTweenButton.TextSize = 23
+AllDiamGoldChestTweenButton.Visible = false
 
 -- Configuración de BackButton
 BackButton.Parent = MainFrame
@@ -305,6 +317,7 @@ MaresButton.MouseButton1Click:Connect(function()
     MaresButton.Visible = false
     TeletransportarFrutasButton.Visible = false
     AllChestTweenButton.Visible = false
+    AllDiamGoldChestTweenButton.Visible = false
     TeletransportarseAJugadorButton.Visible = false
     TeletransportarseAJugadorTextBox.Visible = false
     AutoHakiKen.Visible = false
@@ -1301,6 +1314,7 @@ TeletransportesButton.MouseButton1Click:Connect(function()
     AimLockNPCButton.Visible = false
     RejoinButton.Visible = false
     AllChestTweenButton.Visible = true
+    AllDiamGoldChestTweenButton.Visible = true
     TeletransportarseAJugadorButton.Visible = true
     TeletransportarseAJugadorTextBox.Visible = true
     TeletransportarFrutasButton.Visible = true
@@ -1319,7 +1333,7 @@ local humanoidRootPart = character:WaitForChild("HumanoidRootPart")
 
 local isTweening = false
 local speed = 340 -- Velocidad equivalente a WalkSpeed 50 (ajustable)
-local initialPosition -- Para guardar la posición inicial del jugador
+local currentTween = nil  -- Variable para almacenar el tween en curso
 
 -- Función para verificar si un objeto tiene un TouchInterest
 local function hasTouchInterest(object)
@@ -1338,10 +1352,10 @@ local function tweenToPosition(destinationCFrame)
     local time = distance / speed
 
     local tweenInfo = TweenInfo.new(time, Enum.EasingStyle.Linear)
-    local tween = TweenService:Create(humanoidRootPart, tweenInfo, {CFrame = destinationCFrame})
+    currentTween = TweenService:Create(humanoidRootPart, tweenInfo, {CFrame = destinationCFrame})
 
-    tween:Play()
-    tween.Completed:Wait()
+    currentTween:Play()
+    currentTween.Completed:Wait()
 end
 
 local function teleportToPosition(destinationCFrame)
@@ -1349,92 +1363,27 @@ local function teleportToPosition(destinationCFrame)
     humanoidRootPart.CFrame = destinationCFrame
 end
 
--- Función para manejar la reapertura del personaje después de la muerte
-local function onCharacterAdded(newCharacter)
+-- Escuchar cuando el personaje es agregado (después de morir)
+player.CharacterAdded:Connect(function(newCharacter)
     character = newCharacter
     humanoidRootPart = character:WaitForChild("HumanoidRootPart")
-    initialPosition = humanoidRootPart.CFrame -- Guardar la posición inicial al reaparecer
-
-    -- Si el sistema estaba activo antes de la muerte, reactivar la búsqueda de cofres
-    if isTweening then
-        coroutine.wrap(function()
-            -- Buscar directamente en workspace.Map
-            local map = workspace.Map
-            local closestChest = nil
-            local closestDistance = math.huge -- Inicializar con un valor muy alto
-
-            while isTweening do
-                closestChest = nil
-                closestDistance = math.huge -- Reiniciar la distancia más cercana
-
-                -- Buscar el cofre más cercano con TouchInterest
-                for _, object in ipairs(map:GetDescendants()) do
-                    if object:IsA("BasePart") and object.Name:find("^Chest") then
-                        local distance = (humanoidRootPart.Position - object.Position).Magnitude
-
-                        -- Verificar si el objeto tiene TouchInterest
-                        if hasTouchInterest(object) and distance < closestDistance then
-                            closestChest = object
-                            closestDistance = distance
-                        end
-                    end
-                end
-
-                -- Si encontramos un cofre con TouchInterest
-                if closestChest then
-                    if closestDistance <= 340 then
-                        -- Si está a 100 studs o menos, teletransportarse directamente
-                        teleportToPosition(closestChest.CFrame)
-                    else
-                        -- Si está más lejos de 100 studs, usar tween
-                        tweenToPosition(closestChest.CFrame)
-                    end
-                    wait(0.3) -- Esperar un poco antes de seguir buscando
-
-                    -- Si el cofre ya no tiene TouchInterest, buscar el siguiente más cercano
-                    if not hasTouchInterest(closestChest) then
-                        closestChest = nil
-                    end
-                else
-                    -- Si no hay cofres con TouchInterest, esperar antes de buscar de nuevo
-                    wait(0.1)
-                end
-            end
-
-            -- Cuando se desactiva, regresar a la posición inicial
-            local distanceToInitial = (humanoidRootPart.Position - initialPosition.Position).Magnitude
-            if distanceToInitial <= 340 then
-                teleportToPosition(initialPosition)
-            else
-                tweenToPosition(initialPosition)
-            end
-
-            AllChestTweenButton.Text = "Todos Los Cofres/ OFF"
-        end)()
-    end
-end
-
--- Escuchar cuando el personaje es agregado (después de morir)
-player.CharacterAdded:Connect(onCharacterAdded)
+end)
 
 AllChestTweenButton.MouseButton1Click:Connect(function()
     if isTweening then
-        -- Si el sistema está activo, desactívalo y regresa al jugador a su posición inicial
+        -- Si el sistema está activo, desactívalo y detén el movimiento
         isTweening = false
         AllChestTweenButton.Text = "Todos Los Cofres/ OFF"
         
-        -- Verificar la distancia a la posición inicial antes de teletransportarse
-        local distanceToInitial = (humanoidRootPart.Position - initialPosition.Position).Magnitude
-        if distanceToInitial <= 340 then
-            teleportToPosition(initialPosition)
-        else
-            tweenToPosition(initialPosition)
+        -- Detener el tween actual si está en curso
+        if currentTween then
+            currentTween:Cancel()  -- Cancela el tween en curso
+            currentTween = nil  -- Restablecer la variable del tween
         end
         return
     end
 
-    -- Guardar la posición inicial y activar el sistema
-    initialPosition = humanoidRootPart.CFrame
+    -- Activar el sistema
     isTweening = true
     AllChestTweenButton.Text = "Todos Los Cofres/ ON"
 
@@ -1482,18 +1431,107 @@ AllChestTweenButton.MouseButton1Click:Connect(function()
             end
         end
 
-        -- Cuando se desactiva, regresar a la posición inicial
-        local distanceToInitial = (humanoidRootPart.Position - initialPosition.Position).Magnitude
-        if distanceToInitial <= 340 then
-            teleportToPosition(initialPosition)
-        else
-            tweenToPosition(initialPosition)
-        end
-
+        -- Al desactivar, no se realiza ningún movimiento adicional
         AllChestTweenButton.Text = "Todos Los Cofres/ OFF"
     end)()
 end)
 
+
+
+
+local TweenService9 = game:GetService("TweenService")
+local player9 = game.Players.LocalPlayer
+local character9 = player9.Character or player9.CharacterAdded:Wait()
+local humanoidRootPart9 = character9:WaitForChild("HumanoidRootPart")
+
+local isTweening9 = false
+local speed9 = 340 -- Velocidad equivalente a WalkSpeed 50 (ajustable)
+local activeTween9 -- Variable para almacenar el tween actual
+
+-- Función para verificar si un objeto tiene un TouchInterest
+local function hasTouchInterest9(object9)
+    for _, descendant9 in ipairs(object9:GetDescendants()) do
+        if descendant9:IsA("TouchTransmitter") then
+            return true
+        end
+    end
+    return false
+end
+
+local function tweenToPosition9(destinationCFrame9)
+    if not humanoidRootPart9 then return end
+
+    local distance9 = (humanoidRootPart9.Position - destinationCFrame9.Position).Magnitude
+    local time9 = distance9 / speed9
+
+    local tweenInfo9 = TweenInfo.new(time9, Enum.EasingStyle.Linear)
+    activeTween9 = TweenService9:Create(humanoidRootPart9, tweenInfo9, {CFrame = destinationCFrame9})
+
+    activeTween9:Play()
+    activeTween9.Completed:Wait()
+    activeTween9 = nil -- Liberar el tween después de completarlo
+end
+
+local function teleportToPosition9(destinationCFrame9)
+    if not humanoidRootPart9 then return end
+    humanoidRootPart9.CFrame = destinationCFrame9
+end
+
+AllDiamGoldChestTweenButton.MouseButton1Click:Connect(function()
+    if isTweening9 then
+        -- Apagar el sistema
+        isTweening9 = false
+        AllDiamGoldChestTweenButton.Text = "Cofres de más valor/ OFF"
+
+        -- Detener el tween activo si existe
+        if activeTween9 then
+            activeTween9:Cancel()
+            activeTween9 = nil
+        end
+        return
+    end
+
+    -- Encender el sistema
+    isTweening9 = true
+    AllDiamGoldChestTweenButton.Text = "Cofres de más valor/ ON"
+
+    coroutine.wrap(function()
+        local map9 = workspace.Map
+        local closestChest9 = nil
+        local closestDistance9 = math.huge
+
+        while isTweening9 do
+            closestChest9 = nil
+            closestDistance9 = math.huge
+
+            for _, object9 in ipairs(map9:GetDescendants()) do
+                if object9:IsA("BasePart") and (object9.Name:find("DiamondChest") or object9.Name:find("Chest3") or object9.Name:find("Chest2")) then
+                    local distance9 = (humanoidRootPart9.Position - object9.Position).Magnitude
+
+                    if hasTouchInterest9(object9) and distance9 < closestDistance9 then
+                        closestChest9 = object9
+                        closestDistance9 = distance9
+                    end
+                end
+            end
+
+            if closestChest9 and isTweening9 then
+                if closestDistance9 <= 340 then
+                    teleportToPosition9(closestChest9.CFrame)
+                else
+                    tweenToPosition9(closestChest9.CFrame)
+                end
+                wait(0.5)
+
+                if not hasTouchInterest9(closestChest9) then
+                    closestChest9 = nil
+                end
+            else
+                wait(0.4)
+            end
+        end
+    end)()
+end)
 
 
 
@@ -1608,6 +1646,7 @@ game.Players.LocalPlayer.CharacterAdded:Connect(onCharacterAdded)
 -- Funcionalidad del botón de regreso
 BackButton.MouseButton1Click:Connect(function()
     AllChestTweenButton.Visible = false
+    AllDiamGoldChestTweenButton.Visible = false
     AutoHakiKen.Visible = false
     Mar3Button.Visible = false
     Mar2Button.Visible = false
