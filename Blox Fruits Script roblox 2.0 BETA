@@ -281,6 +281,17 @@ AllDiamGoldChestTweenButton.Font = Enum.Font.SourceSansBold
 AllDiamGoldChestTweenButton.TextSize = 23
 AllDiamGoldChestTweenButton.Visible = false
 
+local OptimizarButton = Instance.new("TextButton")
+OptimizarButton.Parent = MainFrame
+OptimizarButton.AnchorPoint = Vector2.new(0.5, 0.5)
+OptimizarButton.Size = UDim2.new(0.4, 0, 0.17, 0)
+OptimizarButton.Position = UDim2.new(0.21, 0, 0.63, 0)
+OptimizarButton.Text = "Optimizar"
+OptimizarButton.BackgroundColor3 = Color3.fromRGB(65, 65, 65)
+OptimizarButton.TextColor3 = Color3.new(1, 1, 1)
+OptimizarButton.Font = Enum.Font.SourceSansBold
+OptimizarButton.TextSize = 24
+
 -- Configuración de BackButton
 BackButton.Parent = MainFrame
 BackButton.AnchorPoint = Vector2.new(0.5, 0.5) -- Corregido
@@ -1321,6 +1332,7 @@ TeletransportesButton.MouseButton1Click:Connect(function()
     AllDiamGoldChestTweenButton.Visible = true
     TeletransportarseAJugadorButton.Visible = true
     TeletransportarseAJugadorTextBox.Visible = true
+    OptimizarButton.Visible = false
     TeletransportarFrutasButton.Visible = true
     MaresButton.Visible = true
     if game.PlaceId == 2753915549 then
@@ -1665,6 +1677,7 @@ BackButton.MouseButton1Click:Connect(function()
     TeletransportarseAJugadorTextBox.Visible = false
     BackButton.Visible = false
     TeletransportesButton.Visible = true
+    OptimizarButton.Visible = true
     InfiniteYieldButton.Visible = true
     BloxFruitsScriptButton.Visible = true
     AimLockBloxButton.Visible = true
@@ -1681,132 +1694,126 @@ CloseButton.MouseButton1Click:Connect(function()
 end)
 
 
-local RunService10 = game:GetService("RunService")
-local Players = game:GetService("Players")
-local PhysicsService = game:GetService("PhysicsService")
+OptimizarButton.MouseButton1Click:Connect(function()
 
--- Configuración
-local basePartPath10 = workspace:WaitForChild("Map"):WaitForChild("WaterBase-Plane")
-local topPartName10 = "TopPart"
-
--- Altura ajustable para el TopPart
-local topPartHeightOffset = 15.6  -- Cambia este valor para ajustar la altura (más alto o más bajo)
-local minHeight = 0  -- Altura mínima para el TopPart
-local maxHeight = 15.6  -- Altura máxima para el TopPart
-
--- Variable para controlar si el TopPart debe ser creado o no
-local topPartExists = false
-
--- Crear o encontrar la parte superior
-local function createOrGetTopPart10()
-    if topPartExists then
-        return workspace:FindFirstChild(topPartName10)
-    end
-
-    local existingPart10 = workspace:FindFirstChild(topPartName10)
-    if existingPart10 then
-        topPartExists = true
-        return existingPart10
-    end
-
-    local newPart10 = Instance.new("Part")
-    newPart10.Name = topPartName10
-    newPart10.Size = Vector3.new(4, 1, 4)
-    newPart10.Anchored = true
-    newPart10.CanCollide = true
-    newPart10.CanQuery = true
-    newPart10.Transparency = 1
-    newPart10.BrickColor = BrickColor.new("White")
-    newPart10.Parent = workspace
-
-    -- Crear un grupo de colisión para que no atraviese al jugador
-    local collisionGroup = "TopPartGroup"
-    PhysicsService:CreateCollisionGroup(collisionGroup)
-    PhysicsService:SetPartCollisionGroup(newPart10, collisionGroup)
-
-    topPartExists = true
-    return newPart10
-end
-
--- Función para comprobar si el TopPart está tocando al jugador
-local function onTouch(other)
-    if other and other.Parent then
-        local character = other.Parent
-        local humanoid = character:FindFirstChild("Humanoid")
-        if humanoid then
-            -- Si el TopPart toca al jugador, no lo atraviesa
-            return true
+local function processDescendantsImmediately(descendant)
+    -- Si el objeto es una parte con la propiedad CastShadow
+    if descendant:IsA("BasePart") then
+        -- Desactiva CastShadow si está activado
+        if descendant.CastShadow then
+            descendant.CastShadow = false
         end
+        -- Cambia el material a plástico
+        descendant.Material = Enum.Material.Plastic
+        -- Desactiva la propiedad de sombra
+        descendant.CastShadow = false
     end
-    return false
-end
 
--- Actualizar la parte superior para seguir al jugador
-local function updateTopPart10()
-    local topPart10 = createOrGetTopPart10()
-    local player = Players.LocalPlayer
+    -- Verifica si el descendiente es un MeshPart
+    if descendant:IsA("MeshPart") then
+        -- Desactiva CastShadow si está activado
+        if descendant.CastShadow then
+            descendant.CastShadow = false
+        end
+        -- Cambia el material a plástico
+        descendant.Material = Enum.Material.Plastic
+        -- Desactiva la sombra
+        descendant.CastShadow = false
+    end
 
-    if basePartPath10 then
-        -- Obtener tamaño y posición de la base
-        local baseSize10 = basePartPath10.Size
-        local baseCFrame10 = basePartPath10.CFrame
+    -- Verifica si el descendiente es un UnionOperation
+    if descendant:IsA("UnionOperation") then
+        -- Desactiva CastShadow si está activado
+        if descendant.CastShadow then
+            descendant.CastShadow = false
+        end
+        -- Cambia el material a plástico
+        descendant.Material = Enum.Material.Plastic
+        -- Desactiva la sombra
+        descendant.CastShadow = false
+    end
 
-        -- Verificar si el jugador existe y obtener su posición
-        if player and player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
-            local playerPosition = player.Character.HumanoidRootPart.Position
+    -- Verifica si el descendiente es un Decal
+    if descendant:IsA("Decal") then
+        -- Elimina la textura del Decal
+        descendant.Texture = ""
+    end
 
-            -- Mantener la parte superior pegada al WaterBase-Plane (en el eje Y) con el offset ajustable
-            local newCFrame10 = baseCFrame10 * CFrame.new(0, baseSize10.Y / 2 + topPartHeightOffset, 0)  -- Mantenerla pegada al WaterBase-Plane con el offset
-
-            -- Ajustar la posición de la parte superior para que siga al jugador solo en los ejes X y Z
-            local followPosition = Vector3.new(playerPosition.X, newCFrame10.Position.Y, playerPosition.Z)
-
-            -- Lógica para mover solo hacia abajo
-            if followPosition.Y < maxHeight then
-                -- Si la posición Y es menor que el máximo, actualizamos la posición
-                topPart10.CFrame = CFrame.new(followPosition)
-            elseif followPosition.Y > maxHeight then
-                -- Si la posición Y es mayor que el máximo, ajustamos al máximo
-                topPart10.CFrame = CFrame.new(followPosition.X, maxHeight, followPosition.Z)
+    -- Verifica si el descendiente es un SurfaceGui
+    if descendant:IsA("SurfaceGui") then
+        -- Configura el SurfaceGui para que no tenga sombras y otros ajustes
+        descendant.LightInfluence = 0 -- Hace que no se vea afectado por la luz
+        descendant.SizingMode = Enum.SurfaceGuiSizingMode.PixelsPerStud -- Ajusta el modo de tamaño
+        -- Busca y elimina las texturas en ImageLabel o ImageButton
+        for _, child in ipairs(descendant:GetDescendants()) do
+            if child:IsA("ImageLabel") or child:IsA("ImageButton") then
+                child.Image = "" -- Elimina la textura
+            elseif child:IsA("TextLabel") or child:IsA("TextButton") then
+                child.Text = "" -- Elimina el texto si es necesario
             end
-
-            -- Ajustar el tamaño de la parte superior para que sea un poco más grande que el jugador
-            local playerSize = player.Character.HumanoidRootPart.Size.X  -- Usamos el tamaño en X para el ancho
-            topPart10.Size = Vector3.new(playerSize + 50, 1, playerSize + 50)  -- Un poco más grande que el jugador
-
-            -- Verificar si el TopPart toca al jugador
-            topPart10.Touched:Connect(onTouch)
         end
-    else
-        warn("No se encontró la parte base en el workspace.")
+    end
+
+    -- Verifica si el descendiente es un BillboardGui
+    if descendant:IsA("BillboardGui") then
+        -- Configura el BillboardGui para que no tenga sombras y otros ajustes
+        descendant.LightInfluence = 0
+        -- Elimina las texturas en ImageLabel o ImageButton dentro del BillboardGui
+        for _, child in ipairs(descendant:GetDescendants()) do
+            if child:IsA("ImageLabel") or child:IsA("ImageButton") then
+                child.Image = "" -- Elimina la textura
+            elseif child:IsA("TextLabel") or child:IsA("TextButton") then
+                child.Text = "" -- Elimina el texto si es necesario
+            end
+        end
+    end
+
+    -- Verifica si el descendiente es un Model
+    if descendant:IsA("Model") then
+        -- Recorre todas las partes dentro del modelo
+        for _, part in ipairs(descendant:GetDescendants()) do
+            if part:IsA("BasePart") then
+                -- Desactiva CastShadow en todas las partes dentro del modelo
+                if part.CastShadow then
+                    part.CastShadow = false
+                end
+                -- Cambia el material a plástico
+                part.Material = Enum.Material.Plastic
+                -- Desactiva la sombra
+                part.CastShadow = false
+            end
+        end
+    end
+
+    -- Si el descendiente es un GuiObject, desactiva las imágenes y el texto
+    if descendant:IsA("GuiObject") then
+        -- Si es un ImageLabel o ImageButton, elimina la imagen
+        if descendant:IsA("ImageLabel") or descendant:IsA("ImageButton") then
+            descendant.Image = "" -- Elimina la textura
+        end
+        -- Si es un TextLabel o TextButton, elimina el texto
+        if descendant:IsA("TextLabel") or descendant:IsA("TextButton") then
+            descendant.Text = "" -- Elimina el texto
+        end
     end
 end
 
--- Ejecutar actualización cada frame
-RunService10.Heartbeat:Connect(function()
-    updateTopPart10()
-end)
+local function processWorkspaceImmediately()
+    -- Obtiene todos los descendientes de Workspace
+    local descendants = workspace:GetDescendants()
 
-
--- Controlar el cierre y apertura del menú con Alt
-local UserInputService = game:GetService("UserInputService")
-local isAltPressed = false -- Estado para evitar que se activen múltiples eventos al mantener Alt
-
-UserInputService.InputBegan:Connect(function(input, isProcessed)
-    if isProcessed then return end -- Ignorar si el input ya fue procesado
-    if input.KeyCode == Enum.KeyCode.LeftAlt then
-        if not isAltPressed then
-            isAltPressed = true
-            MainFrame.Visible = not MainFrame.Visible
-        end
+    -- Procesa cada descendiente de golpe
+    for _, descendant in ipairs(descendants) do
+        -- Procesa el objeto actual
+        processDescendantsImmediately(descendant)
     end
+end
+
+-- Realiza la comprobación una sola vez
+processWorkspaceImmediately()
+
 end)
 
-UserInputService.InputEnded:Connect(function(input)
-    if input.KeyCode == Enum.KeyCode.LeftAlt then
-        isAltPressed = false
-    end
-end)
 
 wait(1)
 
