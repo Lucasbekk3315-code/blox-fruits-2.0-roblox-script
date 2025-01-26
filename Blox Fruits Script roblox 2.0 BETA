@@ -1,12 +1,16 @@
 local customMenu = game.CoreGui:FindFirstChild("CustomMenu")
 local toggleGui = game.Players.LocalPlayer.PlayerGui:FindFirstChild("ToggleGui")
+local NoWater = game.workspace:FindFirstChild("TopPart")
 
-if customMenu or toggleGui then
+if customMenu or toggleGui or NoWater then
     if customMenu then
         customMenu:Destroy()
     end
     if toggleGui then
         toggleGui:Destroy()
+    end
+    if NoWater then
+        NoWater:Destroy()
     end
     wait(2) -- Espera solo si se eliminó algo
 end
@@ -1673,6 +1677,114 @@ CloseButton.MouseButton1Click:Connect(function()
     setCollisionEnabled(true) -- Reactivar colisiones
     ScreenGui:Destroy()
     screenGui:Destroy()
+    game.workspace.TopPart:Destroy()
+end)
+
+
+local RunService10 = game:GetService("RunService")
+local Players = game:GetService("Players")
+local PhysicsService = game:GetService("PhysicsService")
+
+-- Configuración
+local basePartPath10 = workspace:WaitForChild("Map"):WaitForChild("WaterBase-Plane")
+local topPartName10 = "TopPart"
+
+-- Altura ajustable para el TopPart
+local topPartHeightOffset = 15.6  -- Cambia este valor para ajustar la altura (más alto o más bajo)
+local minHeight = 0  -- Altura mínima para el TopPart
+local maxHeight = 15.6  -- Altura máxima para el TopPart
+
+-- Variable para controlar si el TopPart debe ser creado o no
+local topPartExists = false
+
+-- Crear o encontrar la parte superior
+local function createOrGetTopPart10()
+    if topPartExists then
+        return workspace:FindFirstChild(topPartName10)
+    end
+
+    local existingPart10 = workspace:FindFirstChild(topPartName10)
+    if existingPart10 then
+        topPartExists = true
+        return existingPart10
+    end
+
+    local newPart10 = Instance.new("Part")
+    newPart10.Name = topPartName10
+    newPart10.Size = Vector3.new(4, 1, 4)
+    newPart10.Anchored = true
+    newPart10.CanCollide = true
+    newPart10.CanQuery = true
+    newPart10.Transparency = 1
+    newPart10.BrickColor = BrickColor.new("White")
+    newPart10.Parent = workspace
+
+    -- Crear un grupo de colisión para que no atraviese al jugador
+    local collisionGroup = "TopPartGroup"
+    PhysicsService:CreateCollisionGroup(collisionGroup)
+    PhysicsService:SetPartCollisionGroup(newPart10, collisionGroup)
+
+    topPartExists = true
+    return newPart10
+end
+
+-- Función para comprobar si el TopPart está tocando al jugador
+local function onTouch(other)
+    if other and other.Parent then
+        local character = other.Parent
+        local humanoid = character:FindFirstChild("Humanoid")
+        if humanoid then
+            -- Si el TopPart toca al jugador, no lo atraviesa
+            return true
+        end
+    end
+    return false
+end
+
+-- Actualizar la parte superior para seguir al jugador
+local function updateTopPart10()
+    local topPart10 = createOrGetTopPart10()
+    local player = Players.LocalPlayer
+
+    if basePartPath10 then
+        -- Obtener tamaño y posición de la base
+        local baseSize10 = basePartPath10.Size
+        local baseCFrame10 = basePartPath10.CFrame
+
+        -- Verificar si el jugador existe y obtener su posición
+        if player and player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
+            local playerPosition = player.Character.HumanoidRootPart.Position
+
+            -- Mantener la parte superior pegada al WaterBase-Plane (en el eje Y) con el offset ajustable
+            local newCFrame10 = baseCFrame10 * CFrame.new(0, baseSize10.Y / 2 + topPartHeightOffset, 0)  -- Mantenerla pegada al WaterBase-Plane con el offset
+
+            -- Ajustar la posición de la parte superior para que siga al jugador solo en los ejes X y Z
+            local followPosition = Vector3.new(playerPosition.X, newCFrame10.Position.Y, playerPosition.Z)
+
+            -- Lógica para mover solo hacia abajo
+            if followPosition.Y < maxHeight then
+                -- Si la posición Y es menor que el máximo, actualizamos la posición
+                topPart10.CFrame = CFrame.new(followPosition)
+            elseif followPosition.Y > maxHeight then
+                -- Si la posición Y es mayor que el máximo, ajustamos al máximo
+                topPart10.CFrame = CFrame.new(followPosition.X, maxHeight, followPosition.Z)
+            end
+
+            -- Ajustar el tamaño de la parte superior para que sea un poco más grande que el jugador
+            local playerSize = player.Character.HumanoidRootPart.Size.X  -- Usamos el tamaño en X para el ancho
+            topPart10.Size = Vector3.new(playerSize + 600, 1, playerSize + 600)  -- Un poco más grande que el jugador
+
+            -- Verificar si el TopPart toca al jugador
+            topPart10.Touched:Connect(onTouch)
+        end
+    else
+        warn("No se encontró la parte base en el workspace.")
+    end
+end
+
+-- Ejecutar actualización cada frame
+RunService10.Heartbeat:Connect(function()
+    updateTopPart10()
 end)
 
 
