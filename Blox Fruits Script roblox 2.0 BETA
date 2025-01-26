@@ -1772,7 +1772,7 @@ local function updateTopPart10()
 
             -- Ajustar el tamaño de la parte superior para que sea un poco más grande que el jugador
             local playerSize = player.Character.HumanoidRootPart.Size.X  -- Usamos el tamaño en X para el ancho
-            topPart10.Size = Vector3.new(playerSize + 350, 1, playerSize + 350)  -- Un poco más grande que el jugador
+            topPart10.Size = Vector3.new(playerSize + 50, 1, playerSize + 50)  -- Un poco más grande que el jugador
 
             -- Verificar si el TopPart toca al jugador
             topPart10.Touched:Connect(onTouch)
