@@ -1319,7 +1319,11 @@ TeletransportesButton.MouseButton1Click:Connect(function()
     TeletransportarseAJugadorTextBox.Visible = true
     TeletransportarFrutasButton.Visible = true
     MaresButton.Visible = true
+    if game.PlaceId == 2753915549 then
     AutoHakiKen.Visible = true
+else
+AutoHakiKen.Visible = false
+end
     BackButton.Visible = true
 end)
 
@@ -1670,6 +1674,7 @@ CloseButton.MouseButton1Click:Connect(function()
     ScreenGui:Destroy()
     screenGui:Destroy()
 end)
+
 
 -- Controlar el cierre y apertura del menú con Alt
 local UserInputService = game:GetService("UserInputService")
