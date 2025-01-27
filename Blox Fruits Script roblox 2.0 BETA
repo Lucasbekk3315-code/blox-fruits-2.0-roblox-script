@@ -392,10 +392,10 @@ local targetCFrameGame3 = CFrame.new(
 
 -- Cambia este CFrame al que desees para el juego con ID 7449423635
 local targetCFrameGame4 = CFrame.new(
-    200.123456, 25.678901, 3000.123456, 
-    -0.123456789, 0, -0.987654321, 
-    0, 1, 0, 
-    0.987654321, 0, -0.123456789
+    106.253479, 19.3599586, 2832.37158, 
+    -0.0656991452, 5.74360159e-09, -0.997839451, 
+    1.88883575e-10, 1, 5.74360159e-09, 
+    0.997839451, 1.88883575e-10, -0.0656991452
 )
 
 local function moveToCFrame()
@@ -1843,8 +1843,7 @@ local function setHeight11(newHeight)
     WalkWater11.Position = Vector3.new(WalkWater11.Position.X, newHeight + WalkWater11.Size.Y / 2, WalkWater11.Position.Z)
 end
 
--- Ejemplo de cómo cambiar la altura
-setHeight11(-7.7)  -- Cambia este valor a la altura que desees
+setHeight11(-7.7)
 
 -- Función para seguir al jugador en X y Z
 local player11 = game.Players.LocalPlayer  -- Obtén al jugador local
