@@ -1558,7 +1558,7 @@ end)
 
 
 -- Función para teletransportarse a una Tool o Modelo, exactamente a la posición del objeto
-local function TeletransportarAObjeto(objeto)
+local function TeletransportarAObjeto(objeto, alCentro)
     -- Verificar si el objeto es una herramienta o un modelo con PrimaryPart
     if objeto:IsA("Tool") then
         -- Si es una herramienta, teletransportar al jugador a la posición de la herramienta
@@ -1580,8 +1580,9 @@ local function TeletransportarAObjeto(objeto)
         local humanoidRootPart = personaje and personaje:FindFirstChild("HumanoidRootPart")
 
         if humanoidRootPart then
+            local destino = alCentro and objeto.PrimaryPart.CFrame or objeto.PrimaryPart.CFrame
             -- Teletransportar al jugador a la posición exacta del PrimaryPart del modelo
-            humanoidRootPart.CFrame = objeto.PrimaryPart.CFrame
+            humanoidRootPart.CFrame = destino
             print("Teletransportado al Modelo: " .. objeto.Name) -- Depuración
         else
             print("No se encontró el HumanoidRootPart del jugador.") -- Depuración
@@ -1602,7 +1603,7 @@ TeletransportarFrutasButton.MouseButton1Click:Connect(function()
     else
         isTeletransportActive = true
         TeletransportarFrutasButton.Text = "Teletransportar a Frutas/ ON"
-        print("Teletransportante activado.") -- Depuración
+        print("Teletransportar activado.") -- Depuración
         
         -- Activar la búsqueda de frutas en Workspace
         coroutine.wrap(function()
@@ -1611,11 +1612,13 @@ TeletransportarFrutasButton.MouseButton1Click:Connect(function()
                 for _, child in pairs(workspace:GetChildren()) do
                     if string.lower(child.Name):find("fruit") then
                         print("Objeto encontrado: " .. child.Name) -- Depuración
-                        TeletransportarAObjeto(child)
+                        
+                        -- Teletransportarse al objeto sin importar cuántas veces se haya teletransportado
+                        TeletransportarAObjeto(child, true)
                         break -- Teletransportarse solo a la primera fruta que encuentre
                     end
                 end
-                wait(0.1) -- Esperar un poco antes de comprobar nuevamente
+                wait(0.01) -- Esperar un poco antes de comprobar nuevamente
             end
         end)()
     end
@@ -1628,8 +1631,8 @@ workspace.ChildAdded:Connect(function(child)
         print("Nuevo objeto agregado: " .. child.Name) -- Depuración
         -- Verificar si el teletransporte está activado
         if isTeletransportActive then
-            -- Teletransportar al jugador a la posición del objeto recién agregado
-            TeletransportarAObjeto(child)
+            -- Teletransportarse al objeto recién agregado
+            TeletransportarAObjeto(child, true)
         end
     end
 end)
@@ -1649,11 +1652,13 @@ local function onCharacterAdded(newCharacter)
                 for _, child in pairs(workspace:GetChildren()) do
                     if string.lower(child.Name):find("fruit") then
                         print("Objeto encontrado: " .. child.Name) -- Depuración
-                        TeletransportarAObjeto(child)
+                        
+                        -- Teletransportarse al objeto recién agregado
+                        TeletransportarAObjeto(child, true)
                         break -- Teletransportarse solo a la primera fruta que encuentre
                     end
                 end
-                wait(0.1) -- Esperar un poco antes de comprobar nuevamente
+                wait(0.01) -- Esperar un poco antes de comprobar nuevamente
             end
         end)()
     end
@@ -1661,6 +1666,10 @@ end
 
 -- Escuchar cuando el personaje es agregado (después de morir)
 game.Players.LocalPlayer.CharacterAdded:Connect(onCharacterAdded)
+
+
+
+
 
 -- Funcionalidad del botón de regreso
 BackButton.MouseButton1Click:Connect(function()
