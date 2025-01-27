@@ -1602,7 +1602,7 @@ TeletransportarFrutasButton.MouseButton1Click:Connect(function()
     else
         isTeletransportActive = true
         TeletransportarFrutasButton.Text = "Teletransportar a Frutas/ ON"
-        print("Teletransporte activado.") -- Depuración
+        print("Teletransportante activado.") -- Depuración
         
         -- Activar la búsqueda de frutas en Workspace
         coroutine.wrap(function()
@@ -1615,7 +1615,7 @@ TeletransportarFrutasButton.MouseButton1Click:Connect(function()
                         break -- Teletransportarse solo a la primera fruta que encuentre
                     end
                 end
-                wait(0.05) -- Esperar un segundo antes de comprobar nuevamente
+                wait(0.1) -- Esperar un poco antes de comprobar nuevamente
             end
         end)()
     end
@@ -1653,7 +1653,7 @@ local function onCharacterAdded(newCharacter)
                         break -- Teletransportarse solo a la primera fruta que encuentre
                     end
                 end
-                wait(0.05) -- Esperar un segundo antes de comprobar nuevamente
+                wait(0.1) -- Esperar un poco antes de comprobar nuevamente
             end
         end)()
     end
@@ -1661,7 +1661,6 @@ end
 
 -- Escuchar cuando el personaje es agregado (después de morir)
 game.Players.LocalPlayer.CharacterAdded:Connect(onCharacterAdded)
-
 
 -- Funcionalidad del botón de regreso
 BackButton.MouseButton1Click:Connect(function()
@@ -1824,13 +1823,13 @@ game:GetService("UserInputService").InputBegan:Connect(function(input)
 end)
 
 
-
 -- Crear la Part
 local WalkWater11 = Instance.new("Part")
 WalkWater11.Name = "WalkWater"
 WalkWater11.Size = Vector3.new(1800, 4, 1800)
 WalkWater11.Anchored = true
 WalkWater11.CanCollide = true
+WalkWater11.Transparency = 1
 WalkWater11.BrickColor = BrickColor.new("White")  -- Cambia el color si lo deseas
 WalkWater11.Parent = workspace
 
