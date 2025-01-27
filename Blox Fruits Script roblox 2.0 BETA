@@ -1805,6 +1805,11 @@ local function processDescendantsImmediately(descendant)
             descendant.Text = "" -- Elimina el texto
         end
     end
+
+    -- Elimina los objetos llamados "Tree"
+    if descendant.Name == "Tree" then
+        descendant:Destroy() -- Elimina el objeto
+    end
 end
 
 local function processWorkspaceImmediately()
@@ -1822,6 +1827,7 @@ end
 processWorkspaceImmediately()
 
 end)
+
 
 
 -- Controlar el cierre y apertura del menú
