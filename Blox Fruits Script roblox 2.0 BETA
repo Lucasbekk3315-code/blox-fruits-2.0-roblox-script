@@ -1,18 +1,18 @@
 local customMenu = game.CoreGui:FindFirstChild("CustomMenu")
 local toggleGui = game.Players.LocalPlayer.PlayerGui:FindFirstChild("ToggleGui")
-local NoWater = game.workspace:FindFirstChild("TopPart")
+local walkWater = game.workspace:FindFirstChild("WalkWater")
 
-if customMenu or toggleGui or NoWater then
+if customMenu or toggleGui or walkWater then
     if customMenu then
         customMenu:Destroy()
     end
     if toggleGui then
         toggleGui:Destroy()
     end
-    if NoWater then
-        NoWater:Destroy()
+    if walkWater then
+        walkWater:Destroy()
     end
-    wait(2) -- Espera solo si se eliminó algo
+    wait(1.5) -- Espera solo si se eliminó algo
 end
 
 
@@ -1685,13 +1685,14 @@ BackButton.MouseButton1Click:Connect(function()
     RejoinButton.Visible = true
 end)
 
+
 -- Funcionalidad del botón de cierre (X)
 CloseButton.MouseButton1Click:Connect(function()
-    setCollisionEnabled(true) -- Reactivar colisiones
     ScreenGui:Destroy()
     screenGui:Destroy()
-    game.workspace.TopPart:Destroy()
+    game.workspace:FindFirstChild("WalkWater"):Destroy()
 end)
+
 
 
 OptimizarButton.MouseButton1Click:Connect(function()
@@ -1813,6 +1814,51 @@ end
 processWorkspaceImmediately()
 
 end)
+
+
+-- Controlar el cierre y apertura del menú
+game:GetService("UserInputService").InputBegan:Connect(function(input)
+    if input.KeyCode == Enum.KeyCode.LeftAlt then
+        MainFrame.Visible = not MainFrame.Visible
+    end
+end)
+
+
+
+-- Crear la Part
+local WalkWater11 = Instance.new("Part")
+WalkWater11.Name = "WalkWater"
+WalkWater11.Size = Vector3.new(1800, 4, 1800)
+WalkWater11.Anchored = true
+WalkWater11.CanCollide = true
+WalkWater11.BrickColor = BrickColor.new("White")  -- Cambia el color si lo deseas
+WalkWater11.Parent = workspace
+
+-- Posicionar la Part encima de "WaterBase-Plane"
+local waterBasePlane11 = workspace.Map:WaitForChild("WaterBase-Plane")
+WalkWater11.Position = waterBasePlane11.Position + Vector3.new(0, WalkWater11.Size.Y / 2, 0)  -- Ajusta la altura
+
+-- Función para cambiar la altura
+local function setHeight11(newHeight)
+    WalkWater11.Position = Vector3.new(WalkWater11.Position.X, newHeight + WalkWater11.Size.Y / 2, WalkWater11.Position.Z)
+end
+
+-- Ejemplo de cómo cambiar la altura
+setHeight11(-7.7)  -- Cambia este valor a la altura que desees
+
+-- Función para seguir al jugador en X y Z
+local player11 = game.Players.LocalPlayer  -- Obtén al jugador local
+local character11 = player11.Character or player11.CharacterAdded:Wait()  -- Obtén el personaje del jugador
+local humanoidRootPart11 = character11:WaitForChild("HumanoidRootPart")  -- Obtén la parte raíz del personaje
+
+-- Actualizar la posición de la Part cada 1.5 segundos
+while true do
+    -- Mantener la altura y seguir en X y Z
+    WalkWater11.Position = Vector3.new(humanoidRootPart11.Position.X, WalkWater11.Position.Y, humanoidRootPart11.Position.Z)
+    
+    -- Esperar 1.5 segundos antes de actualizar nuevamente
+    wait(1.5)
+end
 
 
 wait(1)
