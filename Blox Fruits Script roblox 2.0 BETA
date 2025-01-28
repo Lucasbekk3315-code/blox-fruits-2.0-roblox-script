@@ -269,6 +269,18 @@ AutoHakiKen.TextColor3 = Color3.new(1, 1, 1)
 AutoHakiKen.Parent = MainFrame
 AutoHakiKen.Visible = false
 
+local BuyChips = Instance.new("TextButton")
+BuyChips.Name = "BuyChips"
+BuyChips.Size = UDim2.new(0.4, 0, 0.17, 0) -- Mismo tamaño que AimLockBloxButton
+BuyChips.Position = UDim2.new(0.65, 0, 0.63, 0) -- Debajo del AimLockBloxButton
+BuyChips.AnchorPoint = Vector2.new(0.5, 0.5) -- Asegura que el ancla esté centrada
+BuyChips.Text = "Chips"
+BuyChips.TextSize = 24
+BuyChips.Font = Enum.Font.SourceSansBold
+BuyChips.BackgroundColor3 = Color3.fromRGB(65, 65, 65) -- Mismo color de fondo
+BuyChips.TextColor3 = Color3.new(1, 1, 1)
+BuyChips.Parent = MainFrame
+
 local AllDiamGoldChestTweenButton = Instance.new("TextButton")
 AllDiamGoldChestTweenButton.Parent = MainFrame
 AllDiamGoldChestTweenButton.AnchorPoint = Vector2.new(0.5, 0.5)
@@ -291,6 +303,78 @@ OptimizarButton.BackgroundColor3 = Color3.fromRGB(65, 65, 65)
 OptimizarButton.TextColor3 = Color3.new(1, 1, 1)
 OptimizarButton.Font = Enum.Font.SourceSansBold
 OptimizarButton.TextSize = 24
+
+local BuyFlame = Instance.new("TextButton")
+BuyFlame.Parent = MainFrame
+BuyFlame.AnchorPoint = Vector2.new(0.5, 0.5) -- Corregido
+BuyFlame.Size = UDim2.new(0.25, 0, 0.13, 0)
+BuyFlame.Position = UDim2.new(0.25, 0, 0.11, 0)
+BuyFlame.Text = "Fuego"
+BuyFlame.BackgroundColor3 = Color3.fromRGB(65, 65, 65)
+BuyFlame.TextColor3 = Color3.new(1, 1, 1)
+BuyFlame.Font = Enum.Font.SourceSansBold
+BuyFlame.TextSize = 24
+BuyFlame.Visible = false
+
+local BuyIce = Instance.new("TextButton")
+BuyIce.Parent = MainFrame
+BuyIce.AnchorPoint = Vector2.new(0.5, 0.5) -- Corregido
+BuyIce.Size = UDim2.new(0.25, 0, 0.13, 0)
+BuyIce.Position = UDim2.new(0.52, 0, 0.11, 0)
+BuyIce.Text = "Hielo"
+BuyIce.BackgroundColor3 = Color3.fromRGB(65, 65, 65)
+BuyIce.TextColor3 = Color3.new(1, 1, 1)
+BuyIce.Font = Enum.Font.SourceSansBold
+BuyIce.TextSize = 23
+BuyIce.Visible = false
+
+local BuyLight = Instance.new("TextButton")
+BuyLight.Parent = MainFrame
+BuyLight.AnchorPoint = Vector2.new(0.5, 0.5) -- Corregido
+BuyLight.Size = UDim2.new(0.25, 0, 0.13, 0)
+BuyLight.Position = UDim2.new(0.79, 0, 0.11, 0)
+BuyLight.Text = "Luz"
+BuyLight.BackgroundColor3 = Color3.fromRGB(65, 65, 65)
+BuyLight.TextColor3 = Color3.new(1, 1, 1)
+BuyLight.Font = Enum.Font.SourceSansBold
+BuyLight.TextSize = 23
+BuyLight.Visible = false
+
+local BuyBuddha = Instance.new("TextButton")
+BuyBuddha.Parent = MainFrame
+BuyBuddha.AnchorPoint = Vector2.new(0.5, 0.5) -- Corregido
+BuyBuddha.Size = UDim2.new(0.25, 0, 0.13, 0)
+BuyBuddha.Position = UDim2.new(0.25, 0, 0.28, 0)
+BuyBuddha.Text = "Budda"
+BuyBuddha.BackgroundColor3 = Color3.fromRGB(65, 65, 65)
+BuyBuddha.TextColor3 = Color3.new(1, 1, 1)
+BuyBuddha.Font = Enum.Font.SourceSansBold
+BuyBuddha.TextSize = 24
+BuyBuddha.Visible = false
+
+local BuyRumble = Instance.new("TextButton")
+BuyRumble.Parent = MainFrame
+BuyRumble.AnchorPoint = Vector2.new(0.5, 0.5) -- Corregido
+BuyRumble.Size = UDim2.new(0.25, 0, 0.13, 0)
+BuyRumble.Position = UDim2.new(0.52, 0, 0.28, 0)
+BuyRumble.Text = "Trueno"
+BuyRumble.BackgroundColor3 = Color3.fromRGB(65, 65, 65)
+BuyRumble.TextColor3 = Color3.new(1, 1, 1)
+BuyRumble.Font = Enum.Font.SourceSansBold
+BuyRumble.TextSize = 24
+BuyRumble.Visible = false
+
+local BuyDark = Instance.new("TextButton")
+BuyDark.Parent = MainFrame
+BuyDark.AnchorPoint = Vector2.new(0.5, 0.5) -- Corregido
+BuyDark.Size = UDim2.new(0.25, 0, 0.13, 0)
+BuyDark.Position = UDim2.new(0.79, 0, 0.28, 0)
+BuyDark.Text = "Oscuridad"
+BuyDark.BackgroundColor3 = Color3.fromRGB(65, 65, 65)
+BuyDark.TextColor3 = Color3.new(1, 1, 1)
+BuyDark.Font = Enum.Font.SourceSansBold
+BuyDark.TextSize = 24
+BuyDark.Visible = false
 
 -- Configuración de BackButton
 BackButton.Parent = MainFrame
@@ -340,6 +424,110 @@ MaresButton.MouseButton1Click:Connect(function()
     Mar2Button.Visible = true
     Mar3Button.Visible = true
 end)
+
+
+
+BuyChips.MouseButton1Click:Connect(function()
+    TeletransportesButton.Visible = false
+    OptimizarButton.Visible = false
+    InfiniteYieldButton.Visible = false
+    BloxFruitsScriptButton.Visible = false
+    AimLockBloxButton.Visible = false
+    AimLockNPCButton.Visible = false
+    RejoinButton.Visible = false
+    BuyChips.Visible = false
+    BackButton.Visible = true
+    BuyFlame.Visible = true
+    BuyIce.Visible = true
+    BuyBuddha.Visible = true
+    BuyDark.Visible = true
+    BuyLight.Visible = true
+    BuyRumble.Visible = true
+end)
+
+
+BuyFlame.MouseButton1Click:Connect(function()
+function getNil(name,class) for _,v in pairs(getnilinstances())do if v.ClassName==class and v.Name==name then return v;end end end
+
+local args = {
+    [1] = "RaidsNpc",
+    [2] = "Select",
+    [3] = "Flame"
+}
+
+game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(unpack(args))
+end)
+
+
+
+BuyIce.MouseButton1Click:Connect(function()
+function getNil(name,class) for _,v in pairs(getnilinstances())do if v.ClassName==class and v.Name==name then return v;end end end
+
+local args = {
+    [1] = "RaidsNpc",
+    [2] = "Select",
+    [3] = "Ice"
+}
+
+game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(unpack(args))
+end)
+
+
+
+BuyLight.MouseButton1Click:Connect(function()
+function getNil(name,class) for _,v in pairs(getnilinstances())do if v.ClassName==class and v.Name==name then return v;end end end
+
+local args = {
+    [1] = "RaidsNpc",
+    [2] = "Select",
+    [3] = "Light"
+}
+
+game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(unpack(args))
+end)
+
+
+
+BuyBuddha.MouseButton1Click:Connect(function()
+function getNil(name,class) for _,v in pairs(getnilinstances())do if v.ClassName==class and v.Name==name then return v;end end end
+
+local args = {
+    [1] = "RaidsNpc",
+    [2] = "Select",
+    [3] = "Buddha"
+}
+
+game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(unpack(args))
+end)
+
+
+
+BuyRumble.MouseButton1Click:Connect(function()
+function getNil(name,class) for _,v in pairs(getnilinstances())do if v.ClassName==class and v.Name==name then return v;end end end
+
+local args = {
+    [1] = "RaidsNpc",
+    [2] = "Select",
+    [3] = "Rumble"
+}
+
+game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(unpack(args))
+end)
+
+
+
+BuyDark.MouseButton1Click:Connect(function()
+function getNil(name,class) for _,v in pairs(getnilinstances())do if v.ClassName==class and v.Name==name then return v;end end end
+
+local args = {
+    [1] = "RaidsNpc",
+    [2] = "Select",
+    [3] = "Dark"
+}
+
+game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(unpack(args))
+end)
+
 
 
 local Activado8 = true
@@ -1323,6 +1511,7 @@ end)
 -- Funcionalidad del botón Teletransportes
 TeletransportesButton.MouseButton1Click:Connect(function()
     TeletransportesButton.Visible = false
+    BuyChips.Visible = false
     InfiniteYieldButton.Visible = false
     BloxFruitsScriptButton.Visible = false
     AimLockBloxButton.Visible = false
@@ -1691,6 +1880,13 @@ BackButton.MouseButton1Click:Connect(function()
     AimLockBloxButton.Visible = true
     AimLockNPCButton.Visible = true
     RejoinButton.Visible = true
+    BuyChips.Visible = true
+    BuyFlame.Visible = false
+    BuyIce.Visible = false
+    BuyBuddha.Visible = false
+    BuyLight.Visible = false
+    BuyRumble.Visible = false
+    BuyDark.Visible = false
 end)
 
 
