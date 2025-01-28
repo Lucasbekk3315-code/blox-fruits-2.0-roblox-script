@@ -72,21 +72,58 @@ MainFrame.Visible = true
 MainFrame.Active = true
 MainFrame.Draggable = true
 
--- Configuración de BetaText
-BetaText.Parent = MainFrame
-BetaText.AnchorPoint = Vector2.new(0.5, 0.5) -- Corregido
-BetaText.Size = UDim2.new(0.07, 0, 0.07, 0)
-BetaText.Position = UDim2.new(0.95, 0, 0.95, 0)
-BetaText.Text = "Beta"
-BetaText.BackgroundColor3 = Color3.fromRGB(45, 45, 45)
-BetaText.TextColor3 = Color3.fromRGB(130, 130, 130)
-BetaText.TextSize = 10
+local MenuPrincipal = Instance.new("TextLabel")
+MenuPrincipal.Parent = MainFrame
+MenuPrincipal.AnchorPoint = Vector2.new(0.5, 0.5) -- Corregido
+MenuPrincipal.Size = UDim2.new(0.5, 0, 0.18, 0)
+MenuPrincipal.Position = UDim2.new(0.48, 0, 0.07, 0)
+MenuPrincipal.Text = "Menu Principal"
+MenuPrincipal.BackgroundTransparency = 1
+MenuPrincipal.TextColor3 = Color3.new(1, 1, 1)
+MenuPrincipal.Font = Enum.Font.SourceSansBold
+MenuPrincipal.TextSize = 25
+
+local Menudeteletransportes = Instance.new("TextLabel")
+Menudeteletransportes.Parent = MainFrame
+Menudeteletransportes.AnchorPoint = Vector2.new(0.5, 0.5) -- Corregido
+Menudeteletransportes.Size = UDim2.new(0.5, 0, 0.18, 0)
+Menudeteletransportes.Position = UDim2.new(0.48, 0, 0.07, 0)
+Menudeteletransportes.Text = "Menu De Teletransportes"
+Menudeteletransportes.BackgroundTransparency = 1
+Menudeteletransportes.TextColor3 = Color3.new(1, 1, 1)
+Menudeteletransportes.Font = Enum.Font.SourceSansBold
+Menudeteletransportes.TextSize = 25
+Menudeteletransportes.Visible = false
+
+local Menudemares = Instance.new("TextLabel")
+Menudemares.Parent = MainFrame
+Menudemares.AnchorPoint = Vector2.new(0.5, 0.5) -- Corregido
+Menudemares.Size = UDim2.new(0.5, 0, 0.18, 0)
+Menudemares.Position = UDim2.new(0.48, 0, 0.07, 0)
+Menudemares.Text = "Menu De Mares"
+Menudemares.BackgroundTransparency = 1
+Menudemares.TextColor3 = Color3.new(1, 1, 1)
+Menudemares.Font = Enum.Font.SourceSansBold
+Menudemares.TextSize = 25
+Menudemares.Visible = false
+
+local Menudechips = Instance.new("TextLabel")
+Menudechips.Parent = MainFrame
+Menudechips.AnchorPoint = Vector2.new(0.5, 0.5) -- Corregido
+Menudechips.Size = UDim2.new(0.5, 0, 0.18, 0)
+Menudechips.Position = UDim2.new(0.48, 0, 0.07, 0)
+Menudechips.Text = "Menu De Chips"
+Menudechips.BackgroundTransparency = 1
+Menudechips.TextColor3 = Color3.new(1, 1, 1)
+Menudechips.Font = Enum.Font.SourceSansBold
+Menudechips.TextSize = 25
+Menudechips.Visible = false
 
 -- Configuración de TeletransportesButton
 TeletransportesButton.Parent = MainFrame
 TeletransportesButton.AnchorPoint = Vector2.new(0.5, 0.5) -- Corregido
 TeletransportesButton.Size = UDim2.new(0.4, 0, 0.17, 0)
-TeletransportesButton.Position = UDim2.new(0.21, 0, 0.11, 0)
+TeletransportesButton.Position = UDim2.new(0.23, 0, 0.26, 0)
 TeletransportesButton.Text = "Teletransportes"
 TeletransportesButton.BackgroundColor3 = Color3.fromRGB(65, 65, 65)
 TeletransportesButton.TextColor3 = Color3.new(1, 1, 1)
@@ -97,7 +134,7 @@ TeletransportesButton.TextSize = 24
 InfiniteYieldButton.Parent = MainFrame
 InfiniteYieldButton.AnchorPoint = Vector2.new(0.5, 0.5) -- Corregido
 InfiniteYieldButton.Size = UDim2.new(0.4, 0, 0.17, 0)
-InfiniteYieldButton.Position = UDim2.new(0.65, 0, 0.11, 0)
+InfiniteYieldButton.Position = UDim2.new(0.67, 0, 0.26, 0)
 InfiniteYieldButton.Text = "Infinite Yield"
 InfiniteYieldButton.BackgroundColor3 = Color3.fromRGB(65, 65, 65)
 InfiniteYieldButton.TextColor3 = Color3.new(1, 1, 1)
@@ -108,7 +145,7 @@ InfiniteYieldButton.TextSize = 24
 BloxFruitsScriptButton.Parent = MainFrame
 BloxFruitsScriptButton.AnchorPoint = Vector2.new(0.5, 0.5) -- Corregido
 BloxFruitsScriptButton.Size = UDim2.new(0.4, 0, 0.17, 0)
-BloxFruitsScriptButton.Position = UDim2.new(0.21, 0, 0.3, 0)
+BloxFruitsScriptButton.Position = UDim2.new(0.23, 0, 0.44, 0)
 BloxFruitsScriptButton.Text = "Blox Fruits Script"
 BloxFruitsScriptButton.BackgroundColor3 = Color3.fromRGB(65, 65, 65)
 BloxFruitsScriptButton.TextColor3 = Color3.new(1, 1, 1)
@@ -120,7 +157,7 @@ local AimLockBloxButton = Instance.new("TextButton")
 AimLockBloxButton.Parent = MainFrame
 AimLockBloxButton.AnchorPoint = Vector2.new(0.5, 0.5) -- Corregido
 AimLockBloxButton.Size = UDim2.new(0.4, 0, 0.17, 0)
-AimLockBloxButton.Position = UDim2.new(0.65, 0, 0.3, 0) -- Ajusta la posición según sea necesario
+AimLockBloxButton.Position = UDim2.new(0.67, 0, 0.44, 0) -- Ajusta la posición según sea necesario
 AimLockBloxButton.Text = "AimLock Blox"
 AimLockBloxButton.BackgroundColor3 = Color3.fromRGB(65, 65, 65)
 AimLockBloxButton.TextColor3 = Color3.new(1, 1, 1)
@@ -132,7 +169,7 @@ local AimLockNPCButton = Instance.new("TextButton")
 AimLockNPCButton.Parent = MainFrame
 AimLockNPCButton.AnchorPoint = Vector2.new(0.5, 0.5) -- Corrected
 AimLockNPCButton.Size = UDim2.new(0.4, 0, 0.17, 0)
-AimLockNPCButton.Position = UDim2.new(0.21, 0, 0.47, 0) -- Adjust position below "Blox Fruits Script"
+AimLockNPCButton.Position = UDim2.new(0.23, 0, 0.62, 0) -- Adjust position below "Blox Fruits Script"
 AimLockNPCButton.Text = "AimLock NPC"
 AimLockNPCButton.BackgroundColor3 = Color3.fromRGB(65, 65, 65)
 AimLockNPCButton.TextColor3 = Color3.new(1, 1, 1)
@@ -143,7 +180,7 @@ AimLockNPCButton.TextSize = 24
 local RejoinButton = Instance.new("TextButton")
 RejoinButton.Name = "RejoinButton"
 RejoinButton.Size = UDim2.new(0.4, 0, 0.17, 0) -- Mismo tamaño que AimLockBloxButton
-RejoinButton.Position = UDim2.new(0.65, 0, 0.47, 0) -- Debajo del AimLockBloxButton
+RejoinButton.Position = UDim2.new(0.67, 0, 0.62, 0) -- Debajo del AimLockBloxButton
 RejoinButton.AnchorPoint = Vector2.new(0.5, 0.5) -- Asegura que el ancla esté centrada
 RejoinButton.Text = "Rejoin"
 RejoinButton.TextSize = 24
@@ -156,7 +193,7 @@ RejoinButton.Parent = MainFrame
 AllChestTweenButton.Parent = MainFrame
 AllChestTweenButton.AnchorPoint = Vector2.new(0.5, 0.5) -- Corregido
 AllChestTweenButton.Size = UDim2.new(0.4, 0, 0.17, 0)
-AllChestTweenButton.Position = UDim2.new(0.3, 0, 0.11, 0)
+AllChestTweenButton.Position = UDim2.new(0.3, 0, 0.26, 0)
 AllChestTweenButton.Text = "Todos Los Cofres/ OFF"
 AllChestTweenButton.BackgroundColor3 = Color3.fromRGB(65, 65, 65)
 AllChestTweenButton.TextColor3 = Color3.new(1, 1, 1)
@@ -168,7 +205,7 @@ AllChestTweenButton.Visible = false
 TeletransportarFrutasButton.Parent = MainFrame
 TeletransportarFrutasButton.AnchorPoint = Vector2.new(0.5, 0.5) -- Corregido
 TeletransportarFrutasButton.Size = UDim2.new(0.4, 0, 0.17, 0)
-TeletransportarFrutasButton.Position = UDim2.new(0.705, 0, 0.11, 0)
+TeletransportarFrutasButton.Position = UDim2.new(0.705, 0, 0.26, 0)
 TeletransportarFrutasButton.Text = "Teletransportar a Frutas/ OFF"
 TeletransportarFrutasButton.BackgroundColor3 = Color3.fromRGB(65, 65, 65)
 TeletransportarFrutasButton.TextColor3 = Color3.new(1, 1, 1)
@@ -181,7 +218,7 @@ local MaresButton = Instance.new("TextButton")
 MaresButton.Parent = MainFrame
 MaresButton.AnchorPoint = Vector2.new(0.5, 0.5) -- Centrado
 MaresButton.Size = UDim2.new(0.4, 0, 0.17, 0) -- Mismo tamaño que los otros botones
-MaresButton.Position = UDim2.new(0.705, 0, 0.28, 0) -- Debajo de "Teletransportar a Frutas"
+MaresButton.Position = UDim2.new(0.705, 0, 0.44, 0) -- Debajo de "Teletransportar a Frutas"
 MaresButton.Text = "Mares"
 MaresButton.BackgroundColor3 = Color3.fromRGB(65, 65, 65)
 MaresButton.TextColor3 = Color3.new(1, 1, 1)
@@ -193,7 +230,7 @@ local Mar1Button = Instance.new("TextButton")
 Mar1Button.Parent = MainFrame
 Mar1Button.AnchorPoint = Vector2.new(0.5, 0.5) -- Centrado
 Mar1Button.Size = UDim2.new(0.4, 0, 0.17, 0) -- Mismo tamaño que los otros botones
-Mar1Button.Position = UDim2.new(0.3, 0, 0.11, 0)
+Mar1Button.Position = UDim2.new(0.3, 0, 0.26, 0)
 Mar1Button.Text = "Mar 1"
 Mar1Button.BackgroundColor3 = Color3.fromRGB(65, 65, 65)
 Mar1Button.TextColor3 = Color3.new(1, 1, 1)
@@ -205,7 +242,7 @@ local Mar2Button = Instance.new("TextButton")
 Mar2Button.Parent = MainFrame
 Mar2Button.AnchorPoint = Vector2.new(0.5, 0.5) -- Corregido
 Mar2Button.Size = UDim2.new(0.4, 0, 0.17, 0)
-Mar2Button.Position = UDim2.new(0.705, 0, 0.11, 0)
+Mar2Button.Position = UDim2.new(0.705, 0, 0.26, 0)
 Mar2Button.Text = "Mar 2"
 Mar2Button.BackgroundColor3 = Color3.fromRGB(65, 65, 65)
 Mar2Button.TextColor3 = Color3.new(1, 1, 1)
@@ -217,7 +254,7 @@ local Mar3Button = Instance.new("TextButton")
 Mar3Button.Parent = MainFrame
 Mar3Button.AnchorPoint = Vector2.new(0.5, 0.5) -- Corregido
 Mar3Button.Size = UDim2.new(0.4, 0, 0.17, 0)
-Mar3Button.Position = UDim2.new(0.3, 0, 0.28, 0)
+Mar3Button.Position = UDim2.new(0.3, 0, 0.44, 0)
 Mar3Button.Text = "Mar 3"
 Mar3Button.BackgroundColor3 = Color3.fromRGB(65, 65, 65)
 Mar3Button.TextColor3 = Color3.new(1, 1, 1)
@@ -230,7 +267,7 @@ local TeletransportarseAJugadorButton = Instance.new("TextButton")
 TeletransportarseAJugadorButton.AnchorPoint = Vector2.new(0.5, 0.5) -- Corregido
 TeletransportarseAJugadorButton.Parent = MainFrame
 TeletransportarseAJugadorButton.Size = UDim2.new(0.4, 0, 0.17, 0)
-TeletransportarseAJugadorButton.Position = UDim2.new(0.3, 0, 0.45, 0) -- Ajusta la posición debajo de los botones anteriores
+TeletransportarseAJugadorButton.Position = UDim2.new(0.3, 0, 0.62, 0) -- Ajusta la posición debajo de los botones anteriores
 TeletransportarseAJugadorButton.Text = "Teletransportarse a Jugador"
 TeletransportarseAJugadorButton.BackgroundColor3 = Color3.fromRGB(65, 65, 65)
 TeletransportarseAJugadorButton.TextColor3 = Color3.new(1, 1, 1)
@@ -245,7 +282,7 @@ local TeletransportarseAJugadorTextBox = Instance.new("TextBox")
 TeletransportarseAJugadorTextBox.Parent = MainFrame
 TeletransportarseAJugadorTextBox.AnchorPoint = Vector2.new(0.5, 0.5) -- Corregido
 TeletransportarseAJugadorTextBox.Size = UDim2.new(0.4, 0, 0.12, 0)
-TeletransportarseAJugadorTextBox.Position = UDim2.new(0.3, 0, 0.6, 0)  -- Debajo del botón
+TeletransportarseAJugadorTextBox.Position = UDim2.new(0.3, 0, 0.7705, 0)  -- Debajo del botón
 TeletransportarseAJugadorTextBox.Text = "Escribe Aqui El Nombre"
 TeletransportarseAJugadorTextBox.BackgroundColor3 = Color3.fromRGB(65, 65, 65)
 TeletransportarseAJugadorTextBox.TextColor3 = Color3.new(1, 1, 1)
@@ -259,7 +296,7 @@ TeletransportarseAJugadorTextBox.Visible = false
 local AutoHakiKen = Instance.new("TextButton")
 AutoHakiKen.Name = "AutoHakiKen"
 AutoHakiKen.Size = UDim2.new(0.4, 0, 0.17, 0) -- Mismo tamaño que AimLockBloxButton
-AutoHakiKen.Position = UDim2.new(0.705, 0, 0.45, 0) -- Debajo del AimLockBloxButton
+AutoHakiKen.Position = UDim2.new(0.705, 0, 0.44, 0) -- Debajo del AimLockBloxButton
 AutoHakiKen.AnchorPoint = Vector2.new(0.5, 0.5) -- Asegura que el ancla esté centrada
 AutoHakiKen.Text = "Auto Haki Ken"
 AutoHakiKen.TextSize = 24
@@ -272,9 +309,9 @@ AutoHakiKen.Visible = false
 local BuyChips = Instance.new("TextButton")
 BuyChips.Name = "BuyChips"
 BuyChips.Size = UDim2.new(0.4, 0, 0.17, 0) -- Mismo tamaño que AimLockBloxButton
-BuyChips.Position = UDim2.new(0.65, 0, 0.63, 0) -- Debajo del AimLockBloxButton
+BuyChips.Position = UDim2.new(0.67, 0, 0.8, 0) -- Debajo del AimLockBloxButton
 BuyChips.AnchorPoint = Vector2.new(0.5, 0.5) -- Asegura que el ancla esté centrada
-BuyChips.Text = "Chips"
+BuyChips.Text = "Comprar Chips"
 BuyChips.TextSize = 24
 BuyChips.Font = Enum.Font.SourceSansBold
 BuyChips.BackgroundColor3 = Color3.fromRGB(65, 65, 65) -- Mismo color de fondo
@@ -285,7 +322,7 @@ local AllDiamGoldChestTweenButton = Instance.new("TextButton")
 AllDiamGoldChestTweenButton.Parent = MainFrame
 AllDiamGoldChestTweenButton.AnchorPoint = Vector2.new(0.5, 0.5)
 AllDiamGoldChestTweenButton.Size = UDim2.new(0.4, 0, 0.17, 0)
-AllDiamGoldChestTweenButton.Position = UDim2.new(0.3, 0, 0.28, 0)
+AllDiamGoldChestTweenButton.Position = UDim2.new(0.3, 0, 0.44, 0)
 AllDiamGoldChestTweenButton.Text = "Cofres de mas valor/ OFF"
 AllDiamGoldChestTweenButton.BackgroundColor3 = Color3.fromRGB(65, 65, 65)
 AllDiamGoldChestTweenButton.TextColor3 = Color3.new(1, 1, 1)
@@ -297,7 +334,7 @@ local OptimizarButton = Instance.new("TextButton")
 OptimizarButton.Parent = MainFrame
 OptimizarButton.AnchorPoint = Vector2.new(0.5, 0.5)
 OptimizarButton.Size = UDim2.new(0.4, 0, 0.17, 0)
-OptimizarButton.Position = UDim2.new(0.21, 0, 0.63, 0)
+OptimizarButton.Position = UDim2.new(0.23, 0, 0.8, 0)
 OptimizarButton.Text = "Optimizar"
 OptimizarButton.BackgroundColor3 = Color3.fromRGB(65, 65, 65)
 OptimizarButton.TextColor3 = Color3.new(1, 1, 1)
@@ -308,73 +345,109 @@ local BuyFlame = Instance.new("TextButton")
 BuyFlame.Parent = MainFrame
 BuyFlame.AnchorPoint = Vector2.new(0.5, 0.5) -- Corregido
 BuyFlame.Size = UDim2.new(0.25, 0, 0.13, 0)
-BuyFlame.Position = UDim2.new(0.23, 0, 0.11, 0)
+BuyFlame.Position = UDim2.new(0.23, 0, 0.26, 0)
 BuyFlame.Text = "Fuego"
 BuyFlame.BackgroundColor3 = Color3.fromRGB(65, 65, 65)
 BuyFlame.TextColor3 = Color3.new(1, 1, 1)
 BuyFlame.Font = Enum.Font.SourceSansBold
-BuyFlame.TextSize = 24
+BuyFlame.TextSize = 22
 BuyFlame.Visible = false
 
 local BuyIce = Instance.new("TextButton")
 BuyIce.Parent = MainFrame
 BuyIce.AnchorPoint = Vector2.new(0.5, 0.5) -- Corregido
 BuyIce.Size = UDim2.new(0.25, 0, 0.13, 0)
-BuyIce.Position = UDim2.new(0.50, 0, 0.11, 0)
+BuyIce.Position = UDim2.new(0.50, 0, 0.26, 0)
 BuyIce.Text = "Hielo"
 BuyIce.BackgroundColor3 = Color3.fromRGB(65, 65, 65)
 BuyIce.TextColor3 = Color3.new(1, 1, 1)
 BuyIce.Font = Enum.Font.SourceSansBold
-BuyIce.TextSize = 23
+BuyIce.TextSize = 22
 BuyIce.Visible = false
 
 local BuyLight = Instance.new("TextButton")
 BuyLight.Parent = MainFrame
 BuyLight.AnchorPoint = Vector2.new(0.5, 0.5) -- Corregido
 BuyLight.Size = UDim2.new(0.25, 0, 0.13, 0)
-BuyLight.Position = UDim2.new(0.77, 0, 0.11, 0)
+BuyLight.Position = UDim2.new(0.77, 0, 0.26, 0)
 BuyLight.Text = "Luz"
 BuyLight.BackgroundColor3 = Color3.fromRGB(65, 65, 65)
 BuyLight.TextColor3 = Color3.new(1, 1, 1)
 BuyLight.Font = Enum.Font.SourceSansBold
-BuyLight.TextSize = 23
+BuyLight.TextSize = 22
 BuyLight.Visible = false
 
 local BuyBuddha = Instance.new("TextButton")
 BuyBuddha.Parent = MainFrame
 BuyBuddha.AnchorPoint = Vector2.new(0.5, 0.5) -- Corregido
 BuyBuddha.Size = UDim2.new(0.25, 0, 0.13, 0)
-BuyBuddha.Position = UDim2.new(0.23, 0, 0.26, 0)
+BuyBuddha.Position = UDim2.new(0.23, 0, 0.40, 0)
 BuyBuddha.Text = "Budda"
 BuyBuddha.BackgroundColor3 = Color3.fromRGB(65, 65, 65)
 BuyBuddha.TextColor3 = Color3.new(1, 1, 1)
 BuyBuddha.Font = Enum.Font.SourceSansBold
-BuyBuddha.TextSize = 24
+BuyBuddha.TextSize = 22
 BuyBuddha.Visible = false
 
 local BuyRumble = Instance.new("TextButton")
 BuyRumble.Parent = MainFrame
 BuyRumble.AnchorPoint = Vector2.new(0.5, 0.5) -- Corregido
 BuyRumble.Size = UDim2.new(0.25, 0, 0.13, 0)
-BuyRumble.Position = UDim2.new(0.50, 0, 0.26, 0)
+BuyRumble.Position = UDim2.new(0.50, 0, 0.40, 0)
 BuyRumble.Text = "Trueno"
 BuyRumble.BackgroundColor3 = Color3.fromRGB(65, 65, 65)
 BuyRumble.TextColor3 = Color3.new(1, 1, 1)
 BuyRumble.Font = Enum.Font.SourceSansBold
-BuyRumble.TextSize = 24
+BuyRumble.TextSize = 22
 BuyRumble.Visible = false
 
 local BuyDark = Instance.new("TextButton")
 BuyDark.Parent = MainFrame
 BuyDark.AnchorPoint = Vector2.new(0.5, 0.5) -- Corregido
 BuyDark.Size = UDim2.new(0.25, 0, 0.13, 0)
-BuyDark.Position = UDim2.new(0.77, 0, 0.26, 0)
+BuyDark.Position = UDim2.new(0.77, 0, 0.40, 0)
 BuyDark.Text = "Oscuridad"
 BuyDark.BackgroundColor3 = Color3.fromRGB(65, 65, 65)
 BuyDark.TextColor3 = Color3.new(1, 1, 1)
 BuyDark.Font = Enum.Font.SourceSansBold
-BuyDark.TextSize = 24
+BuyDark.TextSize = 22
 BuyDark.Visible = false
+
+local BuySand = Instance.new("TextButton")
+BuySand.Parent = MainFrame
+BuySand.AnchorPoint = Vector2.new(0.5, 0.5) -- Corregido
+BuySand.Size = UDim2.new(0.25, 0, 0.13, 0)
+BuySand.Position = UDim2.new(0.23, 0, 0.54, 0)
+BuySand.Text = "Arena"
+BuySand.BackgroundColor3 = Color3.fromRGB(65, 65, 65)
+BuySand.TextColor3 = Color3.new(1, 1, 1)
+BuySand.Font = Enum.Font.SourceSansBold
+BuySand.TextSize = 22
+BuySand.Visible = false
+
+local BuyPhoenix = Instance.new("TextButton")
+BuyPhoenix.Parent = MainFrame
+BuyPhoenix.AnchorPoint = Vector2.new(0.5, 0.5) -- Corregido
+BuyPhoenix.Size = UDim2.new(0.25, 0, 0.13, 0)
+BuyPhoenix.Position = UDim2.new(0.50, 0, 0.54, 0)
+BuyPhoenix.Text = "Fenix"
+BuyPhoenix.BackgroundColor3 = Color3.fromRGB(65, 65, 65)
+BuyPhoenix.TextColor3 = Color3.new(1, 1, 1)
+BuyPhoenix.Font = Enum.Font.SourceSansBold
+BuyPhoenix.TextSize = 22
+BuyPhoenix.Visible = false
+
+local BuyDough = Instance.new("TextButton")
+BuyDough.Parent = MainFrame
+BuyDough.AnchorPoint = Vector2.new(0.5, 0.5) -- Corregido
+BuyDough.Size = UDim2.new(0.25, 0, 0.13, 0)
+BuyDough.Position = UDim2.new(0.77, 0, 0.54, 0)
+BuyDough.Text = "Masa"
+BuyDough.BackgroundColor3 = Color3.fromRGB(65, 65, 65)
+BuyDough.TextColor3 = Color3.new(1, 1, 1)
+BuyDough.Font = Enum.Font.SourceSansBold
+BuyDough.TextSize = 22
+BuyDough.Visible = false
 
 -- Configuración de BackButton
 BackButton.Parent = MainFrame
@@ -423,6 +496,8 @@ MaresButton.MouseButton1Click:Connect(function()
     Mar1Button.Visible = true
     Mar2Button.Visible = true
     Mar3Button.Visible = true
+    Menudeteletransportes.Visible = false
+    Menudemares.Visible = true
 end)
 
 
@@ -443,6 +518,11 @@ BuyChips.MouseButton1Click:Connect(function()
     BuyDark.Visible = true
     BuyLight.Visible = true
     BuyRumble.Visible = true
+    BuySand.Visible = true
+    BuyPhoenix.Visible = true
+    BuyDough.Visible = true
+    MenuPrincipal.Visible = false
+    Menudechips.Visible = true
 end)
 
 
@@ -523,6 +603,48 @@ local args = {
     [1] = "RaidsNpc",
     [2] = "Select",
     [3] = "Dark"
+}
+
+game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(unpack(args))
+end)
+
+
+
+BuySand.MouseButton1Click:Connect(function()
+function getNil(name,class) for _,v in pairs(getnilinstances())do if v.ClassName==class and v.Name==name then return v;end end end
+
+local args = {
+    [1] = "RaidsNpc",
+    [2] = "Select",
+    [3] = "Sand"
+}
+
+game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(unpack(args))
+end)
+
+
+
+BuyPhoenix.MouseButton1Click:Connect(function()
+function getNil(name,class) for _,v in pairs(getnilinstances())do if v.ClassName==class and v.Name==name then return v;end end end
+
+local args = {
+    [1] = "RaidsNpc",
+    [2] = "Select",
+    [3] = "Phoenix"
+}
+
+game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(unpack(args))
+end)
+
+
+
+BuyDough.MouseButton1Click:Connect(function()
+function getNil(name,class) for _,v in pairs(getnilinstances())do if v.ClassName==class and v.Name==name then return v;end end end
+
+local args = {
+    [1] = "RaidsNpc",
+    [2] = "Select",
+    [3] = "Dough"
 }
 
 game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(unpack(args))
@@ -1522,6 +1644,8 @@ TeletransportesButton.MouseButton1Click:Connect(function()
     TeletransportarseAJugadorButton.Visible = true
     TeletransportarseAJugadorTextBox.Visible = true
     OptimizarButton.Visible = false
+    MenuPrincipal.Visible = false
+    Menudeteletransportes.Visible = true
     TeletransportarFrutasButton.Visible = true
     MaresButton.Visible = true
     if game.PlaceId == 2753915549 then
@@ -1887,6 +2011,13 @@ BackButton.MouseButton1Click:Connect(function()
     BuyLight.Visible = false
     BuyRumble.Visible = false
     BuyDark.Visible = false
+    BuySand.Visible = false
+    BuyPhoenix.Visible = false
+    BuyDough.Visible = false
+    MenuPrincipal.Visible = true
+    Menudeteletransportes.Visible = false
+    Menudemares.Visible = false
+    Menudechips.Visible = false
 end)
 
 
