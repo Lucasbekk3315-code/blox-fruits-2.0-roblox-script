@@ -18,8 +18,12 @@ local Window = Rayfield:CreateWindow({
       FolderName = nil,
       FileName = "SigmaRock Hub Blox Fruits"
    },
-   KeySystem = false
-})
+
+   Discord = {
+      Enabled = true, -- Prompt the user to join your Discord server if their executor supports it
+      Invite = "dp5GrqBqMg", -- The Discord invite code, do not include discord.gg/. E.g. discord.gg/ ABCD would be ABCD
+      RememberJoins = true -- Set this to false to make them join the discord every time they load it up
+   },
 
 local Tab = Window:CreateTab("Menu Principal", nil)
 
