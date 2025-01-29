@@ -318,6 +318,18 @@ BuyChips.BackgroundColor3 = Color3.fromRGB(65, 65, 65) -- Mismo color de fondo
 BuyChips.TextColor3 = Color3.new(1, 1, 1)
 BuyChips.Parent = MainFrame
 
+local TeletransportarXDButton = Instance.new("TextButton")
+TeletransportarXDButton.Name = "TeletransportarXDButton"
+TeletransportarXDButton.Size = UDim2.new(0.6, 0, 0.07, 0) -- Mismo tamaño que AimLockBloxButton
+TeletransportarXDButton.Position = UDim2.new(0.5, 0, 0.94, 0) -- Debajo del AimLockBloxButton
+TeletransportarXDButton.AnchorPoint = Vector2.new(0.5, 0.5) -- Asegura que el ancla esté centrada
+TeletransportarXDButton.Text = "Para Usar Tiny Task"
+TeletransportarXDButton.TextSize = 20
+TeletransportarXDButton.Font = Enum.Font.SourceSansBold
+TeletransportarXDButton.BackgroundColor3 = Color3.fromRGB(65, 65, 65) -- Mismo color de fondo
+TeletransportarXDButton.TextColor3 = Color3.new(1, 1, 1)
+TeletransportarXDButton.Parent = MainFrame
+
 local AllDiamGoldChestTweenButton = Instance.new("TextButton")
 AllDiamGoldChestTweenButton.Parent = MainFrame
 AllDiamGoldChestTweenButton.AnchorPoint = Vector2.new(0.5, 0.5)
@@ -1016,9 +1028,31 @@ RejoinButton.MouseButton1Click:Connect(function()
     end
 
     game.Players.LocalPlayer:Kick("\nRejoining...")
-    task.wait()
     game:GetService("TeleportService"):TeleportToPlaceInstance(game.PlaceId, game.JobId, game.Players.LocalPlayer)
 end)
+
+
+
+local TweenService12 = game:GetService("TweenService")
+local player12 = game.Players.LocalPlayer
+local character12 = player12.Character or player12.CharacterAdded:Wait()
+
+-- CFrames objetivo para diferentes juegos
+local targetCFrameGame312 = CFrame.new(
+    -12547.5605, 332.461426, -7594.79639, 0.999978125, 9.60725011e-09, 0.00660982681, -9.48256496e-09, 1, -1.88949425e-08, -0.00660982681, 1.88318516e-08, 0.999978125
+)
+
+
+-- Función para hacer el tween
+local function teleportToTarget12()
+    local tweenInfo12 = TweenInfo.new(1, Enum.EasingStyle.Linear, Enum.EasingDirection.Out)  -- 1 segundo para el tween
+    local tweenGoal12 = {CFrame = targetCFrameGame312}
+    local tween12 = TweenService12:Create(character12:WaitForChild("HumanoidRootPart"), tweenInfo12, tweenGoal12)
+    tween12:Play()
+end
+
+-- Conectar la función al evento del botón
+TeletransportarXDButton.MouseButton1Click:Connect(teleportToTarget12)
 
 
 
@@ -1869,8 +1903,6 @@ AllDiamGoldChestTweenButton.MouseButton1Click:Connect(function()
         end
     end)()
 end)
-
-
 
 
 
