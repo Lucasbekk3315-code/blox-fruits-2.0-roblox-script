@@ -571,7 +571,6 @@ loadstring(game:HttpGet("https://raw.githubusercontent.com/Lucasbekk3315-code/bl
 
     game.Players.LocalPlayer:Kick("\nRejoining...")
     game:GetService("TeleportService"):TeleportToPlaceInstance(game.PlaceId, game.JobId, game.Players.LocalPlayer)
-end)
     end,
 })
 
