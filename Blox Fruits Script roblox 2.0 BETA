@@ -65,7 +65,7 @@ end)
 MainFrame.Parent = ScreenGui
 MainFrame.AnchorPoint = Vector2.new(0.5, 0.5) -- Corregido
 MainFrame.Size = UDim2.new(0.44, 0, 0.455, 0) -- Menú más grande
-MainFrame.Position = UDim2.new(0.5, 0, 0.5, 0)
+MainFrame.Position = UDim2.new(0.6, 0, 0.5, 0)
 MainFrame.BackgroundColor3 = Color3.fromRGB(45, 45, 45)
 MainFrame.BorderSizePixel = 0
 MainFrame.Visible = true
@@ -1004,16 +1004,20 @@ end)
 
 
 
-RejoinButton.MouseButton1Click:Connect(function()
+local queueteleport = (syn and syn.queue_on_teleport) or queue_on_teleport or (fluxus and fluxus.queue_on_teleport)
 
-if #game.Players:GetPlayers() <= 1 then
+local scriptToExecute = [[
+loadstring(game:HttpGet("https://raw.githubusercontent.com/Lucasbekk3315-code/blox-fruits-2.1-roblox-script/refs/heads/main/Blox%20Fruits%20Script%20roblox%202.0%20BETA"))()
+]]
+
+RejoinButton.MouseButton1Click:Connect(function()
+    if queueteleport then
+        queueteleport(scriptToExecute)
+    end
+
     game.Players.LocalPlayer:Kick("\nRejoining...")
     task.wait()
-    game:GetService("TeleportService"):Teleport(game.PlaceId, game.Players.LocalPlayer)
-else
     game:GetService("TeleportService"):TeleportToPlaceInstance(game.PlaceId, game.JobId, game.Players.LocalPlayer)
-end
-
 end)
 
 
