@@ -1,3 +1,13 @@
+function getNil(name,class) for _,v in pairs(getnilinstances())do if v.ClassName==class and v.Name==name then return v;end end end
+
+local args = {
+    [1] = "SetTeam",
+    [2] = "Pirates"
+}
+
+game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(unpack(args))
+
+
 local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
 
 Rayfield:Notify({
@@ -1216,6 +1226,42 @@ local Mar3Button = Tab:CreateButton({
        -- Llamar a la función para mover al jugador cuando el botón sea presionado
        moveToCFrame3()
        print("Movimiento activado a Mar 3.")
+   end,
+})
+
+
+
+local PiratesButton = Tab:CreateButton({ 
+   Name = "Unirse a Piratas", 
+   Callback = function()
+
+function getNil(name,class) for _,v in pairs(getnilinstances())do if v.ClassName==class and v.Name==name then return v;end end end
+
+local args = {
+    [1] = "SetTeam",
+    [2] = "Pirates"
+}
+
+game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(unpack(args))
+
+   end,
+})
+
+
+
+local MarinesButton = Tab:CreateButton({ 
+   Name = "Unirse a Marineros", 
+   Callback = function()
+
+function getNil(name,class) for _,v in pairs(getnilinstances())do if v.ClassName==class and v.Name==name then return v;end end end
+
+local args = {
+    [1] = "SetTeam",
+    [2] = "Marines"
+}
+
+game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(unpack(args))
+
    end,
 })
 
