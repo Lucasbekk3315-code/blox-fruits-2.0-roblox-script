@@ -1,872 +1,872 @@
-local customMenu = game.CoreGui:FindFirstChild("CustomMenu")
-local toggleGui = game.Players.LocalPlayer.PlayerGui:FindFirstChild("ToggleGui")
-local walkWater = game.workspace:FindFirstChild("WalkWater")
-
-if customMenu or toggleGui or walkWater then
-    if customMenu then
-        customMenu:Destroy()
-    end
-    if toggleGui then
-        toggleGui:Destroy()
-    end
-    if walkWater then
-        walkWater:Destroy()
-    end
-    wait(1.5) -- Espera solo si se eliminó algo
-end
-
-
-local ScreenGui = Instance.new("ScreenGui")
-local MainFrame = Instance.new("Frame")
-local BetaText = Instance.new("TextLabel")
-local TeletransportesButton = Instance.new("TextButton")
-local InfiniteYieldButton = Instance.new("TextButton")
-local BloxFruitsScriptButton = Instance.new("TextButton")
-local AllChestTweenButton = Instance.new("TextButton")
-local TeletransportarFrutasButton = Instance.new("TextButton") -- Botón de Frutas
-local BackButton = Instance.new("TextButton")
-local CloseButton = Instance.new("TextButton")
-
--- Configuración del ScreenGui
-ScreenGui.Parent = game.CoreGui
-ScreenGui.Name = "CustomMenu"
-ScreenGui.ResetOnSpawn = false
-
-local player = game.Players.LocalPlayer
-local playerGui = player:WaitForChild("PlayerGui")
-
--- Crear el ScreenGui
-local screenGui = Instance.new("ScreenGui")
-screenGui.Name = "ToggleGui"
-screenGui.Parent = playerGui
-
--- Crear el botón
-local toggleButton = Instance.new("ImageButton")
-toggleButton.Name = "ToggleButton"
-toggleButton.Parent = screenGui
-toggleButton.AnchorPoint = Vector2.new(0.5, 0.5) -- Corregido
-toggleButton.Size = UDim2.new(0.035, 0, 0.07, 0)
-toggleButton.Position = UDim2.new(0.1, 0, 0.5, 0) -- Ajusta la posición inicial si es necesario
-toggleButton.Image = "rbxassetid://128823460334294" -- Cambia este ID por el de tu imagen
-toggleButton.BackgroundTransparency = 1
-
--- Referencia al Frame existente
-local frame = MainFrame -- Cambia "NombreDeTuFrame" por el nombre exacto de tu Frame
-
-toggleButton.Draggable = true
-toggleButton.Active = true
-
--- Alternar visibilidad del Frame
-toggleButton.MouseButton1Click:Connect(function()
-    frame.Visible = not frame.Visible
-end)
-
--- Configuración del MainFrame
-MainFrame.Parent = ScreenGui
-MainFrame.AnchorPoint = Vector2.new(0.5, 0.5) -- Corregido
-MainFrame.Size = UDim2.new(0.44, 0, 0.455, 0) -- Menú más grande
-MainFrame.Position = UDim2.new(0.6, 0, 0.5, 0)
-MainFrame.BackgroundColor3 = Color3.fromRGB(45, 45, 45)
-MainFrame.BorderSizePixel = 0
-MainFrame.Visible = true
-MainFrame.Active = true
-MainFrame.Draggable = true
-
-local MenuPrincipal = Instance.new("TextLabel")
-MenuPrincipal.Parent = MainFrame
-MenuPrincipal.AnchorPoint = Vector2.new(0.5, 0.5) -- Corregido
-MenuPrincipal.Size = UDim2.new(0.5, 0, 0.18, 0)
-MenuPrincipal.Position = UDim2.new(0.48, 0, 0.07, 0)
-MenuPrincipal.Text = "Menu Principal"
-MenuPrincipal.BackgroundTransparency = 1
-MenuPrincipal.TextColor3 = Color3.new(1, 1, 1)
-MenuPrincipal.Font = Enum.Font.SourceSansBold
-MenuPrincipal.TextSize = 25
-
-local Menudeteletransportes = Instance.new("TextLabel")
-Menudeteletransportes.Parent = MainFrame
-Menudeteletransportes.AnchorPoint = Vector2.new(0.5, 0.5) -- Corregido
-Menudeteletransportes.Size = UDim2.new(0.5, 0, 0.18, 0)
-Menudeteletransportes.Position = UDim2.new(0.48, 0, 0.07, 0)
-Menudeteletransportes.Text = "Menu De Teletransportes"
-Menudeteletransportes.BackgroundTransparency = 1
-Menudeteletransportes.TextColor3 = Color3.new(1, 1, 1)
-Menudeteletransportes.Font = Enum.Font.SourceSansBold
-Menudeteletransportes.TextSize = 25
-Menudeteletransportes.Visible = false
-
-local Menudemares = Instance.new("TextLabel")
-Menudemares.Parent = MainFrame
-Menudemares.AnchorPoint = Vector2.new(0.5, 0.5) -- Corregido
-Menudemares.Size = UDim2.new(0.5, 0, 0.18, 0)
-Menudemares.Position = UDim2.new(0.48, 0, 0.07, 0)
-Menudemares.Text = "Menu De Mares"
-Menudemares.BackgroundTransparency = 1
-Menudemares.TextColor3 = Color3.new(1, 1, 1)
-Menudemares.Font = Enum.Font.SourceSansBold
-Menudemares.TextSize = 25
-Menudemares.Visible = false
-
-local Menudechips = Instance.new("TextLabel")
-Menudechips.Parent = MainFrame
-Menudechips.AnchorPoint = Vector2.new(0.5, 0.5) -- Corregido
-Menudechips.Size = UDim2.new(0.5, 0, 0.18, 0)
-Menudechips.Position = UDim2.new(0.48, 0, 0.07, 0)
-Menudechips.Text = "Menu De Chips"
-Menudechips.BackgroundTransparency = 1
-Menudechips.TextColor3 = Color3.new(1, 1, 1)
-Menudechips.Font = Enum.Font.SourceSansBold
-Menudechips.TextSize = 25
-Menudechips.Visible = false
-
--- Configuración de TeletransportesButton
-TeletransportesButton.Parent = MainFrame
-TeletransportesButton.AnchorPoint = Vector2.new(0.5, 0.5) -- Corregido
-TeletransportesButton.Size = UDim2.new(0.4, 0, 0.17, 0)
-TeletransportesButton.Position = UDim2.new(0.23, 0, 0.26, 0)
-TeletransportesButton.Text = "Teletransportes"
-TeletransportesButton.BackgroundColor3 = Color3.fromRGB(65, 65, 65)
-TeletransportesButton.TextColor3 = Color3.new(1, 1, 1)
-TeletransportesButton.Font = Enum.Font.SourceSansBold
-TeletransportesButton.TextSize = 24
-
--- Configuración de InfiniteYieldButton
-InfiniteYieldButton.Parent = MainFrame
-InfiniteYieldButton.AnchorPoint = Vector2.new(0.5, 0.5) -- Corregido
-InfiniteYieldButton.Size = UDim2.new(0.4, 0, 0.17, 0)
-InfiniteYieldButton.Position = UDim2.new(0.67, 0, 0.26, 0)
-InfiniteYieldButton.Text = "Infinite Yield"
-InfiniteYieldButton.BackgroundColor3 = Color3.fromRGB(65, 65, 65)
-InfiniteYieldButton.TextColor3 = Color3.new(1, 1, 1)
-InfiniteYieldButton.Font = Enum.Font.SourceSansBold
-InfiniteYieldButton.TextSize = 24
-
--- Configuración de BloxFruitsScriptButton
-BloxFruitsScriptButton.Parent = MainFrame
-BloxFruitsScriptButton.AnchorPoint = Vector2.new(0.5, 0.5) -- Corregido
-BloxFruitsScriptButton.Size = UDim2.new(0.4, 0, 0.17, 0)
-BloxFruitsScriptButton.Position = UDim2.new(0.23, 0, 0.44, 0)
-BloxFruitsScriptButton.Text = "Blox Fruits Script"
-BloxFruitsScriptButton.BackgroundColor3 = Color3.fromRGB(65, 65, 65)
-BloxFruitsScriptButton.TextColor3 = Color3.new(1, 1, 1)
-BloxFruitsScriptButton.Font = Enum.Font.SourceSansBold
-BloxFruitsScriptButton.TextSize = 23
-
--- Configuración de AimLockBloxButton
-local AimLockBloxButton = Instance.new("TextButton")
-AimLockBloxButton.Parent = MainFrame
-AimLockBloxButton.AnchorPoint = Vector2.new(0.5, 0.5) -- Corregido
-AimLockBloxButton.Size = UDim2.new(0.4, 0, 0.17, 0)
-AimLockBloxButton.Position = UDim2.new(0.67, 0, 0.44, 0) -- Ajusta la posición según sea necesario
-AimLockBloxButton.Text = "AimLock Blox"
-AimLockBloxButton.BackgroundColor3 = Color3.fromRGB(65, 65, 65)
-AimLockBloxButton.TextColor3 = Color3.new(1, 1, 1)
-AimLockBloxButton.Font = Enum.Font.SourceSansBold
-AimLockBloxButton.TextSize = 24
-
--- AimLockNPCButton Configuration
-local AimLockNPCButton = Instance.new("TextButton")
-AimLockNPCButton.Parent = MainFrame
-AimLockNPCButton.AnchorPoint = Vector2.new(0.5, 0.5) -- Corrected
-AimLockNPCButton.Size = UDim2.new(0.4, 0, 0.17, 0)
-AimLockNPCButton.Position = UDim2.new(0.23, 0, 0.62, 0) -- Adjust position below "Blox Fruits Script"
-AimLockNPCButton.Text = "AimLock NPC"
-AimLockNPCButton.BackgroundColor3 = Color3.fromRGB(65, 65, 65)
-AimLockNPCButton.TextColor3 = Color3.new(1, 1, 1)
-AimLockNPCButton.Font = Enum.Font.SourceSansBold
-AimLockNPCButton.TextSize = 24
-
--- Crear el botón Server Hop debajo de AimLockBloxButton
-local RejoinButton = Instance.new("TextButton")
-RejoinButton.Name = "RejoinButton"
-RejoinButton.Size = UDim2.new(0.4, 0, 0.17, 0) -- Mismo tamaño que AimLockBloxButton
-RejoinButton.Position = UDim2.new(0.67, 0, 0.62, 0) -- Debajo del AimLockBloxButton
-RejoinButton.AnchorPoint = Vector2.new(0.5, 0.5) -- Asegura que el ancla esté centrada
-RejoinButton.Text = "Rejoin"
-RejoinButton.TextSize = 24
-RejoinButton.Font = Enum.Font.SourceSansBold
-RejoinButton.BackgroundColor3 = Color3.fromRGB(65, 65, 65) -- Mismo color de fondo
-RejoinButton.TextColor3 = Color3.new(1, 1, 1)
-RejoinButton.Parent = MainFrame
-
--- Configuración de AllChestTweenButton
-AllChestTweenButton.Parent = MainFrame
-AllChestTweenButton.AnchorPoint = Vector2.new(0.5, 0.5) -- Corregido
-AllChestTweenButton.Size = UDim2.new(0.4, 0, 0.17, 0)
-AllChestTweenButton.Position = UDim2.new(0.3, 0, 0.26, 0)
-AllChestTweenButton.Text = "Todos Los Cofres/ OFF"
-AllChestTweenButton.BackgroundColor3 = Color3.fromRGB(65, 65, 65)
-AllChestTweenButton.TextColor3 = Color3.new(1, 1, 1)
-AllChestTweenButton.Font = Enum.Font.SourceSansBold
-AllChestTweenButton.TextSize = 24
-AllChestTweenButton.Visible = false
-
--- Configuración de TeletransportarFrutasButton
-TeletransportarFrutasButton.Parent = MainFrame
-TeletransportarFrutasButton.AnchorPoint = Vector2.new(0.5, 0.5) -- Corregido
-TeletransportarFrutasButton.Size = UDim2.new(0.4, 0, 0.17, 0)
-TeletransportarFrutasButton.Position = UDim2.new(0.705, 0, 0.26, 0)
-TeletransportarFrutasButton.Text = "Teletransportar a Frutas/ OFF"
-TeletransportarFrutasButton.BackgroundColor3 = Color3.fromRGB(65, 65, 65)
-TeletransportarFrutasButton.TextColor3 = Color3.new(1, 1, 1)
-TeletransportarFrutasButton.Font = Enum.Font.SourceSansBold
-TeletransportarFrutasButton.TextSize = 23
-TeletransportarFrutasButton.Visible = false
-
--- Configuración del botón Mares
-local MaresButton = Instance.new("TextButton")
-MaresButton.Parent = MainFrame
-MaresButton.AnchorPoint = Vector2.new(0.5, 0.5) -- Centrado
-MaresButton.Size = UDim2.new(0.4, 0, 0.17, 0) -- Mismo tamaño que los otros botones
-MaresButton.Position = UDim2.new(0.705, 0, 0.44, 0) -- Debajo de "Teletransportar a Frutas"
-MaresButton.Text = "Mares"
-MaresButton.BackgroundColor3 = Color3.fromRGB(65, 65, 65)
-MaresButton.TextColor3 = Color3.new(1, 1, 1)
-MaresButton.Font = Enum.Font.SourceSansBold
-MaresButton.TextSize = 23
-MaresButton.Visible = false -- Cambia a `true` si quieres que sea visible de inmediato
-
-local Mar1Button = Instance.new("TextButton")
-Mar1Button.Parent = MainFrame
-Mar1Button.AnchorPoint = Vector2.new(0.5, 0.5) -- Centrado
-Mar1Button.Size = UDim2.new(0.4, 0, 0.17, 0) -- Mismo tamaño que los otros botones
-Mar1Button.Position = UDim2.new(0.3, 0, 0.26, 0)
-Mar1Button.Text = "Mar 1"
-Mar1Button.BackgroundColor3 = Color3.fromRGB(65, 65, 65)
-Mar1Button.TextColor3 = Color3.new(1, 1, 1)
-Mar1Button.Font = Enum.Font.SourceSansBold
-Mar1Button.TextSize = 23
-Mar1Button.Visible = false
-
-local Mar2Button = Instance.new("TextButton")
-Mar2Button.Parent = MainFrame
-Mar2Button.AnchorPoint = Vector2.new(0.5, 0.5) -- Corregido
-Mar2Button.Size = UDim2.new(0.4, 0, 0.17, 0)
-Mar2Button.Position = UDim2.new(0.705, 0, 0.26, 0)
-Mar2Button.Text = "Mar 2"
-Mar2Button.BackgroundColor3 = Color3.fromRGB(65, 65, 65)
-Mar2Button.TextColor3 = Color3.new(1, 1, 1)
-Mar2Button.Font = Enum.Font.SourceSansBold
-Mar2Button.TextSize = 23
-Mar2Button.Visible = false
-
-local Mar3Button = Instance.new("TextButton")
-Mar3Button.Parent = MainFrame
-Mar3Button.AnchorPoint = Vector2.new(0.5, 0.5) -- Corregido
-Mar3Button.Size = UDim2.new(0.4, 0, 0.17, 0)
-Mar3Button.Position = UDim2.new(0.3, 0, 0.44, 0)
-Mar3Button.Text = "Mar 3"
-Mar3Button.BackgroundColor3 = Color3.fromRGB(65, 65, 65)
-Mar3Button.TextColor3 = Color3.new(1, 1, 1)
-Mar3Button.Font = Enum.Font.SourceSansBold
-Mar3Button.TextSize = 23
-Mar3Button.Visible = false
-
--- Configuración de TeletransportarseAJugadorButton
-local TeletransportarseAJugadorButton = Instance.new("TextButton")
-TeletransportarseAJugadorButton.AnchorPoint = Vector2.new(0.5, 0.5) -- Corregido
-TeletransportarseAJugadorButton.Parent = MainFrame
-TeletransportarseAJugadorButton.Size = UDim2.new(0.4, 0, 0.17, 0)
-TeletransportarseAJugadorButton.Position = UDim2.new(0.3, 0, 0.62, 0) -- Ajusta la posición debajo de los botones anteriores
-TeletransportarseAJugadorButton.Text = "Teletransportarse a Jugador"
-TeletransportarseAJugadorButton.BackgroundColor3 = Color3.fromRGB(65, 65, 65)
-TeletransportarseAJugadorButton.TextColor3 = Color3.new(1, 1, 1)
-TeletransportarseAJugadorButton.Font = Enum.Font.SourceSansBold
-TeletransportarseAJugadorButton.TextSize = 20
-TeletransportarseAJugadorButton.TextWrap = true  
-TeletransportarseAJugadorButton.TextWrapped = true
-TeletransportarseAJugadorButton.Visible = false
-
--- Configuración de TeletransportarseAJugadorTextBox
-local TeletransportarseAJugadorTextBox = Instance.new("TextBox")
-TeletransportarseAJugadorTextBox.Parent = MainFrame
-TeletransportarseAJugadorTextBox.AnchorPoint = Vector2.new(0.5, 0.5) -- Corregido
-TeletransportarseAJugadorTextBox.Size = UDim2.new(0.4, 0, 0.12, 0)
-TeletransportarseAJugadorTextBox.Position = UDim2.new(0.3, 0, 0.7705, 0)  -- Debajo del botón
-TeletransportarseAJugadorTextBox.Text = "Escribe Aqui El Nombre"
-TeletransportarseAJugadorTextBox.BackgroundColor3 = Color3.fromRGB(65, 65, 65)
-TeletransportarseAJugadorTextBox.TextColor3 = Color3.new(1, 1, 1)
-TeletransportarseAJugadorTextBox.Font = Enum.Font.SourceSansBold
-TeletransportarseAJugadorTextBox.TextSize = 20
-TeletransportarseAJugadorTextBox.TextWrap = true  
-TeletransportarseAJugadorTextBox.TextWrapped = true
-TeletransportarseAJugadorTextBox.ClearTextOnFocus = true  -- Limpia el texto cuando el jugador hace clic en el cuadro
-TeletransportarseAJugadorTextBox.Visible = false
-
-local AutoHakiKen = Instance.new("TextButton")
-AutoHakiKen.Name = "AutoHakiKen"
-AutoHakiKen.Size = UDim2.new(0.4, 0, 0.17, 0) -- Mismo tamaño que AimLockBloxButton
-AutoHakiKen.Position = UDim2.new(0.705, 0, 0.44, 0) -- Debajo del AimLockBloxButton
-AutoHakiKen.AnchorPoint = Vector2.new(0.5, 0.5) -- Asegura que el ancla esté centrada
-AutoHakiKen.Text = "Auto Haki Ken"
-AutoHakiKen.TextSize = 24
-AutoHakiKen.Font = Enum.Font.SourceSansBold
-AutoHakiKen.BackgroundColor3 = Color3.fromRGB(65, 65, 65) -- Mismo color de fondo
-AutoHakiKen.TextColor3 = Color3.new(1, 1, 1)
-AutoHakiKen.Parent = MainFrame
-AutoHakiKen.Visible = false
-
-local BuyChips = Instance.new("TextButton")
-BuyChips.Name = "BuyChips"
-BuyChips.Size = UDim2.new(0.4, 0, 0.17, 0) -- Mismo tamaño que AimLockBloxButton
-BuyChips.Position = UDim2.new(0.67, 0, 0.8, 0) -- Debajo del AimLockBloxButton
-BuyChips.AnchorPoint = Vector2.new(0.5, 0.5) -- Asegura que el ancla esté centrada
-BuyChips.Text = "Comprar Chips"
-BuyChips.TextSize = 24
-BuyChips.Font = Enum.Font.SourceSansBold
-BuyChips.BackgroundColor3 = Color3.fromRGB(65, 65, 65) -- Mismo color de fondo
-BuyChips.TextColor3 = Color3.new(1, 1, 1)
-BuyChips.Parent = MainFrame
-
-local TeletransportarXDButton = Instance.new("TextButton")
-TeletransportarXDButton.Name = "TeletransportarXDButton"
-TeletransportarXDButton.Size = UDim2.new(0.6, 0, 0.07, 0) -- Mismo tamaño que AimLockBloxButton
-TeletransportarXDButton.Position = UDim2.new(0.5, 0, 0.94, 0) -- Debajo del AimLockBloxButton
-TeletransportarXDButton.AnchorPoint = Vector2.new(0.5, 0.5) -- Asegura que el ancla esté centrada
-TeletransportarXDButton.Text = "Para Usar Tiny Task"
-TeletransportarXDButton.TextSize = 20
-TeletransportarXDButton.Font = Enum.Font.SourceSansBold
-TeletransportarXDButton.BackgroundColor3 = Color3.fromRGB(65, 65, 65) -- Mismo color de fondo
-TeletransportarXDButton.TextColor3 = Color3.new(1, 1, 1)
-TeletransportarXDButton.Parent = MainFrame
-
-local AllDiamGoldChestTweenButton = Instance.new("TextButton")
-AllDiamGoldChestTweenButton.Parent = MainFrame
-AllDiamGoldChestTweenButton.AnchorPoint = Vector2.new(0.5, 0.5)
-AllDiamGoldChestTweenButton.Size = UDim2.new(0.4, 0, 0.17, 0)
-AllDiamGoldChestTweenButton.Position = UDim2.new(0.3, 0, 0.44, 0)
-AllDiamGoldChestTweenButton.Text = "Cofres de mas valor/ OFF"
-AllDiamGoldChestTweenButton.BackgroundColor3 = Color3.fromRGB(65, 65, 65)
-AllDiamGoldChestTweenButton.TextColor3 = Color3.new(1, 1, 1)
-AllDiamGoldChestTweenButton.Font = Enum.Font.SourceSansBold
-AllDiamGoldChestTweenButton.TextSize = 23
-AllDiamGoldChestTweenButton.Visible = false
-
-local OptimizarButton = Instance.new("TextButton")
-OptimizarButton.Parent = MainFrame
-OptimizarButton.AnchorPoint = Vector2.new(0.5, 0.5)
-OptimizarButton.Size = UDim2.new(0.4, 0, 0.17, 0)
-OptimizarButton.Position = UDim2.new(0.23, 0, 0.8, 0)
-OptimizarButton.Text = "Optimizar"
-OptimizarButton.BackgroundColor3 = Color3.fromRGB(65, 65, 65)
-OptimizarButton.TextColor3 = Color3.new(1, 1, 1)
-OptimizarButton.Font = Enum.Font.SourceSansBold
-OptimizarButton.TextSize = 24
-
-local BuyFlame = Instance.new("TextButton")
-BuyFlame.Parent = MainFrame
-BuyFlame.AnchorPoint = Vector2.new(0.5, 0.5) -- Corregido
-BuyFlame.Size = UDim2.new(0.25, 0, 0.13, 0)
-BuyFlame.Position = UDim2.new(0.23, 0, 0.26, 0)
-BuyFlame.Text = "Fuego"
-BuyFlame.BackgroundColor3 = Color3.fromRGB(65, 65, 65)
-BuyFlame.TextColor3 = Color3.new(1, 1, 1)
-BuyFlame.Font = Enum.Font.SourceSansBold
-BuyFlame.TextSize = 22
-BuyFlame.Visible = false
-
-local BuyIce = Instance.new("TextButton")
-BuyIce.Parent = MainFrame
-BuyIce.AnchorPoint = Vector2.new(0.5, 0.5) -- Corregido
-BuyIce.Size = UDim2.new(0.25, 0, 0.13, 0)
-BuyIce.Position = UDim2.new(0.50, 0, 0.26, 0)
-BuyIce.Text = "Hielo"
-BuyIce.BackgroundColor3 = Color3.fromRGB(65, 65, 65)
-BuyIce.TextColor3 = Color3.new(1, 1, 1)
-BuyIce.Font = Enum.Font.SourceSansBold
-BuyIce.TextSize = 22
-BuyIce.Visible = false
-
-local BuyLight = Instance.new("TextButton")
-BuyLight.Parent = MainFrame
-BuyLight.AnchorPoint = Vector2.new(0.5, 0.5) -- Corregido
-BuyLight.Size = UDim2.new(0.25, 0, 0.13, 0)
-BuyLight.Position = UDim2.new(0.77, 0, 0.26, 0)
-BuyLight.Text = "Luz"
-BuyLight.BackgroundColor3 = Color3.fromRGB(65, 65, 65)
-BuyLight.TextColor3 = Color3.new(1, 1, 1)
-BuyLight.Font = Enum.Font.SourceSansBold
-BuyLight.TextSize = 22
-BuyLight.Visible = false
-
-local BuyBuddha = Instance.new("TextButton")
-BuyBuddha.Parent = MainFrame
-BuyBuddha.AnchorPoint = Vector2.new(0.5, 0.5) -- Corregido
-BuyBuddha.Size = UDim2.new(0.25, 0, 0.13, 0)
-BuyBuddha.Position = UDim2.new(0.23, 0, 0.40, 0)
-BuyBuddha.Text = "Budda"
-BuyBuddha.BackgroundColor3 = Color3.fromRGB(65, 65, 65)
-BuyBuddha.TextColor3 = Color3.new(1, 1, 1)
-BuyBuddha.Font = Enum.Font.SourceSansBold
-BuyBuddha.TextSize = 22
-BuyBuddha.Visible = false
-
-local BuyRumble = Instance.new("TextButton")
-BuyRumble.Parent = MainFrame
-BuyRumble.AnchorPoint = Vector2.new(0.5, 0.5) -- Corregido
-BuyRumble.Size = UDim2.new(0.25, 0, 0.13, 0)
-BuyRumble.Position = UDim2.new(0.50, 0, 0.40, 0)
-BuyRumble.Text = "Trueno"
-BuyRumble.BackgroundColor3 = Color3.fromRGB(65, 65, 65)
-BuyRumble.TextColor3 = Color3.new(1, 1, 1)
-BuyRumble.Font = Enum.Font.SourceSansBold
-BuyRumble.TextSize = 22
-BuyRumble.Visible = false
-
-local BuyDark = Instance.new("TextButton")
-BuyDark.Parent = MainFrame
-BuyDark.AnchorPoint = Vector2.new(0.5, 0.5) -- Corregido
-BuyDark.Size = UDim2.new(0.25, 0, 0.13, 0)
-BuyDark.Position = UDim2.new(0.77, 0, 0.40, 0)
-BuyDark.Text = "Oscuridad"
-BuyDark.BackgroundColor3 = Color3.fromRGB(65, 65, 65)
-BuyDark.TextColor3 = Color3.new(1, 1, 1)
-BuyDark.Font = Enum.Font.SourceSansBold
-BuyDark.TextSize = 22
-BuyDark.Visible = false
-
-local BuySand = Instance.new("TextButton")
-BuySand.Parent = MainFrame
-BuySand.AnchorPoint = Vector2.new(0.5, 0.5) -- Corregido
-BuySand.Size = UDim2.new(0.25, 0, 0.13, 0)
-BuySand.Position = UDim2.new(0.23, 0, 0.54, 0)
-BuySand.Text = "Arena"
-BuySand.BackgroundColor3 = Color3.fromRGB(65, 65, 65)
-BuySand.TextColor3 = Color3.new(1, 1, 1)
-BuySand.Font = Enum.Font.SourceSansBold
-BuySand.TextSize = 22
-BuySand.Visible = false
-
-local BuyPhoenix = Instance.new("TextButton")
-BuyPhoenix.Parent = MainFrame
-BuyPhoenix.AnchorPoint = Vector2.new(0.5, 0.5) -- Corregido
-BuyPhoenix.Size = UDim2.new(0.25, 0, 0.13, 0)
-BuyPhoenix.Position = UDim2.new(0.50, 0, 0.54, 0)
-BuyPhoenix.Text = "Fenix"
-BuyPhoenix.BackgroundColor3 = Color3.fromRGB(65, 65, 65)
-BuyPhoenix.TextColor3 = Color3.new(1, 1, 1)
-BuyPhoenix.Font = Enum.Font.SourceSansBold
-BuyPhoenix.TextSize = 22
-BuyPhoenix.Visible = false
-
-local BuyDough = Instance.new("TextButton")
-BuyDough.Parent = MainFrame
-BuyDough.AnchorPoint = Vector2.new(0.5, 0.5) -- Corregido
-BuyDough.Size = UDim2.new(0.25, 0, 0.13, 0)
-BuyDough.Position = UDim2.new(0.77, 0, 0.54, 0)
-BuyDough.Text = "Masa"
-BuyDough.BackgroundColor3 = Color3.fromRGB(65, 65, 65)
-BuyDough.TextColor3 = Color3.new(1, 1, 1)
-BuyDough.Font = Enum.Font.SourceSansBold
-BuyDough.TextSize = 22
-BuyDough.Visible = false
-
--- Configuración de BackButton
-BackButton.Parent = MainFrame
-BackButton.AnchorPoint = Vector2.new(0.5, 0.5) -- Corregido
-BackButton.Size = UDim2.new(0.085, 0, 0.16, 0)
-BackButton.Position = UDim2.new(0.05, 0, 0.1, 0)
-BackButton.Text = "<"
-BackButton.BackgroundColor3 = Color3.fromRGB(255, 85, 85)
-BackButton.TextColor3 = Color3.new(1, 1, 1)
-BackButton.Font = Enum.Font.SourceSansBold
-BackButton.TextSize = 20
-BackButton.Visible = false
-
--- Configuración de CloseButton
-CloseButton.Parent = MainFrame
-CloseButton.AnchorPoint = Vector2.new(0.5, 0.5) -- Corregido
-CloseButton.Size = UDim2.new(0.085, 0, 0.16, 0)
-CloseButton.Position = UDim2.new(0.95, 0, 0.1, 0) -- Esquina superior derecha
-CloseButton.Text = "X"
-CloseButton.BackgroundColor3 = Color3.fromRGB(255, 85, 85)
-CloseButton.TextColor3 = Color3.new(1, 1, 1)
-CloseButton.Font = Enum.Font.SourceSansBold
-CloseButton.TextSize = 24
-CloseButton.Visible = true
-
-
--- Funcionalidad del botón Infinite Yield
-InfiniteYieldButton.MouseButton1Click:Connect(function()
-    loadstring(game:HttpGet('https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source'))()
-end)
-
-
-BloxFruitsScriptButton.MouseButton1Click:Connect(function()
-    loadstring(game:HttpGet("https://raw.githubusercontent.com/Lucasbekk3315-code/Blox-Fruits-redz-hub/refs/heads/main/Script%20blox%20fruits%20roblox%20redz%20hub"))()
-end)
-
-
-MaresButton.MouseButton1Click:Connect(function()
-    MaresButton.Visible = false
-    TeletransportarFrutasButton.Visible = false
-    AllChestTweenButton.Visible = false
-    AllDiamGoldChestTweenButton.Visible = false
-    TeletransportarseAJugadorButton.Visible = false
-    TeletransportarseAJugadorTextBox.Visible = false
-    AutoHakiKen.Visible = false
-    Mar1Button.Visible = true
-    Mar2Button.Visible = true
-    Mar3Button.Visible = true
-    Menudeteletransportes.Visible = false
-    Menudemares.Visible = true
-end)
-
-
-
-BuyChips.MouseButton1Click:Connect(function()
-    TeletransportesButton.Visible = false
-    OptimizarButton.Visible = false
-    InfiniteYieldButton.Visible = false
-    BloxFruitsScriptButton.Visible = false
-    AimLockBloxButton.Visible = false
-    AimLockNPCButton.Visible = false
-    RejoinButton.Visible = false
-    BuyChips.Visible = false
-    BackButton.Visible = true
-    BuyFlame.Visible = true
-    BuyIce.Visible = true
-    BuyBuddha.Visible = true
-    BuyDark.Visible = true
-    BuyLight.Visible = true
-    BuyRumble.Visible = true
-    BuySand.Visible = true
-    BuyPhoenix.Visible = true
-    BuyDough.Visible = true
-    MenuPrincipal.Visible = false
-    Menudechips.Visible = true
-end)
-
-
-BuyFlame.MouseButton1Click:Connect(function()
-function getNil(name,class) for _,v in pairs(getnilinstances())do if v.ClassName==class and v.Name==name then return v;end end end
-
-local args = {
-    [1] = "RaidsNpc",
-    [2] = "Select",
-    [3] = "Flame"
-}
-
-game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(unpack(args))
-end)
-
-
-
-BuyIce.MouseButton1Click:Connect(function()
-function getNil(name,class) for _,v in pairs(getnilinstances())do if v.ClassName==class and v.Name==name then return v;end end end
-
-local args = {
-    [1] = "RaidsNpc",
-    [2] = "Select",
-    [3] = "Ice"
-}
-
-game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(unpack(args))
-end)
-
-
-
-BuyLight.MouseButton1Click:Connect(function()
-function getNil(name,class) for _,v in pairs(getnilinstances())do if v.ClassName==class and v.Name==name then return v;end end end
-
-local args = {
-    [1] = "RaidsNpc",
-    [2] = "Select",
-    [3] = "Light"
-}
-
-game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(unpack(args))
-end)
-
-
-
-BuyBuddha.MouseButton1Click:Connect(function()
-function getNil(name,class) for _,v in pairs(getnilinstances())do if v.ClassName==class and v.Name==name then return v;end end end
-
-local args = {
-    [1] = "RaidsNpc",
-    [2] = "Select",
-    [3] = "Buddha"
-}
-
-game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(unpack(args))
-end)
-
-
-
-BuyRumble.MouseButton1Click:Connect(function()
-function getNil(name,class) for _,v in pairs(getnilinstances())do if v.ClassName==class and v.Name==name then return v;end end end
-
-local args = {
-    [1] = "RaidsNpc",
-    [2] = "Select",
-    [3] = "Rumble"
-}
-
-game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(unpack(args))
-end)
-
-
-
-BuyDark.MouseButton1Click:Connect(function()
-function getNil(name,class) for _,v in pairs(getnilinstances())do if v.ClassName==class and v.Name==name then return v;end end end
-
-local args = {
-    [1] = "RaidsNpc",
-    [2] = "Select",
-    [3] = "Dark"
-}
-
-game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(unpack(args))
-end)
-
-
-
-BuySand.MouseButton1Click:Connect(function()
-function getNil(name,class) for _,v in pairs(getnilinstances())do if v.ClassName==class and v.Name==name then return v;end end end
-
-local args = {
-    [1] = "RaidsNpc",
-    [2] = "Select",
-    [3] = "Sand"
-}
-
-game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(unpack(args))
-end)
-
-
-
-BuyPhoenix.MouseButton1Click:Connect(function()
-function getNil(name,class) for _,v in pairs(getnilinstances())do if v.ClassName==class and v.Name==name then return v;end end end
-
-local args = {
-    [1] = "RaidsNpc",
-    [2] = "Select",
-    [3] = "Phoenix"
-}
-
-game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(unpack(args))
-end)
-
-
-
-BuyDough.MouseButton1Click:Connect(function()
-function getNil(name,class) for _,v in pairs(getnilinstances())do if v.ClassName==class and v.Name==name then return v;end end end
-
-local args = {
-    [1] = "RaidsNpc",
-    [2] = "Select",
-    [3] = "Dough"
-}
-
-game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(unpack(args))
-end)
-
-
-
-local Activado8 = true
-local player8 = game.Players.LocalPlayer
-
-
-local function setVisionRadius8()
-    -- Verifica si existe "VisionRadius"
-    if player8:FindFirstChild("VisionRadius") then
-        local visionRadius = player8.VisionRadius
-
-        -- Cambia el valor de VisionRadius
-        visionRadius.Value = 10000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
-    end
-end
-
-
-
-local function monitorPlayer8()
-    while true do
-        if Activado8 == true then
-            -- Si el personaje existe, aplica el cambio
-            if player8.Character and player8.Character:FindFirstChild("Humanoid") then
-                setVisionRadius8()
-            else
-                -- Espera a que reaparezca el personaje
-                player8.CharacterAdded:Wait()
+local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
+
+Rayfield:Notify({
+   Title = "Cargando Espera.",
+   Content = "",
+   Duration = 3,
+   Image = nil,
+})
+
+local Window = Rayfield:CreateWindow({
+   Name = "SigmaRock Hub Blox Fruits",
+   Icon = 0,
+   LoadingTitle = "🍎Blox Fruits🍅",
+   LoadingSubtitle = "Creado por lucasbekk3315",
+   Theme = "Default",
+   ConfigurationSaving = {
+      Enabled = false,
+      FolderName = nil,
+      FileName = "SigmaRock Hub Blox Fruits"
+   },
+   KeySystem = false
+})
+
+local Tab = Window:CreateTab("Menu Principal", nil)
+
+Rayfield:Notify({
+   Title = "Gracias Por Usar Mi Script!",
+   Content = "Presiona la tecla K para minimizar o maximizar el menu.",
+   Duration = 7,
+   Image = nil,
+})
+
+-- Variables para controlar la Part y el seguimiento del caminar sobre el agua
+local WalkWater11 = nil
+local followCoroutine = nil
+
+-- Crear el Toggle para activar/desactivar caminar sobre el agua
+local ToggleWalkWater = Tab:CreateToggle({
+   Name = "Caminar en el agua",
+   CurrentValue = false,
+   Flag = "ToggleWalkWater", -- Asegúrate de que este Flag sea único si estás usando guardado de configuración
+   Callback = function(Value)
+      if Value then
+         -- Crear la Part para caminar sobre el agua
+         WalkWater11 = Instance.new("Part")
+         WalkWater11.Name = "WalkWater"
+         WalkWater11.Size = Vector3.new(1800, 4, 1800)
+         WalkWater11.Anchored = true
+         WalkWater11.CanCollide = true
+         WalkWater11.Transparency = 1
+         WalkWater11.BrickColor = BrickColor.new("White") -- Cambia el color si lo deseas
+         WalkWater11.Parent = workspace
+
+         -- Posicionar la Part encima de "WaterBase-Plane"
+         local waterBasePlane11 = workspace.Map:WaitForChild("WaterBase-Plane")
+         WalkWater11.Position = waterBasePlane11.Position + Vector3.new(0, WalkWater11.Size.Y / 2, 0)
+
+         -- Función para cambiar la altura
+         local function setHeight11(newHeight)
+            WalkWater11.Position = Vector3.new(
+               WalkWater11.Position.X,
+               newHeight + WalkWater11.Size.Y / 2,
+               WalkWater11.Position.Z
+            )
+         end
+
+         -- Ajustar la altura inicial
+         setHeight11(-7.7)
+
+         -- Función para seguir al jugador en X y Z
+         local player11 = game.Players.LocalPlayer
+         local character11 = player11.Character or player11.CharacterAdded:Wait()
+         local humanoidRootPart11 = character11:WaitForChild("HumanoidRootPart")
+
+         -- Crear una corrutina para actualizar la posición de la Part
+         followCoroutine = coroutine.create(function()
+            while WalkWater11 do
+               WalkWater11.Position = Vector3.new(
+                  humanoidRootPart11.Position.X,
+                  WalkWater11.Position.Y,
+                  humanoidRootPart11.Position.Z
+               )
+               wait(1.5) -- Actualizar cada 1.5 segundos
+            end
+         end)
+
+         coroutine.resume(followCoroutine)
+      else
+         -- Detener el seguimiento y eliminar la Part
+         if WalkWater11 then
+            WalkWater11:Destroy()
+            WalkWater11 = nil
+         end
+
+         -- Detener la corrutina si existe
+         if followCoroutine then
+            followCoroutine = nil
+         end
+      end
+   end,
+})
+
+
+
+local AimLockJugadorButton = Tab:CreateButton({
+    Name = "Abrir menu de aimlock para jugadores",
+    Callback = function()
+
+        -- Crear la UI del menú de AimLock
+        local PantallaGui = Instance.new("ScreenGui")
+        PantallaGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
+        
+        local Marco = Instance.new("Frame")
+        Marco.Size = UDim2.new(0, 300, 0, 150)
+        Marco.Position = UDim2.new(0.5, -150, 0.5, -75)
+        Marco.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+        Marco.Parent = PantallaGui
+        Marco.Active = true
+        Marco.Draggable = true
+        
+        local Titulo = Instance.new("TextLabel")
+        Titulo.Size = UDim2.new(1, 0, 0, 30)
+        Titulo.Text = "AimLock Blox"
+        Titulo.TextColor3 = Color3.fromRGB(255, 255, 255)
+        Titulo.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+        Titulo.TextSize = 20
+        Titulo.Parent = Marco
+
+        local BotonCerrar = Instance.new("TextButton")
+        BotonCerrar.Size = UDim2.new(0, 30, 0, 30)
+        BotonCerrar.Position = UDim2.new(1, -35, 0, 5)
+        BotonCerrar.Text = "X"
+        BotonCerrar.TextColor3 = Color3.fromRGB(255, 255, 255)
+        BotonCerrar.BackgroundColor3 = Color3.fromRGB(200, 50, 50)
+        BotonCerrar.Parent = Marco
+
+        BotonCerrar.MouseButton1Click:Connect(function()
+            PantallaGui:Destroy()  -- Cierra el menú cuando se presiona el botón "X"
+        end)
+
+        local CajaTexto = Instance.new("TextBox")
+        CajaTexto.Size = UDim2.new(0, 260, 0, 40)
+        CajaTexto.Position = UDim2.new(0, 20, 0, 40)
+        CajaTexto.Text = "Presiona Aqui."
+        CajaTexto.PlaceholderText = "Presiona una tecla... o escribe 'click' para asignar el clic derecho"
+        CajaTexto.TextColor3 = Color3.fromRGB(255, 255, 255)
+        CajaTexto.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+        CajaTexto.Parent = Marco
+        
+        local AimbotActivado = false
+        local TeclaDeAimbot = Enum.KeyCode.E
+        local Objetivo = nil
+        local TeclaAsignada = false
+        local ClickDerechoAsignado = false
+        local UserInputService = game:GetService("UserInputService")
+        local RunService = game:GetService("RunService")
+        local Camera = workspace.CurrentCamera
+        local Players = game:GetService("Players")
+        local LocalPlayer = Players.LocalPlayer
+        local StarterGui = game:GetService("StarterGui")
+        
+        
+        -- Función para obtener el jugador más cercano al mouse
+        local function ObtenerJugadorMasCercanoAlMouse()
+            local posicionMouse = UserInputService:GetMouseLocation()
+            local jugadorMasCercano = nil
+            local distanciaMasCercana = math.huge
+
+            for _, jugador in ipairs(Players:GetPlayers()) do
+                if jugador ~= LocalPlayer and jugador.Character and jugador.Character:FindFirstChild("HumanoidRootPart") then
+                    local torso = jugador.Character.HumanoidRootPart
+                    local posicionPantalla, enPantalla = Camera:WorldToScreenPoint(torso.Position)
+
+                    if enPantalla then
+                        local distancia = (Vector2.new(posicionPantalla.X, posicionPantalla.Y) - posicionMouse).Magnitude
+                        if distancia < distanciaMasCercana then
+                            distanciaMasCercana = distancia
+                            jugadorMasCercano = jugador
+                        end
+                    end
+                end
+            end
+
+            return jugadorMasCercano
+        end
+        
+        -- Apuntar al objetivo
+        local function ApuntarA(parteObjetivo)
+            if parteObjetivo then
+                Camera.CFrame = CFrame.new(Camera.CFrame.Position, parteObjetivo.Position)
             end
         end
-        wait(1) -- Espera 1 segundo antes de la próxima verificación
-    end
-end
+        
+        -- Actualizar constantemente el objetivo mientras el aimbot está activado
+        RunService.Heartbeat:Connect(function()
+            if AimbotActivado then
+                if not Objetivo then
+                    Objetivo = ObtenerJugadorMasCercanoAlMouse()
+                end
 
--- Inicia el monitoreo
-task.spawn(monitorPlayer8)
-
-
-
-local TweenService1 = game:GetService("TweenService")
-local player1 = game.Players.LocalPlayer
-local character1 = player1.Character or player1.CharacterAdded:Wait()
-
--- CFrames objetivo para diferentes juegos
-local targetCFrameGame3 = CFrame.new(
-    106.253479, 19.3599586, 2832.37158, 
-    -0.0656991452, 5.74360159e-09, -0.997839451, 
-    1.88883575e-10, 1, 5.74360159e-09, 
-    0.997839451, 1.88883575e-10, -0.0656991452
-)
-
--- Cambia este CFrame al que desees para el juego con ID 7449423635
-local targetCFrameGame4 = CFrame.new(
-    106.253479, 19.3599586, 2832.37158, 
-    -0.0656991452, 5.74360159e-09, -0.997839451, 
-    1.88883575e-10, 1, 5.74360159e-09, 
-    0.997839451, 1.88883575e-10, -0.0656991452
-)
-
-local function moveToCFrame()
-    -- Determinar el CFrame objetivo según el ID del juego
-    local targetCFrame
-    if game.PlaceId == 4442272183 then
-        targetCFrame = targetCFrameGame3
-    elseif game.PlaceId == 7449423635 then
-        targetCFrame = targetCFrameGame4
-    else
-        print("Este script no está configurado para este juego.")
-        return
-    end
-
-    if character1 and character1:FindFirstChild("HumanoidRootPart") then
-        -- Calcular la distancia entre el jugador y el CFrame objetivo
-        local distance1 = (targetCFrame.Position - character1.HumanoidRootPart.Position).Magnitude
-        local walkSpeed1 = 340
-        local timeToReach1 = distance1 / walkSpeed1
-
-        -- Crear el tween para mover al jugador
-        local goal1 = {CFrame = targetCFrame}
-        local tweenInfo1 = TweenInfo.new(timeToReach1, Enum.EasingStyle.Linear, Enum.EasingDirection.InOut)
-        local tween1 = TweenService1:Create(character1.HumanoidRootPart, tweenInfo1, goal1)
-
-        -- Reproducir el tween
-        tween1:Play()
-        tween1.Completed:Connect(function()
-            print("Movimiento completado.")
+                if Objetivo then
+                    local parteObjetivo = Objetivo.Character:FindFirstChild("HumanoidRootPart")
+                    if parteObjetivo then
+                        ApuntarA(parteObjetivo)
+                    end
+                end
+            end
         end)
-    else
-        print("El personaje o su HumanoidRootPart no están disponibles.")
-    end
-end
 
--- Conectar el botón para mover al CFrame
-Mar1Button.MouseButton1Click:Connect(moveToCFrame)
+        -- Asignar la tecla de activación del aimbot
+        CajaTexto.FocusLost:Connect(function(enterPressed)
+            if enterPressed then
+                local tecla = CajaTexto.Text:upper()
+                if tecla == "CLICK" then
+                    ClickDerechoAsignado = true
+                    TeclaDeAimbot = Enum.KeyCode.Unknown -- Desactivar asignación de tecla
+                    TeclaAsignada = true
 
+                else
+                    local teclaValida = false
+                    -- Validar si la tecla es válida
+                    for _, keyCode in pairs(Enum.KeyCode:GetEnumItems()) do
+                        if keyCode.Name == tecla then
+                            TeclaDeAimbot = keyCode
+                            TeclaAsignada = true
+                            ClickDerechoAsignado = false
 
+                            teclaValida = true
+                            break
+                        end
+                    end
+                    if not teclaValida then
 
-local TweenService2 = game:GetService("TweenService")
-local player2 = game.Players.LocalPlayer
-local character2 = player2.Character or player2.CharacterAdded:Wait()
-
--- CFrames objetivo para diferentes juegos
-local targetCFrameGame1 = CFrame.new(
-    -1166.52283, 7.73542881, 1729.3916, 
-    0.353035539, 2.71882357e-08, -0.935609937, 
-    2.47146481e-08, 1, 3.83849965e-08, 
-    0.935609937, -3.6674539e-08, 0.353035539
-)
-
--- Cambia este CFrame al que desees para el juego con ID 7449423635
-local targetCFrameGame2 = CFrame.new(
-    -387.621246, 20.6934395, 5441.47021, 0.728105068, -1.03781339e-08, -0.685465515, -7.74841169e-09, 1, -2.33706743e-08, 0.685465515, 2.23275762e-08, 0.728105068
-)
-
-local function moveToCFrame2()
-    -- Determinar el CFrame objetivo según el ID del juego
-    local targetCFrame
-    if game.PlaceId == 2753915549 then
-        targetCFrame = targetCFrameGame1
-    elseif game.PlaceId == 7449423635 then
-        targetCFrame = targetCFrameGame2
-    else
-        print("Este script no está configurado para este juego.")
-        return
-    end
-
-    if character2 and character2:FindFirstChild("HumanoidRootPart") then
-        -- Calcular la distancia entre el jugador y el CFrame objetivo
-        local distance2 = (targetCFrame.Position - character2.HumanoidRootPart.Position).Magnitude
-        local walkSpeed2 = 340
-        local timeToReach2 = distance2 / walkSpeed2
-
-        -- Crear el tween para mover al jugador
-        local goal2 = {CFrame = targetCFrame}
-        local tweenInfo2 = TweenInfo.new(timeToReach2, Enum.EasingStyle.Linear, Enum.EasingDirection.InOut)
-        local tween2 = TweenService2:Create(character2.HumanoidRootPart, tweenInfo2, goal2)
-
-        -- Reproducir el tween
-        tween2:Play()
-        tween2.Completed:Connect(function()
-            print("Movimiento completado.")
+                    end
+                end
+            end
         end)
-    else
-        print("El personaje o su HumanoidRootPart no están disponibles.")
-    end
-end
 
--- Conectar el botón para mover al CFrame
-Mar2Button.MouseButton1Click:Connect(moveToCFrame2)
+        -- Detectar cuando se presiona la tecla de activación
+        UserInputService.InputBegan:Connect(function(input, gameProcessed)
+            if gameProcessed then return end
 
-
-local TweenService3 = game:GetService("TweenService")
-local player3 = game.Players.LocalPlayer
-local character3 = player3.Character or player3.CharacterAdded:Wait()
-
--- CFrames objetivo para diferentes juegos
-local targetCFrameGame5 = CFrame.new(
-    -1908.35522, 6.5207653, -2536.69995, 
-    -0.836797655, 6.05827424e-08, -0.547512293, 
-    6.91875783e-08, 1, 4.90718666e-09, 
-    0.547512293, -3.37747252e-08, -0.836797655
-)
-
--- Cambia este CFrame al que desees para el juego con ID 7449423635
-local targetCFrameGame6 = CFrame.new(
-    -1166.52283, 7.73542881, 1729.3916, 
-    0.353035539, 2.71882357e-08, -0.935609937, 
-    2.47146481e-08, 1, 3.83849965e-08, 
-    0.935609937, -3.6674539e-08, 0.353035539
-)
-
-local function moveToCFrame3()
-    -- Determinar el CFrame objetivo según el ID del juego
-    local targetCFrame
-    if game.PlaceId == 4442272183 then
-        targetCFrame = targetCFrameGame5
-    elseif game.PlaceId == 2753915549 then
-        targetCFrame = targetCFrameGame6
-    else
-        print("Este script no está configurado para este juego.")
-        return
-    end
-
-    if character3 and character3:FindFirstChild("HumanoidRootPart") then
-        -- Calcular la distancia entre el jugador y el CFrame objetivo
-        local distance3 = (targetCFrame.Position - character3.HumanoidRootPart.Position).Magnitude
-        local walkSpeed3 = 340
-        local timeToReach3 = distance3 / walkSpeed3
-
-        -- Crear el tween para mover al jugador
-        local goal3 = {CFrame = targetCFrame}
-        local tweenInfo3 = TweenInfo.new(timeToReach3, Enum.EasingStyle.Linear, Enum.EasingDirection.InOut)
-        local tween3 = TweenService3:Create(character3.HumanoidRootPart, tweenInfo3, goal3)
-
-        -- Reproducir el tween
-        tween3:Play()
-        tween3.Completed:Connect(function()
-            print("Movimiento completado.")
+            if TeclaAsignada and input.UserInputType == Enum.UserInputType.Keyboard then
+                if input.KeyCode == TeclaDeAimbot then
+                    AimbotActivado = not AimbotActivado
+                    if not AimbotActivado then
+                        Objetivo = nil -- Limpiar el objetivo cuando se desactiva
+                    end
+                end
+            elseif ClickDerechoAsignado and input.UserInputType == Enum.UserInputType.MouseButton2 then
+                -- Activar/desactivar el aimbot con el clic derecho
+                AimbotActivado = not AimbotActivado
+                if not AimbotActivado then
+                    Objetivo = nil -- Limpiar el objetivo cuando se desactiva
+                end
+            end
         end)
+Rayfield:Notify({
+Title = "Cargado!",
+Content = "",
+Duration = 1.5,
+Image = nil,
+})
+    end,
+})
+
+
+
+local AimLockNPCButton = Tab:CreateButton({
+    Name = "Abrir menu de aimlock para npcs",
+    Callback = function()
+
+        -- Aquí se inicia el menú de AimLock para NPCs
+        local menuOpen = false  -- Variable para verificar si el menú ya está abierto
+
+        if menuOpen then
+            return  -- Si el menú ya está abierto, no hacer nada
+        end
+
+        menuOpen = true  -- Marcamos que el menú está abierto
+
+        local Players1 = game:GetService("Players")
+        local RunService1 = game:GetService("RunService")
+        local UserInputService1 = game:GetService("UserInputService")
+        local Camera1 = workspace.CurrentCamera
+        local StarterGui1 = game:GetService("StarterGui")
+        local LocalPlayer1 = Players1.LocalPlayer
+
+        local AimbotActivated1 = false
+        local AimbotKey1 = Enum.KeyCode.E
+        local Target1 = nil
+        local KeyAssigned1 = false
+        local GuiScreen1 = nil
+        local RightClickAssigned1 = false
+
+        -- Check if an NPC is valid (all NPCs in "workspace.Enemies" are considered enemies)
+        local function IsEnemy1(npc)
+            return npc and npc:FindFirstChild("HumanoidRootPart")
+        end
+
+        -- Get the closest NPC to the mouse
+        local function GetClosestNpcToMouse1()
+            local mousePosition = UserInputService1:GetMouseLocation()
+            local closestNpc = nil
+            local closestDistance = math.huge
+
+            for _, npc in ipairs(workspace.Enemies:GetChildren()) do
+                if IsEnemy1(npc) then
+                    local torso = npc.HumanoidRootPart
+                    local screenPosition, onScreen = Camera1:WorldToScreenPoint(torso.Position)
+
+                    if onScreen then
+                        local distance = (Vector2.new(screenPosition.X, screenPosition.Y) - mousePosition).Magnitude
+                        if distance < closestDistance then
+                            closestDistance = distance
+                            closestNpc = npc
+                        end
+                    end
+                end
+            end
+
+            return closestNpc
+        end
+
+        -- Aim at the target (NPC)
+        local function AimAt1(targetPart)
+            if targetPart then
+                Camera1.CFrame = CFrame.new(Camera1.CFrame.Position, targetPart.Position)
+            end
+        end
+
+        -- Validate the target (NPC)
+        local function ValidateTarget1(npc)
+            if npc and npc:FindFirstChild("HumanoidRootPart") then
+                return true
+            end
+            return false
+        end
+
+        -- Deactivate aimbot if the NPC's humanoid health is 0, but instead of deactivating, switch to the next closest NPC
+        local function CheckNpcHealth1()
+            if Target1 then
+                local humanoid = Target1:FindFirstChild("Humanoid")
+                if humanoid and humanoid.Health == 0 then
+                    -- Find a new target
+                    Target1 = GetClosestNpcToMouse1()
+                end
+            end
+        end
+
+        -- Constantly update the target while the aimbot is activated
+        RunService1.Heartbeat:Connect(function()
+            if AimbotActivated1 then
+                if not Target1 or not ValidateTarget1(Target1) then
+                    Target1 = GetClosestNpcToMouse1()
+                end
+
+                if Target1 then
+                    local targetPart = Target1:FindFirstChild("HumanoidRootPart")
+                    if targetPart then
+                        AimAt1(targetPart)
+                    end
+                end
+
+                -- Check if the NPC has health 0 and deactivate the aimbot
+                CheckNpcHealth1()
+            end
+        end)
+
+        -- Detect when the activation key is pressed
+        UserInputService1.InputBegan:Connect(function(input, gameProcessed)
+            if gameProcessed then return end
+
+            -- Check if the assigned key or right-click or mouse button 4 or 5 is pressed
+            if KeyAssigned1 and input.UserInputType == Enum.UserInputType.Keyboard then
+                -- Check if the pressed key matches the assigned key
+                if input.KeyCode == AimbotKey1 then
+                    AimbotActivated1 = not AimbotActivated1
+                    if not AimbotActivated1 then
+                        Target1 = nil -- Clear the target when deactivated
+                    end
+                end
+            elseif RightClickAssigned1 and input.UserInputType == Enum.UserInputType.MouseButton2 then
+                -- Toggle aimbot with right-click
+                AimbotActivated1 = not AimbotActivated1
+                if not AimbotActivated1 then
+                    Target1 = nil -- Clear the target when deactivated
+                end
+            elseif input.UserInputType == Enum.UserInputType.MouseButton4 then
+                -- Toggle aimbot with mouse button 4
+                if KeyAssigned1 and AimbotKey1 == Enum.UserInputType.MouseButton4 then
+                    AimbotActivated1 = not AimbotActivated1
+                    if not AimbotActivated1 then
+                        Target1 = nil -- Clear the target when deactivated
+                    end
+                end
+            elseif input.UserInputType == Enum.UserInputType.MouseButton5 then
+                -- Toggle aimbot with mouse button 5
+                if KeyAssigned1 and AimbotKey1 == Enum.UserInputType.MouseButton5 then
+                    AimbotActivated1 = not AimbotActivated1
+                    if not AimbotActivated1 then
+                        Target1 = nil -- Clear the target when deactivated
+                    end
+                end
+            end
+        end)
+
+        -- Create the key assignment menu
+        local function CreateKeyMenu1()
+            GuiScreen1 = Instance.new("ScreenGui")
+            GuiScreen1.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
+            
+            local Frame1 = Instance.new("Frame")
+            Frame1.Size = UDim2.new(0, 300, 0, 150)
+            Frame1.Position = UDim2.new(0.5, -150, 0.5, -75)
+            Frame1.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+            Frame1.Parent = GuiScreen1
+            Frame1.Active = true
+            Frame1.Draggable = true
+            
+            local Title1 = Instance.new("TextLabel")
+            Title1.Size = UDim2.new(1, 0, 0, 30)
+            Title1.Text = "AimLock NPC"
+            Title1.TextColor3 = Color3.fromRGB(255, 255, 255)
+            Title1.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+            Title1.TextSize = 20
+            Title1.Parent = Frame1
+
+            local CloseButton1 = Instance.new("TextButton")
+            CloseButton1.Size = UDim2.new(0, 30, 0, 30)
+            CloseButton1.Position = UDim2.new(1, -35, 0, 5)
+            CloseButton1.Text = "X"
+            CloseButton1.TextColor3 = Color3.fromRGB(255, 255, 255)
+            CloseButton1.BackgroundColor3 = Color3.fromRGB(200, 50, 50)
+            CloseButton1.Parent = Frame1
+
+            CloseButton1.MouseButton1Click:Connect(function()
+                AimbotActivated1 = false
+                KeyAssigned1 = false
+                AimbotKey1 = nil
+                RightClickAssigned1 = false
+                if GuiScreen1 then
+                    GuiScreen1:Destroy() -- Destroy the ScreenGui
+                end
+                if Frame1 then
+                    Frame1:Destroy() -- Destroy the menu frame
+                end
+
+                menuOpen = false
+            end)
+
+            local TextBox1 = Instance.new("TextBox")
+            TextBox1.Size = UDim2.new(0, 260, 0, 40)
+            TextBox1.Position = UDim2.new(0, 20, 0, 40)
+            TextBox1.Text = "Presiona Aqui"
+            TextBox1.PlaceholderText = "Apreta una tecla despues enter para asignar la tecla, o escribe click."
+            TextBox1.TextColor3 = Color3.fromRGB(255, 255, 255)
+            TextBox1.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+            TextBox1.Parent = Frame1
+            
+            TextBox1.FocusLost:Connect(function(enterPressed)
+                if enterPressed then
+                    local key = TextBox1.Text:upper()
+                    if key == "CLICK" then
+                        RightClickAssigned1 = true
+                        AimbotKey1 = Enum.KeyCode.Unknown -- Disable key assignment
+                        KeyAssigned1 = true
+
+                    elseif key == "BUTTON4" then
+                        AimbotKey1 = Enum.UserInputType.MouseButton4 -- Assign mouse button 4
+                        KeyAssigned1 = true
+                        RightClickAssigned1 = false
+                    elseif key == "BUTTON5" then
+                        AimbotKey1 = Enum.UserInputType.MouseButton5 -- Assign mouse button 5
+                        KeyAssigned1 = true
+                        RightClickAssigned1 = false
+                    else
+                        local validKey = false
+                        -- Check if it's a valid key
+                        for _, keyCode in pairs(Enum.KeyCode:GetEnumItems()) do
+                            if keyCode.Name == key then
+                                AimbotKey1 = keyCode
+                                KeyAssigned1 = true
+                                validKey = true
+                                break
+                            end
+                        end
+                        if validKey then
+
+                        else
+
+                        end
+                    end
+                end
+            end)
+        end
+
+        -- Create the key assignment menu when the AimLockNPCButton is clicked
+        CreateKeyMenu1()
+Rayfield:Notify({
+Title = "Cargado!",
+Content = "",
+Duration = 1.5,
+Image = nil,
+})
+    end
+})
+
+
+
+local InfiniteYieldButton = Tab:CreateButton({
+   Name = "Abrir Infinite Yield",
+   Callback = function()
+Rayfield:Notify({
+   Title = "Cargando.",
+   Content = "",
+   Duration = 2.5,
+   Image = nil,
+})
+
+loadstring(game:HttpGet('https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source'))() 
+
+
+Rayfield:Notify({
+   Title = "Cargado!",
+   Content = "",
+   Duration = 1.5,
+   Image = nil,
+})
+   end,
+})
+
+
+
+local BloxFruitsButton = Tab:CreateButton({
+   Name = "Abrir Redz Hub",
+   Callback = function()
+Rayfield:Notify({
+   Title = "Cargando.",
+   Content = "",
+   Duration = 2.5,
+   Image = nil,
+})
+
+loadstring(game:HttpGet("https://raw.githubusercontent.com/Lucasbekk3315-code/Blox-Fruits-redz-hub/refs/heads/main/Script%20blox%20fruits%20roblox%20redz%20hub"))()
+
+
+Rayfield:Notify({
+   Title = "Cargado!",
+   Content = "",
+   Duration = 1.5,
+   Image = nil,
+})
+   end,
+})
+
+
+
+local RejoinButton = Tab:CreateButton({
+    Name = "Rejoin",
+    Callback = function()
+    game.Players.LocalPlayer:Kick("Rejoining.")
+    game:GetService("TeleportService"):TeleportToPlaceInstance(game.PlaceId, game.JobId, game.Players.LocalPlayer)
+    end,
+})
+
+
+local OptimizarButton = Tab:CreateButton({
+    Name = "Optimizar",
+    Callback = function()
+        -- Función para procesar descendientes de "Chest"
+        local function processChestDescendants(chestModel)
+            for _, descendant in ipairs(chestModel:GetDescendants()) do
+                if descendant:IsA("BasePart") or descendant:IsA("MeshPart") or descendant:IsA("UnionOperation") then
+                    descendant.CastShadow = false
+                    descendant.Material = Enum.Material.Plastic
+                elseif descendant:IsA("Decal") then
+                    descendant.Texture = ""
+                elseif descendant:IsA("Animation") then
+                    descendant:Destroy()
+                end
+            end
+        end
+
+        -- Función para procesar cada descendiente individualmente
+        local function processDescendantsImmediately(descendant)
+            if descendant:IsA("BasePart") or descendant:IsA("MeshPart") or descendant:IsA("UnionOperation") then
+                descendant.CastShadow = false
+                descendant.Material = Enum.Material.Plastic
+            elseif descendant:IsA("Decal") then
+                descendant.Texture = ""
+            elseif descendant:IsA("SurfaceGui") or descendant:IsA("BillboardGui") then
+                descendant.LightInfluence = 0
+                for _, child in ipairs(descendant:GetDescendants()) do
+                    if child:IsA("ImageLabel") or child:IsA("ImageButton") then
+                        child.Image = ""
+                    elseif child:IsA("TextLabel") or child:IsA("TextButton") then
+                        child.Text = ""
+                    end
+                end
+            elseif descendant:IsA("GuiObject") then
+                if descendant:IsA("ImageLabel") or descendant:IsA("ImageButton") then
+                    descendant.Image = ""
+                elseif descendant:IsA("TextLabel") or descendant:IsA("TextButton") then
+                    descendant.Text = ""
+                end
+            elseif descendant:IsA("PointLight") or descendant:IsA("SpotLight") or descendant:IsA("SurfaceLight") then
+                descendant.Brightness = math.clamp(descendant.Brightness * 0.5, 0, 2) -- Reduce el brillo a la mitad
+                descendant.Range = math.clamp(descendant.Range * 0.8, 2, 30) -- Reduce el rango un 20%
+                descendant.Shadows = false -- Desactiva sombras para mejorar rendimiento
+            end
+        end
+
+        -- Función para procesar todo el Workspace
+        local function processWorkspaceImmediately()
+            for _, descendant in ipairs(workspace:GetDescendants()) do
+                if descendant:IsA("Model") and string.find(descendant.Name, "Chest") then
+                    processChestDescendants(descendant)
+                end
+                processDescendantsImmediately(descendant)
+            end
+        end
+
+        -- Ejecutar optimización
+        processWorkspaceImmediately()
+
+        -- Notificación de éxito
+        Rayfield:Notify({
+            Title = "Optimizado!",
+            Content = "",
+            Duration = 1.5,
+            Image = nil,
+        })
+    end
+})
+
+
+
+local Tab = Window:CreateTab("Teletransportes", nil)
+
+
+
+local TweenService = game:GetService("TweenService")
+local player = game.Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+local humanoidRootPart = character:WaitForChild("HumanoidRootPart")
+
+local isTweening = false
+local speed = 340 -- Velocidad equivalente a WalkSpeed 50 (ajustable)
+local currentTween = nil  -- Variable para almacenar el tween en curso
+
+-- Función para verificar si un objeto tiene un TouchInterest
+local function hasTouchInterest(object)
+    for _, descendant in ipairs(object:GetDescendants()) do
+        if descendant:IsA("TouchTransmitter") then
+            return true
+        end
+    end
+    return false
+end
+
+local function tweenToPosition(destinationCFrame)
+    if not humanoidRootPart then return end
+
+    local distance = (humanoidRootPart.Position - destinationCFrame.Position).Magnitude
+    local time = distance / speed
+
+    local tweenInfo = TweenInfo.new(time, Enum.EasingStyle.Linear)
+    currentTween = TweenService:Create(humanoidRootPart, tweenInfo, {CFrame = destinationCFrame})
+
+    currentTween:Play()
+    currentTween.Completed:Wait()
+end
+
+local function teleportToPosition(destinationCFrame)
+    if not humanoidRootPart then return end
+    humanoidRootPart.CFrame = destinationCFrame
+end
+
+-- Escuchar cuando el personaje es agregado (después de morir)
+player.CharacterAdded:Connect(function(newCharacter)
+    character = newCharacter
+    humanoidRootPart = character:WaitForChild("HumanoidRootPart")
+end)
+
+-- Conectar el toggle para ir a todos los cofres
+local AllChestTweenToggle = Tab:CreateToggle({
+   Name = "Ir a todos los cofres",
+   CurrentValue = false,
+   Flag = "Toggle1", -- A flag is the identifier for the configuration file, make sure every element has a different flag if you're using configuration saving to ensure no overlaps
+   Callback = function(Value)
+       if Value then
+           -- Activar el sistema de tweening
+           isTweening = true
+
+           coroutine.wrap(function()
+               -- Buscar directamente en workspace.Map
+               local map = workspace.Map
+               local closestChest = nil
+               local closestDistance = math.huge -- Inicializar con un valor muy alto
+
+               while isTweening do
+                   closestChest = nil
+                   closestDistance = math.huge -- Reiniciar la distancia más cercana
+
+                   -- Buscar el cofre más cercano con TouchInterest
+                   for _, object in ipairs(map:GetDescendants()) do
+                       if object:IsA("BasePart") and object.Name:find("^Chest") then
+                           local distance = (humanoidRootPart.Position - object.Position).Magnitude
+
+                           -- Verificar si el objeto tiene TouchInterest
+                           if hasTouchInterest(object) and distance < closestDistance then
+                               closestChest = object
+                               closestDistance = distance
+                           end
+                       end
+                   end
+
+                   -- Si encontramos un cofre con TouchInterest
+                   if closestChest then
+                       if closestDistance <= 340 then
+                           -- Si está a 100 studs o menos, teletransportarse directamente
+                           teleportToPosition(closestChest.CFrame)
+                       else
+                           -- Si está más lejos de 100 studs, usar tween
+                           tweenToPosition(closestChest.CFrame)
+                       end
+                       wait(0.5) -- Esperar un poco antes de seguir buscando
+
+                       -- Si el cofre ya no tiene TouchInterest, buscar el siguiente más cercano
+                       if not hasTouchInterest(closestChest) then
+                           closestChest = nil
+                       end
+                   else
+                       -- Si no hay cofres con TouchInterest, esperar antes de buscar de nuevo
+                       wait(0.4)
+                   end
+               end
+           end)()
+       else
+           -- Desactivar el sistema de tweening
+           isTweening = false
+
+           -- Detener el tween actual si está en curso
+           if currentTween then
+               currentTween:Cancel()  -- Cancela el tween en curso
+               currentTween = nil  -- Restablecer la variable del tween
+           end
+       end
+   end,
+})
+
+
+
+-- Función para teletransportarse a una Tool o Modelo, exactamente a la posición del objeto
+local function TeletransportarAObjeto(objeto, alCentro)
+    -- Verificar si el objeto es una herramienta o un modelo con PrimaryPart
+    if objeto:IsA("Tool") then
+        -- Si es una herramienta, teletransportar al jugador a la posición de la herramienta
+        local jugador = game.Players.LocalPlayer
+        local personaje = jugador.Character
+        local humanoidRootPart = personaje and personaje:FindFirstChild("HumanoidRootPart")
+
+        if humanoidRootPart then
+            -- Teletransportar al jugador a la posición exacta de la herramienta
+            humanoidRootPart.CFrame = objeto.Handle.CFrame
+            print("Teletransportado a la Tool: " .. objeto.Name) -- Depuración
+        else
+            print("No se encontró el HumanoidRootPart del jugador.") -- Depuración
+        end
+    elseif objeto:IsA("Model") and objeto.PrimaryPart then
+        -- Si es un modelo, teletransportar al jugador a su PrimaryPart
+        local jugador = game.Players.LocalPlayer
+        local personaje = jugador.Character
+        local humanoidRootPart = personaje and personaje:FindFirstChild("HumanoidRootPart")
+
+        if humanoidRootPart then
+            local destino = alCentro and objeto.PrimaryPart.CFrame or objeto.PrimaryPart.CFrame
+            -- Teletransportar al jugador a la posición exacta del PrimaryPart del modelo
+            humanoidRootPart.CFrame = destino
+            print("Teletransportado al Modelo: " .. objeto.Name) -- Depuración
+        else
+            print("No se encontró el HumanoidRootPart del jugador.") -- Depuración
+        end
     else
-        print("El personaje o su HumanoidRootPart no están disponibles.")
+        print("El objeto no es una herramienta ni un modelo con PrimaryPart.") -- Depuración
     end
 end
 
--- Conectar el botón para mover al CFrame
-Mar3Button.MouseButton1Click:Connect(moveToCFrame3)
+-- Variable para saber si el teletransporte está activado
+local isTeletransportActive = false
+
+-- Funcionalidad del toggle para Teletransportarse a Frutas
+local TeletransportarseAFrutasToggle = Tab:CreateToggle({
+    Name = "Teletransportarse a frutas",
+    CurrentValue = false,
+    Flag = "Toggle1", -- A flag is the identifier for the configuration file, make sure every element has a different flag if you're using configuration saving to ensure no overlaps
+    Callback = function(Value)
+        if Value then
+            -- Activar la búsqueda de frutas en Workspace
+            isTeletransportActive = true
+            print("Teletransporte activado.") -- Depuración
+
+            -- Activar la búsqueda de frutas
+            coroutine.wrap(function()
+                while isTeletransportActive do
+                    -- Comprobar si hay algún objeto con "Fruit" en su nombre
+                    for _, child in pairs(workspace:GetChildren()) do
+                        if string.lower(child.Name):find("fruit") then
+                            print("Objeto encontrado: " .. child.Name) -- Depuración
+                            
+                            -- Teletransportarse al objeto sin importar cuántas veces se haya teletransportado
+                            TeletransportarAObjeto(child, true)
+                            break -- Teletransportarse solo a la primera fruta que encuentre
+                        end
+                    end
+                    wait(0.01) -- Esperar un poco antes de comprobar nuevamente
+                end
+            end)()
+        else
+            -- Desactivar el teletransporte
+            isTeletransportActive = false
+            print("Teletransporte desactivado.") -- Depuración
+        end
+    end,
+})
+
+-- Detectar cuando se agrega un nuevo hijo a Workspace
+workspace.ChildAdded:Connect(function(child)
+    -- Verificar si el nombre del nuevo hijo contiene "fruit" (sin importar mayúsculas/minúsculas)
+    if string.lower(child.Name):find("fruit") then
+        print("Nuevo objeto agregado: " .. child.Name) -- Depuración
+        -- Verificar si el teletransporte está activado
+        if isTeletransportActive then
+            -- Teletransportarse al objeto recién agregado
+            TeletransportarAObjeto(child, true)
+        end
+    end
+end)
+
+-- Función para manejar la reapertura del personaje después de la muerte
+local function onCharacterAdded(newCharacter)
+    -- Esperar a que el personaje reaparezca
+    local jugador = game.Players.LocalPlayer
+    local personaje = newCharacter
+    local humanoidRootPart = personaje:WaitForChild("HumanoidRootPart")
+
+    -- Si el teletransporte está activado, continuar buscando frutas
+    if isTeletransportActive then
+        coroutine.wrap(function()
+            while isTeletransportActive do
+                -- Comprobar si hay algún objeto con "Fruit" en su nombre
+                for _, child in pairs(workspace:GetChildren()) do
+                    if string.lower(child.Name):find("fruit") then
+                        print("Objeto encontrado: " .. child.Name) -- Depuración
+                        
+                        -- Teletransportarse al objeto recién agregado
+                        TeletransportarAObjeto(child, true)
+                        break -- Teletransportarse solo a la primera fruta que encuentre
+                    end
+                end
+                wait(0.01) -- Esperar un poco antes de comprobar nuevamente
+            end
+        end)()
+    end
+end
+
+-- Escuchar cuando el personaje es agregado (después de morir)
+game.Players.LocalPlayer.CharacterAdded:Connect(onCharacterAdded)
 
 
 
@@ -1009,1238 +1009,814 @@ local function teleportWithTween7()
     end
 end
 
--- Acción al presionar el botón
-AutoHakiKen.MouseButton1Click:Connect(function()
+local AutoHakiKenToggle = Tab:CreateToggle({
+   Name = "Auto Haki De Observacion (750k De Dinero)",
+   CurrentValue = false,
+   Flag = "Toggle1", -- A flag is the identifier for the configuration file, make sure every element has a different flag if you're using configuration saving to ensure no overlaps
+   Callback = function(Value)
+
     teleportWithTween7()
-end)
+   end,
+})
 
 
 
-local queueteleport = (syn and syn.queue_on_teleport) or queue_on_teleport or (fluxus and fluxus.queue_on_teleport)
-
-local scriptToExecute = [[
-loadstring(game:HttpGet("https://raw.githubusercontent.com/Lucasbekk3315-code/blox-fruits-2.1-roblox-script/refs/heads/main/Blox%20Fruits%20Script%20roblox%202.0%20BETA"))()
-]]
-
-RejoinButton.MouseButton1Click:Connect(function()
-    if queueteleport then
-        queueteleport(scriptToExecute)
-    end
-
-    game.Players.LocalPlayer:Kick("\nRejoining...")
-    game:GetService("TeleportService"):TeleportToPlaceInstance(game.PlaceId, game.JobId, game.Players.LocalPlayer)
-end)
-
-
-
-local TweenService12 = game:GetService("TweenService")
-local player12 = game.Players.LocalPlayer
-local character12 = player12.Character or player12.CharacterAdded:Wait()
+local TweenService1 = game:GetService("TweenService")
+local player1 = game.Players.LocalPlayer
+local character1 = player1.Character or player1.CharacterAdded:Wait()
 
 -- CFrames objetivo para diferentes juegos
-local targetCFrameGame312 = CFrame.new(
-    -13105.0068, 332.461395, -7698.98291, 0.990716994, -9.47796952e-09, -0.135940388, 6.4981025e-09, 1, -2.23641301e-08, 0.135940388, 2.12731699e-08, 0.990716994
+local targetCFrameGame3 = CFrame.new(
+    106.253479, 19.3599586, 2832.37158, 
+    -0.0656991452, 5.74360159e-09, -0.997839451, 
+    1.88883575e-10, 1, 5.74360159e-09, 
+    0.997839451, 1.88883575e-10, -0.0656991452
 )
 
-
--- Función para hacer el tween
-local function teleportToTarget12()
-    local tweenInfo12 = TweenInfo.new(1, Enum.EasingStyle.Linear, Enum.EasingDirection.Out)  -- 1 segundo para el tween
-    local tweenGoal12 = {CFrame = targetCFrameGame312}
-    local tween12 = TweenService12:Create(character12:WaitForChild("HumanoidRootPart"), tweenInfo12, tweenGoal12)
-    tween12:Play()
-end
-
--- Conectar la función al evento del botón
-TeletransportarXDButton.MouseButton1Click:Connect(teleportToTarget12)
-
-
-
-AimLockBloxButton.MouseButton1Click:Connect(function()
-local Players = game:GetService("Players")
-local RunService = game:GetService("RunService")
-local UserInputService = game:GetService("UserInputService")
-local Camera = workspace.CurrentCamera
-local StarterGui = game:GetService("StarterGui")
-local LocalPlayer = Players.LocalPlayer
-
-local AimbotActivado = false
-local TeclaDeAimbot = Enum.KeyCode.E
-local Objetivo = nil
-local TeclaAsignada = false
-local PantallaGui = nil
-local ClickDerechoAsignado = false
-
--- Función para enviar notificaciones
-local function Notificar(titulo, texto, duracion)
-    pcall(function()
-        StarterGui:SetCore("SendNotification", {
-            Title = titulo,
-            Text = texto,
-            Duration = duracion or 3
-        })
-    end)
-end
-
--- Verificar si un jugador es válido (siempre devuelve true para apuntar a cualquiera)
-local function EsEnemigo(jugador)
-    return true
-end
-
--- Obtener el jugador más cercano al mouse
-local function ObtenerJugadorMasCercanoAlMouse()
-    local posicionMouse = UserInputService:GetMouseLocation()
-    local jugadorMasCercano = nil
-    local distanciaMasCercana = math.huge
-
-    for _, jugador in ipairs(Players:GetPlayers()) do
-        if jugador ~= LocalPlayer and EsEnemigo(jugador) and jugador.Character and jugador.Character:FindFirstChild("HumanoidRootPart") then
-            local torso = jugador.Character.HumanoidRootPart
-            local posicionPantalla, enPantalla = Camera:WorldToScreenPoint(torso.Position)
-
-            if enPantalla then
-                local distancia = (Vector2.new(posicionPantalla.X, posicionPantalla.Y) - posicionMouse).Magnitude
-                if distancia < distanciaMasCercana then
-                    distanciaMasCercana = distancia
-                    jugadorMasCercano = jugador
-                end
-            end
-        end
-    end
-
-    return jugadorMasCercano
-end
-
--- Apuntar al objetivo
-local function ApuntarA(parteObjetivo)
-    if parteObjetivo then
-        Camera.CFrame = CFrame.new(Camera.CFrame.Position, parteObjetivo.Position)
-    end
-end
-
--- Validar el objetivo
-local function ValidarObjetivo(jugador)
-    if jugador and jugador.Character and jugador.Character:FindFirstChild("HumanoidRootPart") then
-        return true -- Siempre consideramos válido el objetivo actual
-    end
-    return false
-end
-
--- Actualizar constantemente el objetivo mientras el aimbot está activado
-RunService.Heartbeat:Connect(function()
-    if AimbotActivado then
-        if not Objetivo or not ValidarObjetivo(Objetivo) then
-            Objetivo = ObtenerJugadorMasCercanoAlMouse()
-        end
-
-        if Objetivo then
-            local parteObjetivo = Objetivo.Character:FindFirstChild("HumanoidRootPart")
-            if parteObjetivo then
-                ApuntarA(parteObjetivo)
-            end
-        end
-    end
-end)
-
--- Detectar cuando se presiona la tecla de activación
-UserInputService.InputBegan:Connect(function(input, gameProcessed)
-    if gameProcessed then return end
-
-    -- Verificar si se presionó la tecla asignada o el clic derecho o el botón 4 o 5
-    if TeclaAsignada and input.UserInputType == Enum.UserInputType.Keyboard then
-        -- Verifica si la tecla presionada coincide con la tecla asignada
-        if input.KeyCode == TeclaDeAimbot then
-            AimbotActivado = not AimbotActivado
-            if not AimbotActivado then
-                Objetivo = nil -- Limpiar el objetivo cuando se desactiva
-            end
-            Notificar("Aimbot", AimbotActivado and "Aimbot Activado" or "Aimbot Desactivado", 1)
-        end
-    elseif ClickDerechoAsignado and input.UserInputType == Enum.UserInputType.MouseButton2 then
-        -- Activar/desactivar el aimbot con el clic derecho
-        AimbotActivado = not AimbotActivado
-        if not AimbotActivado then
-            Objetivo = nil -- Limpiar el objetivo cuando se desactiva
-        end
-        Notificar("Aimbot", AimbotActivado and "Aimbot Activado" or "Aimbot Desactivado", 1)
-    elseif input.UserInputType == Enum.UserInputType.MouseButton4 then
-        -- Activar/desactivar el aimbot con el botón 4 del mouse
-        if TeclaAsignada and TeclaDeAimbot == Enum.UserInputType.MouseButton4 then
-            AimbotActivado = not AimbotActivado
-            if not AimbotActivado then
-                Objetivo = nil -- Limpiar el objetivo cuando se desactiva
-            end
-            Notificar("Aimbot", AimbotActivado and "Aimbot Activado" or "Aimbot Desactivado", 1)
-        end
-    elseif input.UserInputType == Enum.UserInputType.MouseButton5 then
-        -- Activar/desactivar el aimbot con el botón 5 del mouse
-        if TeclaAsignada and TeclaDeAimbot == Enum.UserInputType.MouseButton5 then
-            AimbotActivado = not AimbotActivado
-            if not AimbotActivado then
-                Objetivo = nil -- Limpiar el objetivo cuando se desactiva
-            end
-            Notificar("Aimbot", AimbotActivado and "Aimbot Activado" or "Aimbot Desactivado", 1)
-        end
-    end
-end)
-
--- Crear el menú para asignar la tecla
-local function CrearMenuDeTecla()
-    PantallaGui = Instance.new("ScreenGui")
-    PantallaGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
-    
-    local Marco = Instance.new("Frame")
-    Marco.Size = UDim2.new(0, 300, 0, 150)
-    Marco.Position = UDim2.new(0.5, -150, 0.5, -75)
-    Marco.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
-    Marco.Parent = PantallaGui
-    Marco.Active = true
-    Marco.Draggable = true
-    
-    local Titulo = Instance.new("TextLabel")
-    Titulo.Size = UDim2.new(1, 0, 0, 30)
-    Titulo.Text = "AimLock Blox"
-    Titulo.TextColor3 = Color3.fromRGB(255, 255, 255)
-    Titulo.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
-    Titulo.TextSize = 20
-    Titulo.Parent = Marco
-
-    local BotonCerrar = Instance.new("TextButton")
-    BotonCerrar.Size = UDim2.new(0, 30, 0, 30)
-    BotonCerrar.Position = UDim2.new(1, -35, 0, 5)
-    BotonCerrar.Text = "X"
-    BotonCerrar.TextColor3 = Color3.fromRGB(255, 255, 255)
-    BotonCerrar.BackgroundColor3 = Color3.fromRGB(200, 50, 50)
-    BotonCerrar.Parent = Marco
-
-    BotonCerrar.MouseButton1Click:Connect(function()
-        AimbotActivado = false
-        TeclaAsignada = false
-        TeclaDeAimbot = nil
-        ClickDerechoAsignado = false
-        if PantallaGui then
-            PantallaGui:Destroy()
-        end
-        Notificar("Aimbot", "Aimbot Desactivado y Menú Cerrado", 3)
-    end)
-
-    local CajaTexto = Instance.new("TextBox")
-    CajaTexto.Size = UDim2.new(0, 260, 0, 40)
-    CajaTexto.Position = UDim2.new(0, 20, 0, 40)
-    CajaTexto.Text = "Presiona Aqui."
-    CajaTexto.PlaceholderText = "Presiona una tecla... o escribe 'click' para asignar el clic derecho"
-    CajaTexto.TextColor3 = Color3.fromRGB(255, 255, 255)
-    CajaTexto.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
-    CajaTexto.Parent = Marco
-    
-
-    CajaTexto.FocusLost:Connect(function(enterPressed)
-        if enterPressed then
-            local tecla = CajaTexto.Text:upper()
-            if tecla == "CLICK" then
-                ClickDerechoAsignado = true
-                TeclaDeAimbot = Enum.KeyCode.Unknown -- Desactivar asignación de tecla
-                TeclaAsignada = true
-                Notificar("Tecla Aimbot", "Clic derecho asignado para activar el aimbot.", 3)
-            elseif tecla == "BOTON4" then
-                TeclaDeAimbot = Enum.UserInputType.MouseButton4 -- Asignar el botón 4 del mouse
-                TeclaAsignada = true
-                ClickDerechoAsignado = false
-                Notificar("Tecla Aimbot", "Botón 4 del mouse asignado para activar el aimbot.", 3)
-            elseif tecla == "BOTON5" then
-                TeclaDeAimbot = Enum.UserInputType.MouseButton5 -- Asignar el botón 5 del mouse
-                TeclaAsignada = true
-                ClickDerechoAsignado = false
-                Notificar("Tecla Aimbot", "Botón 5 del mouse asignado para activar el aimbot.", 3)
-            else
-                local teclaValida = false
-                -- Validar si la tecla es válida
-                for _, keyCode in pairs(Enum.KeyCode:GetEnumItems()) do
-                    if keyCode.Name == tecla then
-                        TeclaDeAimbot = keyCode
-                        TeclaAsignada = true
-                        ClickDerechoAsignado = false
-                        Notificar("Tecla Aimbot", "Tecla asignada a: " .. tecla, 3)
-                        teclaValida = true
-                        break
-                    end
-                end
-                if not teclaValida then
-                    Notificar("Error", "Tecla inválida, intenta de nuevo.", 3)
-                end
-            end
-        end
-    end)
-end
-
-
---- Controlar el cierre y apertura del menú con Ctrl derecho
-UserInputService.InputBegan:Connect(function(input, gameProcessed)
-    if gameProcessed then return end
-    if input.KeyCode == Enum.KeyCode.RightControl then
-        if PantallaGui and PantallaGui:FindFirstChild("Frame") then
-            local Marco = PantallaGui:FindFirstChild("Frame")
-            Marco.Visible = not Marco.Visible
-        end
-    end
-end)
-
-CrearMenuDeTecla()
-Notificar("Aimbot", "Aimbot Inicializado. Asigna una tecla o escribe 'click' para usar clic derecho, Ctrl Derecho Para togglear Visibilidad.", 10)
-end)
-
-
-
--- AimLockNPCButton --
-local menuOpen = false  -- Variable para verificar si el menú ya está abierto
-
-AimLockNPCButton.MouseButton1Click:Connect(function()
-    if menuOpen then
-        return  -- Si el menú ya está abierto, no hacer nada
-    end
-
-    menuOpen = true  -- Marcamos que el menú está abierto
-
-    local Players = game:GetService("Players")
-    local RunService = game:GetService("RunService")
-    local UserInputService = game:GetService("UserInputService")
-    local Camera = workspace.CurrentCamera
-    local StarterGui = game:GetService("StarterGui")
-    local LocalPlayer = Players.LocalPlayer
-
-    local AimbotActivated = false
-    local AimbotKey = Enum.KeyCode.E
-    local Target = nil
-    local KeyAssigned = false
-    local GuiScreen = nil
-    local RightClickAssigned = false
-
-    -- Function to send notifications
-    local function Notify(title, text, duration)
-        pcall(function()
-            StarterGui:SetCore("SendNotification", {
-                Title = title,
-                Text = text,
-                Duration = duration or 3
-            })
-        end)
-    end
-
-    -- Check if an NPC is valid (all NPCs in "workspace.Enemies" are considered enemies)
-    local function IsEnemy(npc)
-        return npc and npc:FindFirstChild("HumanoidRootPart")
-    end
-
-    -- Get the closest NPC to the mouse
-    local function GetClosestNpcToMouse()
-        local mousePosition = UserInputService:GetMouseLocation()
-        local closestNpc = nil
-        local closestDistance = math.huge
-
-        for _, npc in ipairs(workspace.Enemies:GetChildren()) do
-            if IsEnemy(npc) then
-                local torso = npc.HumanoidRootPart
-                local screenPosition, onScreen = Camera:WorldToScreenPoint(torso.Position)
-
-                if onScreen then
-                    local distance = (Vector2.new(screenPosition.X, screenPosition.Y) - mousePosition).Magnitude
-                    if distance < closestDistance then
-                        closestDistance = distance
-                        closestNpc = npc
-                    end
-                end
-            end
-        end
-
-        return closestNpc
-    end
-
-    -- Aim at the target (NPC)
-    local function AimAt(targetPart)
-        if targetPart then
-            Camera.CFrame = CFrame.new(Camera.CFrame.Position, targetPart.Position)
-        end
-    end
-
-    -- Validate the target (NPC)
-    local function ValidateTarget(npc)
-        if npc and npc:FindFirstChild("HumanoidRootPart") then
-            return true
-        end
-        return false
-    end
-
-    -- Deactivate aimbot if the NPC's humanoid health is 0, but instead of deactivating, switch to the next closest NPC
-local function CheckNpcHealth()
-    if Target then
-        local humanoid = Target:FindFirstChild("Humanoid")
-        if humanoid and humanoid.Health == 0 then
-            -- Notify that the current NPC is eliminated
-            Notify("Aimbot", "NPC eliminado, cambiando de objetivo.", 3)
-            -- Find a new target
-            Target = GetClosestNpcToMouse()
-        end
-    end
-end
-
-    -- Constantly update the target while the aimbot is activated
-    RunService.Heartbeat:Connect(function()
-        if AimbotActivated then
-            if not Target or not ValidateTarget(Target) then
-                Target = GetClosestNpcToMouse()
-            end
-
-            if Target then
-                local targetPart = Target:FindFirstChild("HumanoidRootPart")
-                if targetPart then
-                    AimAt(targetPart)
-                end
-            end
-
-            -- Check if the NPC has health 0 and deactivate the aimbot
-            CheckNpcHealth()
-        end
-    end)
-
-    -- Detect when the activation key is pressed
-    UserInputService.InputBegan:Connect(function(input, gameProcessed)
-        if gameProcessed then return end
-
-        -- Check if the assigned key or right-click or mouse button 4 or 5 is pressed
-        if KeyAssigned and input.UserInputType == Enum.UserInputType.Keyboard then
-            -- Check if the pressed key matches the assigned key
-            if input.KeyCode == AimbotKey then
-                AimbotActivated = not AimbotActivated
-                if not AimbotActivated then
-                    Target = nil -- Clear the target when deactivated
-                end
-                Notify("Aimbot", AimbotActivated and "Aimbot Activado" or "Aimbot Desactivado", 1)
-            end
-        elseif RightClickAssigned and input.UserInputType == Enum.UserInputType.MouseButton2 then
-            -- Toggle aimbot with right-click
-            AimbotActivated = not AimbotActivated
-            if not AimbotActivated then
-                Target = nil -- Clear the target when deactivated
-            end
-            Notify("Aimbot", AimbotActivated and "Aimbot Activado" or "Aimbot Desactivado", 1)
-        elseif input.UserInputType == Enum.UserInputType.MouseButton4 then
-            -- Toggle aimbot with mouse button 4
-            if KeyAssigned and AimbotKey == Enum.UserInputType.MouseButton4 then
-                AimbotActivated = not AimbotActivated
-                if not AimbotActivated then
-                    Target = nil -- Clear the target when deactivated
-                end
-                Notify("Aimbot", AimbotActivated and "Aimbot Activado" or "Aimbot Desactivado", 1)
-            end
-        elseif input.UserInputType == Enum.UserInputType.MouseButton5 then
-            -- Toggle aimbot with mouse button 5
-            if KeyAssigned and AimbotKey == Enum.UserInputType.MouseButton5 then
-                AimbotActivated = not AimbotActivated
-                if not AimbotActivated then
-                    Target = nil -- Clear the target when deactivated
-                end
-                Notify("Aimbot", AimbotActivated and "Aimbot Activado" or "Aimbot Desactivado", 1)
-            end
-        end
-    end)
-
-    -- Create the key assignment menu
-    local function CreateKeyMenu()
-        GuiScreen = Instance.new("ScreenGui")
-        GuiScreen.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
-        
-        local Frame = Instance.new("Frame")
-        Frame.Size = UDim2.new(0, 300, 0, 150)
-        Frame.Position = UDim2.new(0.5, -150, 0.5, -75)
-        Frame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
-        Frame.Parent = GuiScreen
-        Frame.Active = true
-        Frame.Draggable = true
-        
-        local Title = Instance.new("TextLabel")
-        Title.Size = UDim2.new(1, 0, 0, 30)
-        Title.Text = "AimLock NPC"
-        Title.TextColor3 = Color3.fromRGB(255, 255, 255)
-        Title.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
-        Title.TextSize = 20
-        Title.Parent = Frame
-
-        local CloseButton = Instance.new("TextButton")
-        CloseButton.Size = UDim2.new(0, 30, 0, 30)
-        CloseButton.Position = UDim2.new(1, -35, 0, 5)
-        CloseButton.Text = "X"
-        CloseButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-        CloseButton.BackgroundColor3 = Color3.fromRGB(200, 50, 50)
-        CloseButton.Parent = Frame
-
-        CloseButton.MouseButton1Click:Connect(function()
-            AimbotActivated = false
-            KeyAssigned = false
-            AimbotKey = nil
-            RightClickAssigned = false
-            if GuiScreen then
-                GuiScreen:Destroy() -- Destroy the ScreenGui
-            end
-            if Frame then
-                Frame:Destroy() -- Destroy the menu frame
-            end
-            Notify("Aimbot", "Aimbot Desactivado y Menú Cerrado", 3)
-            menuOpen = false
-        end)
-
-        local TextBox = Instance.new("TextBox")
-        TextBox.Size = UDim2.new(0, 260, 0, 40)
-        TextBox.Position = UDim2.new(0, 20, 0, 40)
-        TextBox.Text = "Press Here."
-        TextBox.PlaceholderText = "Press a key... or type 'click' to assign right-click"
-        TextBox.TextColor3 = Color3.fromRGB(255, 255, 255)
-        TextBox.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
-        TextBox.Parent = Frame
-        
-        TextBox.FocusLost:Connect(function(enterPressed)
-            if enterPressed then
-                local key = TextBox.Text:upper()
-                if key == "CLICK" then
-                    RightClickAssigned = true
-                    AimbotKey = Enum.KeyCode.Unknown -- Disable key assignment
-                    KeyAssigned = true
-                    Notify("Aimbot Key", "Right-click assigned to activate aimbot.", 3)
-                elseif key == "BUTTON4" then
-                    AimbotKey = Enum.UserInputType.MouseButton4 -- Assign mouse button 4
-                    KeyAssigned = true
-                    RightClickAssigned = false
-                    Notify("Aimbot Key", "Mouse button 4 assigned to activate aimbot.", 3)
-                elseif key == "BUTTON5" then
-                    AimbotKey = Enum.UserInputType.MouseButton5 -- Assign mouse button 5
-                    KeyAssigned = true
-                    RightClickAssigned = false
-                    Notify("Aimbot Key", "Mouse button 5 assigned to activate aimbot.", 3)
-                else
-                    local validKey = false
-                    -- Check if it's a valid key
-                    for _, keyCode in pairs(Enum.KeyCode:GetEnumItems()) do
-                        if keyCode.Name == key then
-                            AimbotKey = keyCode
-                            KeyAssigned = true
-                            validKey = true
-                            break
-                        end
-                    end
-                    if validKey then
-                        Notify("Aimbot Key", "Key assigned to activate aimbot.", 3)
-                    else
-                        Notify("Invalid Key", "The key you entered is not valid.", 3)
-                    end
-                end
-            end
-        end)
-    end
-
-    -- Create the key assignment menu when the AimLockNPCButton is clicked
-    CreateKeyMenu()
-end)
-
-
-
-
-local TweenService = game:GetService("TweenService")
-local Players = game:GetService("Players")
-local player = Players.LocalPlayer
-local character = player.Character or player.CharacterAdded:Wait()
-local humanoidRootPart = character:WaitForChild("HumanoidRootPart")
-local humanoid = character:WaitForChild("Humanoid")
-
-local isTweening = false
-local speed = 340 -- Velocidad equivalente a WalkSpeed 50 (ajustable)
-local currentTween = nil
-
--- Función para detener el tween actual
-local function stopCurrentTween()
-    if currentTween then
-        currentTween:Cancel()
-        currentTween = nil
-    end
-end
-
--- Función para desactivar o activar colisiones en el personaje
-local function setCollisionEnabled(enabled)
-    if not character then return end
-    for _, part in ipairs(character:GetDescendants()) do
-        if part:IsA("BasePart") then
-            part.CanCollide = enabled
-        end
-    end
-end
-
--- Función para tween a una posición
-local function tweenToPosition(destinationCFrame)
-    if not humanoidRootPart then return end
-
-    stopCurrentTween() -- Detener cualquier tween en progreso
-
-    local distance = (humanoidRootPart.Position - destinationCFrame.Position).Magnitude
-    local time = distance / speed
-
-    local tweenInfo = TweenInfo.new(time, Enum.EasingStyle.Linear)
-    currentTween = TweenService:Create(humanoidRootPart, tweenInfo, {CFrame = destinationCFrame})
-    currentTween:Play()
-end
-
--- Función para autocompletar el nombre del jugador
-local function AutocompletarNombre(parteDelNombre)
-    for _, player in ipairs(Players:GetPlayers()) do
-        if player.Name:lower():find(parteDelNombre:lower()) then
-            return player.Name
-        end
-    end
-    return nil
-end
-
--- Evento al presionar Enter en el TextBox
-TeletransportarseAJugadorTextBox.FocusLost:Connect(function(enterPressed)
-    if enterPressed then
-        local textoIngresado = TeletransportarseAJugadorTextBox.Text
-        local nombreCompleto = AutocompletarNombre(textoIngresado)
-
-        if nombreCompleto then
-            TeletransportarseAJugadorTextBox.Text = nombreCompleto
-        else
-            warn("No se encontró un jugador con ese nombre.")
-        end
-    end
-end)
-
--- Configuración del botón
-TeletransportarseAJugadorButton.MouseButton1Click:Connect(function()
-    if isTweening then
-        return -- Evitar múltiples ejecuciones si ya está tweening
-    end
-
-    local textoIngresado = TeletransportarseAJugadorTextBox.Text
-    local nombreCompleto = AutocompletarNombre(textoIngresado)
-
-    if nombreCompleto then
-        TeletransportarseAJugadorTextBox.Text = nombreCompleto
-        local targetPlayer = Players:FindFirstChild(nombreCompleto)
-
-        if targetPlayer and targetPlayer.Character and targetPlayer.Character:FindFirstChild("HumanoidRootPart") then
-            isTweening = true
-            local targetHumanoidRootPart = targetPlayer.Character.HumanoidRootPart
-
-            -- Desactivar colisiones mientras se hace el tween
-            setCollisionEnabled(false)
-
-            while true do
-                local distance = (humanoidRootPart.Position - targetHumanoidRootPart.Position).Magnitude
-
-                if distance <= 40 then -- Detener el tween si está a 40 studs o menos
-                    print("Jugador alcanzado. Deteniendo tween.")
-                    stopCurrentTween() -- Detener cualquier tween activo
-                    break
-                else
-                    -- Actualizar el tween hacia la nueva posición del jugador
-                    tweenToPosition(targetHumanoidRootPart.CFrame)
-                end
-
-                task.wait(0.5) -- Actualizar la posición cada 0.5 segundos
-            end
-
-            -- Reactivar colisiones al terminar
-            setCollisionEnabled(true)
-            isTweening = false
-        else
-            warn("Jugador no encontrado o no tiene un personaje válido.")
-        end
+-- Cambia este CFrame al que desees para el juego con ID 7449423635
+local targetCFrameGame4 = CFrame.new(
+    -387.621246, 20.6934395, 5441.47021, 0.728105068, -1.03781339e-08, -0.685465515, -7.74841169e-09, 1, -2.33706743e-08, 0.685465515, 2.23275762e-08, 0.728105068
+)
+
+local function moveToCFrame()
+    -- Determinar el CFrame objetivo según el ID del juego
+    local targetCFrame
+    if game.PlaceId == 4442272183 then
+        targetCFrame = targetCFrameGame3
+    elseif game.PlaceId == 7449423635 then
+        targetCFrame = targetCFrameGame4
     else
-        warn("No se encontró un jugador con ese nombre.")
+        print("Este script no está configurado para este juego.")
+        return
     end
-end)
 
--- Detectar cuando el jugador muere y reactivar colisiones
-player.CharacterAdded:Connect(function(newCharacter)
-    character = newCharacter
-    humanoidRootPart = character:WaitForChild("HumanoidRootPart")
-    humanoid = character:WaitForChild("Humanoid")
-    setCollisionEnabled(true) -- Reactivar colisiones cuando reaparece
-end)
+    if character1 and character1:FindFirstChild("HumanoidRootPart") then
+        -- Calcular la distancia entre el jugador y el CFrame objetivo
+        local distance1 = (targetCFrame.Position - character1.HumanoidRootPart.Position).Magnitude
+        local walkSpeed1 = 340
+        local timeToReach1 = distance1 / walkSpeed1
+
+        -- Crear el tween para mover al jugador
+        local goal1 = {CFrame = targetCFrame}
+        local tweenInfo1 = TweenInfo.new(timeToReach1, Enum.EasingStyle.Linear, Enum.EasingDirection.InOut)
+        local tween1 = TweenService1:Create(character1.HumanoidRootPart, tweenInfo1, goal1)
+
+        -- Reproducir el tween
+        tween1:Play()
+        tween1.Completed:Connect(function()
+            print("Movimiento completado.")
+        end)
+    else
+        print("El personaje o su HumanoidRootPart no están disponibles.")
+    end
+end
+
+-- Conectar el botón para mover al CFrame
+local Mar1Button = Tab:CreateButton({ 
+   Name = "Mar 1", 
+   Callback = function()
+       -- Llamar a la función para mover al jugador cuando el botón sea presionado
+       moveToCFrame()
+       print("Movimiento activado a Mar 1.")
+   end,
+})
 
 
 
 
+local TweenService2 = game:GetService("TweenService")
+local player2 = game.Players.LocalPlayer
+local character2 = player2.Character or player2.CharacterAdded:Wait()
 
--- Funcionalidad del botón Teletransportes
-TeletransportesButton.MouseButton1Click:Connect(function()
-    TeletransportesButton.Visible = false
-    BuyChips.Visible = false
-    InfiniteYieldButton.Visible = false
-    BloxFruitsScriptButton.Visible = false
-    AimLockBloxButton.Visible = false
-    AimLockNPCButton.Visible = false
-    RejoinButton.Visible = false
-    AllChestTweenButton.Visible = true
-    AllDiamGoldChestTweenButton.Visible = true
-    TeletransportarseAJugadorButton.Visible = true
-    TeletransportarseAJugadorTextBox.Visible = true
-    OptimizarButton.Visible = false
-    MenuPrincipal.Visible = false
-    Menudeteletransportes.Visible = true
-    TeletransportarFrutasButton.Visible = true
-    MaresButton.Visible = true
+-- CFrames objetivo para diferentes juegos
+local targetCFrameGame1 = CFrame.new(
+    -1166.52283, 7.73542881, 1729.3916, 
+    0.353035539, 2.71882357e-08, -0.935609937, 
+    2.47146481e-08, 1, 3.83849965e-08, 
+    0.935609937, -3.6674539e-08, 0.353035539
+)
+
+-- Cambia este CFrame al que desees para el juego con ID 7449423635
+local targetCFrameGame2 = CFrame.new(
+    -387.621246, 20.6934395, 5441.47021, 0.728105068, -1.03781339e-08, -0.685465515, -7.74841169e-09, 1, -2.33706743e-08, 0.685465515, 2.23275762e-08, 0.728105068
+)
+
+local function moveToCFrame2()
+    -- Determinar el CFrame objetivo según el ID del juego
+    local targetCFrame
     if game.PlaceId == 2753915549 then
-    AutoHakiKen.Visible = true
-else
-AutoHakiKen.Visible = false
-end
-    BackButton.Visible = true
-end)
-
-
-
-
-local TweenService = game:GetService("TweenService")
-local player = game.Players.LocalPlayer
-local character = player.Character or player.CharacterAdded:Wait()
-local humanoidRootPart = character:WaitForChild("HumanoidRootPart")
-
-local isTweening = false
-local speed = 340 -- Velocidad equivalente a WalkSpeed 50 (ajustable)
-local currentTween = nil  -- Variable para almacenar el tween en curso
-
--- Función para verificar si un objeto tiene un TouchInterest
-local function hasTouchInterest(object)
-    for _, descendant in ipairs(object:GetDescendants()) do
-        if descendant:IsA("TouchTransmitter") then
-            return true
-        end
-    end
-    return false
-end
-
-local function tweenToPosition(destinationCFrame)
-    if not humanoidRootPart then return end
-
-    local distance = (humanoidRootPart.Position - destinationCFrame.Position).Magnitude
-    local time = distance / speed
-
-    local tweenInfo = TweenInfo.new(time, Enum.EasingStyle.Linear)
-    currentTween = TweenService:Create(humanoidRootPart, tweenInfo, {CFrame = destinationCFrame})
-
-    currentTween:Play()
-    currentTween.Completed:Wait()
-end
-
-local function teleportToPosition(destinationCFrame)
-    if not humanoidRootPart then return end
-    humanoidRootPart.CFrame = destinationCFrame
-end
-
--- Escuchar cuando el personaje es agregado (después de morir)
-player.CharacterAdded:Connect(function(newCharacter)
-    character = newCharacter
-    humanoidRootPart = character:WaitForChild("HumanoidRootPart")
-end)
-
-AllChestTweenButton.MouseButton1Click:Connect(function()
-    if isTweening then
-        -- Si el sistema está activo, desactívalo y detén el movimiento
-        isTweening = false
-        AllChestTweenButton.Text = "Todos Los Cofres/ OFF"
-        
-        -- Detener el tween actual si está en curso
-        if currentTween then
-            currentTween:Cancel()  -- Cancela el tween en curso
-            currentTween = nil  -- Restablecer la variable del tween
-        end
+        targetCFrame = targetCFrameGame1
+    elseif game.PlaceId == 7449423635 then
+        targetCFrame = targetCFrameGame2
+    else
+        print("Este script no está configurado para este juego.")
         return
     end
 
-    -- Activar el sistema
-    isTweening = true
-    AllChestTweenButton.Text = "Todos Los Cofres/ ON"
+    if character2 and character2:FindFirstChild("HumanoidRootPart") then
+        -- Calcular la distancia entre el jugador y el CFrame objetivo
+        local distance2 = (targetCFrame.Position - character2.HumanoidRootPart.Position).Magnitude
+        local walkSpeed2 = 340
+        local timeToReach2 = distance2 / walkSpeed2
 
-    coroutine.wrap(function()
-        -- Buscar directamente en workspace.Map
-        local map = workspace.Map
-        local closestChest = nil
-        local closestDistance = math.huge -- Inicializar con un valor muy alto
+        -- Crear el tween para mover al jugador
+        local goal2 = {CFrame = targetCFrame}
+        local tweenInfo2 = TweenInfo.new(timeToReach2, Enum.EasingStyle.Linear, Enum.EasingDirection.InOut)
+        local tween2 = TweenService2:Create(character2.HumanoidRootPart, tweenInfo2, goal2)
 
-        while isTweening do
-            closestChest = nil
-            closestDistance = math.huge -- Reiniciar la distancia más cercana
-
-            -- Buscar el cofre más cercano con TouchInterest
-            for _, object in ipairs(map:GetDescendants()) do
-                if object:IsA("BasePart") and object.Name:find("^Chest") then
-                    local distance = (humanoidRootPart.Position - object.Position).Magnitude
-
-                    -- Verificar si el objeto tiene TouchInterest
-                    if hasTouchInterest(object) and distance < closestDistance then
-                        closestChest = object
-                        closestDistance = distance
-                    end
-                end
-            end
-
-            -- Si encontramos un cofre con TouchInterest
-            if closestChest then
-                if closestDistance <= 340 then
-                    -- Si está a 100 studs o menos, teletransportarse directamente
-                    teleportToPosition(closestChest.CFrame)
-                else
-                    -- Si está más lejos de 100 studs, usar tween
-                    tweenToPosition(closestChest.CFrame)
-                end
-                wait(0.5) -- Esperar un poco antes de seguir buscando
-
-                -- Si el cofre ya no tiene TouchInterest, buscar el siguiente más cercano
-                if not hasTouchInterest(closestChest) then
-                    closestChest = nil
-                end
-            else
-                -- Si no hay cofres con TouchInterest, esperar antes de buscar de nuevo
-                wait(0.4)
-            end
-        end
-
-        -- Al desactivar, no se realiza ningún movimiento adicional
-        AllChestTweenButton.Text = "Todos Los Cofres/ OFF"
-    end)()
-end)
-
-
-
-
-local TweenService9 = game:GetService("TweenService")
-local player9 = game.Players.LocalPlayer
-local character9 = player9.Character or player9.CharacterAdded:Wait()
-local humanoidRootPart9 = character9:WaitForChild("HumanoidRootPart")
-
-local isTweening9 = false
-local speed9 = 340 -- Velocidad equivalente a WalkSpeed 50 (ajustable)
-local activeTween9 -- Variable para almacenar el tween actual
-
--- Función para verificar si un objeto tiene un TouchInterest
-local function hasTouchInterest9(object9)
-    for _, descendant9 in ipairs(object9:GetDescendants()) do
-        if descendant9:IsA("TouchTransmitter") then
-            return true
-        end
+        -- Reproducir el tween
+        tween2:Play()
+        tween2.Completed:Connect(function()
+            print("Movimiento completado.")
+        end)
+    else
+        print("El personaje o su HumanoidRootPart no están disponibles.")
     end
-    return false
 end
 
-local function tweenToPosition9(destinationCFrame9)
-    if not humanoidRootPart9 then return end
+-- Conectar el botón para mover al CFrame
+local Mar2Button = Tab:CreateButton({ 
+   Name = "Mar 2", 
+   Callback = function()
+       -- Llamar a la función para mover al jugador cuando el botón sea presionado
+       moveToCFrame2()
+       print("Movimiento activado a Mar 2.")
+   end,
+})
 
-    local distance9 = (humanoidRootPart9.Position - destinationCFrame9.Position).Magnitude
-    local time9 = distance9 / speed9
 
-    local tweenInfo9 = TweenInfo.new(time9, Enum.EasingStyle.Linear)
-    activeTween9 = TweenService9:Create(humanoidRootPart9, tweenInfo9, {CFrame = destinationCFrame9})
 
-    activeTween9:Play()
-    activeTween9.Completed:Wait()
-    activeTween9 = nil -- Liberar el tween después de completarlo
-end
+local TweenService3 = game:GetService("TweenService")
+local player3 = game.Players.LocalPlayer
+local character3 = player3.Character or player3.CharacterAdded:Wait()
 
-local function teleportToPosition9(destinationCFrame9)
-    if not humanoidRootPart9 then return end
-    humanoidRootPart9.CFrame = destinationCFrame9
-end
+-- CFrames objetivo para diferentes juegos
+local targetCFrameGame5 = CFrame.new(
+    -1908.35522, 6.5207653, -2536.69995, 
+    -0.836797655, 6.05827424e-08, -0.547512293, 
+    6.91875783e-08, 1, 4.90718666e-09, 
+    0.547512293, -3.37747252e-08, -0.836797655
+)
 
-AllDiamGoldChestTweenButton.MouseButton1Click:Connect(function()
-    if isTweening9 then
-        -- Apagar el sistema
-        isTweening9 = false
-        AllDiamGoldChestTweenButton.Text = "Cofres de más valor/ OFF"
+-- Cambia este CFrame al que desees para el juego con ID 7449423635
+local targetCFrameGame6 = CFrame.new(
+    -1166.52283, 7.73542881, 1729.3916, 
+    0.353035539, 2.71882357e-08, -0.935609937, 
+    2.47146481e-08, 1, 3.83849965e-08, 
+    0.935609937, -3.6674539e-08, 0.353035539
+)
 
-        -- Detener el tween activo si existe
-        if activeTween9 then
-            activeTween9:Cancel()
-            activeTween9 = nil
-        end
+local function moveToCFrame3()
+    -- Determinar el CFrame objetivo según el ID del juego
+    local targetCFrame
+    if game.PlaceId == 4442272183 then
+        targetCFrame = targetCFrameGame5
+    elseif game.PlaceId == 2753915549 then
+        targetCFrame = targetCFrameGame6
+    else
+        print("Este script no está configurado para este juego.")
         return
     end
 
-    -- Encender el sistema
-    isTweening9 = true
-    AllDiamGoldChestTweenButton.Text = "Cofres de más valor/ ON"
+    if character3 and character3:FindFirstChild("HumanoidRootPart") then
+        -- Calcular la distancia entre el jugador y el CFrame objetivo
+        local distance3 = (targetCFrame.Position - character3.HumanoidRootPart.Position).Magnitude
+        local walkSpeed3 = 340
+        local timeToReach3 = distance3 / walkSpeed3
 
-    coroutine.wrap(function()
-        local map9 = workspace.Map
-        local closestChest9 = nil
-        local closestDistance9 = math.huge
+        -- Crear el tween para mover al jugador
+        local goal3 = {CFrame = targetCFrame}
+        local tweenInfo3 = TweenInfo.new(timeToReach3, Enum.EasingStyle.Linear, Enum.EasingDirection.InOut)
+        local tween3 = TweenService3:Create(character3.HumanoidRootPart, tweenInfo3, goal3)
 
-        while isTweening9 do
-            closestChest9 = nil
-            closestDistance9 = math.huge
-
-            for _, object9 in ipairs(map9:GetDescendants()) do
-                if object9:IsA("BasePart") and (object9.Name:find("DiamondChest") or object9.Name:find("Chest3") or object9.Name:find("Chest2")) then
-                    local distance9 = (humanoidRootPart9.Position - object9.Position).Magnitude
-
-                    if hasTouchInterest9(object9) and distance9 < closestDistance9 then
-                        closestChest9 = object9
-                        closestDistance9 = distance9
-                    end
-                end
-            end
-
-            if closestChest9 and isTweening9 then
-                if closestDistance9 <= 340 then
-                    teleportToPosition9(closestChest9.CFrame)
-                else
-                    tweenToPosition9(closestChest9.CFrame)
-                end
-                wait(0.5)
-
-                if not hasTouchInterest9(closestChest9) then
-                    closestChest9 = nil
-                end
-            else
-                wait(0.4)
-            end
-        end
-    end)()
-end)
-
-
-
--- Función para teletransportarse a una Tool o Modelo, exactamente a la posición del objeto
-local function TeletransportarAObjeto(objeto, alCentro)
-    -- Verificar si el objeto es una herramienta o un modelo con PrimaryPart
-    if objeto:IsA("Tool") then
-        -- Si es una herramienta, teletransportar al jugador a la posición de la herramienta
-        local jugador = game.Players.LocalPlayer
-        local personaje = jugador.Character
-        local humanoidRootPart = personaje and personaje:FindFirstChild("HumanoidRootPart")
-
-        if humanoidRootPart then
-            -- Teletransportar al jugador a la posición exacta de la herramienta
-            humanoidRootPart.CFrame = objeto.Handle.CFrame
-            print("Teletransportado a la Tool: " .. objeto.Name) -- Depuración
-        else
-            print("No se encontró el HumanoidRootPart del jugador.") -- Depuración
-        end
-    elseif objeto:IsA("Model") and objeto.PrimaryPart then
-        -- Si es un modelo, teletransportar al jugador a su PrimaryPart
-        local jugador = game.Players.LocalPlayer
-        local personaje = jugador.Character
-        local humanoidRootPart = personaje and personaje:FindFirstChild("HumanoidRootPart")
-
-        if humanoidRootPart then
-            local destino = alCentro and objeto.PrimaryPart.CFrame or objeto.PrimaryPart.CFrame
-            -- Teletransportar al jugador a la posición exacta del PrimaryPart del modelo
-            humanoidRootPart.CFrame = destino
-            print("Teletransportado al Modelo: " .. objeto.Name) -- Depuración
-        else
-            print("No se encontró el HumanoidRootPart del jugador.") -- Depuración
-        end
+        -- Reproducir el tween
+        tween3:Play()
+        tween3.Completed:Connect(function()
+            print("Movimiento completado.")
+        end)
     else
-        print("El objeto no es una herramienta ni un modelo con PrimaryPart.") -- Depuración
+        print("El personaje o su HumanoidRootPart no están disponibles.")
     end
 end
 
--- Funcionalidad del botón de Teletransportar a Frutas
-local isTeletransportActive = false  -- Variable para saber si el teletransporte está activado
-
-TeletransportarFrutasButton.MouseButton1Click:Connect(function()
-    if isTeletransportActive then
-        isTeletransportActive = false
-        TeletransportarFrutasButton.Text = "Teletransportar a Frutas/ OFF"
-        print("Teletransporte desactivado.") -- Depuración
-    else
-        isTeletransportActive = true
-        TeletransportarFrutasButton.Text = "Teletransportar a Frutas/ ON"
-        print("Teletransportar activado.") -- Depuración
-        
-        -- Activar la búsqueda de frutas en Workspace
-        coroutine.wrap(function()
-            while isTeletransportActive do
-                -- Comprobar si hay algún objeto con "Fruit" en su nombre
-                for _, child in pairs(workspace:GetChildren()) do
-                    if string.lower(child.Name):find("fruit") then
-                        print("Objeto encontrado: " .. child.Name) -- Depuración
-                        
-                        -- Teletransportarse al objeto sin importar cuántas veces se haya teletransportado
-                        TeletransportarAObjeto(child, true)
-                        break -- Teletransportarse solo a la primera fruta que encuentre
-                    end
-                end
-                wait(0.01) -- Esperar un poco antes de comprobar nuevamente
-            end
-        end)()
-    end
-end)
-
--- Detectar cuando se agrega un nuevo hijo a Workspace
-workspace.ChildAdded:Connect(function(child)
-    -- Verificar si el nombre del nuevo hijo contiene "fruit" (sin importar mayúsculas/minúsculas)
-    if string.lower(child.Name):find("fruit") then
-        print("Nuevo objeto agregado: " .. child.Name) -- Depuración
-        -- Verificar si el teletransporte está activado
-        if isTeletransportActive then
-            -- Teletransportarse al objeto recién agregado
-            TeletransportarAObjeto(child, true)
-        end
-    end
-end)
-
--- Función para manejar la reapertura del personaje después de la muerte
-local function onCharacterAdded(newCharacter)
-    -- Esperar a que el personaje reaparezca
-    local jugador = game.Players.LocalPlayer
-    local personaje = newCharacter
-    local humanoidRootPart = personaje:WaitForChild("HumanoidRootPart")
-
-    -- Si el teletransporte está activado, continuar buscando frutas
-    if isTeletransportActive then
-        coroutine.wrap(function()
-            while isTeletransportActive do
-                -- Comprobar si hay algún objeto con "Fruit" en su nombre
-                for _, child in pairs(workspace:GetChildren()) do
-                    if string.lower(child.Name):find("fruit") then
-                        print("Objeto encontrado: " .. child.Name) -- Depuración
-                        
-                        -- Teletransportarse al objeto recién agregado
-                        TeletransportarAObjeto(child, true)
-                        break -- Teletransportarse solo a la primera fruta que encuentre
-                    end
-                end
-                wait(0.01) -- Esperar un poco antes de comprobar nuevamente
-            end
-        end)()
-    end
-end
-
--- Escuchar cuando el personaje es agregado (después de morir)
-game.Players.LocalPlayer.CharacterAdded:Connect(onCharacterAdded)
+-- Conectar el botón para mover al CFrame
+local Mar3Button = Tab:CreateButton({ 
+   Name = "Mar 3", 
+   Callback = function()
+       -- Llamar a la función para mover al jugador cuando el botón sea presionado
+       moveToCFrame3()
+       print("Movimiento activado a Mar 3.")
+   end,
+})
 
 
 
-
-
--- Funcionalidad del botón de regreso
-BackButton.MouseButton1Click:Connect(function()
-    AllChestTweenButton.Visible = false
-    AllDiamGoldChestTweenButton.Visible = false
-    AutoHakiKen.Visible = false
-    Mar3Button.Visible = false
-    Mar2Button.Visible = false
-    Mar1Button.Visible = false
-    MaresButton.Visible = false
-    TeletransportarFrutasButton.Visible = false
-    TeletransportarseAJugadorButton.Visible = false
-    TeletransportarseAJugadorTextBox.Visible = false
-    BackButton.Visible = false
-    TeletransportesButton.Visible = true
-    OptimizarButton.Visible = true
-    InfiniteYieldButton.Visible = true
-    BloxFruitsScriptButton.Visible = true
-    AimLockBloxButton.Visible = true
-    AimLockNPCButton.Visible = true
-    RejoinButton.Visible = true
-    BuyChips.Visible = true
-    BuyFlame.Visible = false
-    BuyIce.Visible = false
-    BuyBuddha.Visible = false
-    BuyLight.Visible = false
-    BuyRumble.Visible = false
-    BuyDark.Visible = false
-    BuySand.Visible = false
-    BuyPhoenix.Visible = false
-    BuyDough.Visible = false
-    MenuPrincipal.Visible = true
-    Menudeteletransportes.Visible = false
-    Menudemares.Visible = false
-    Menudechips.Visible = false
-end)
-
-
--- Funcionalidad del botón de cierre (X)
-CloseButton.MouseButton1Click:Connect(function()
-    ScreenGui:Destroy()
-    screenGui:Destroy()
-    game.workspace:FindFirstChild("WalkWater"):Destroy()
-end)
+local Tab = Window:CreateTab("Comprar Chips", nil)
 
 
 
-OptimizarButton.MouseButton1Click:Connect(function()
+local BuyChipFlame = Tab:CreateButton({
+   Name = "Comprar Chip De Fuego",
+   Callback = function()
 
-local function processDescendantsImmediately(descendant)
-    -- Si el objeto es una parte con la propiedad CastShadow
-    if descendant:IsA("BasePart") then
-        -- Desactiva CastShadow si está activado
-        if descendant.CastShadow then
-            descendant.CastShadow = false
-        end
-        -- Cambia el material a plástico
-        descendant.Material = Enum.Material.Plastic
-        -- Desactiva la propiedad de sombra
-        descendant.CastShadow = false
-    end
+function getNil(name,class) for _,v in pairs(getnilinstances())do if v.ClassName==class and v.Name==name then return v;end end end
 
-    -- Verifica si el descendiente es un MeshPart
-    if descendant:IsA("MeshPart") then
-        -- Desactiva CastShadow si está activado
-        if descendant.CastShadow then
-            descendant.CastShadow = false
-        end
-        -- Cambia el material a plástico
-        descendant.Material = Enum.Material.Plastic
-        -- Desactiva la sombra
-        descendant.CastShadow = false
-    end
+local args = {
+    [1] = "RaidsNpc",
+    [2] = "Select",
+    [3] = "Flame"
+}
 
-    -- Verifica si el descendiente es un UnionOperation
-    if descendant:IsA("UnionOperation") then
-        -- Desactiva CastShadow si está activado
-        if descendant.CastShadow then
-            descendant.CastShadow = false
-        end
-        -- Cambia el material a plástico
-        descendant.Material = Enum.Material.Plastic
-        -- Desactiva la sombra
-        descendant.CastShadow = false
-    end
+game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(unpack(args))
 
-    -- Verifica si el descendiente es un Decal
-    if descendant:IsA("Decal") then
-        -- Elimina la textura del Decal
-        descendant.Texture = ""
-    end
-
-    -- Verifica si el descendiente es un SurfaceGui
-    if descendant:IsA("SurfaceGui") then
-        -- Configura el SurfaceGui para que no tenga sombras y otros ajustes
-        descendant.LightInfluence = 0 -- Hace que no se vea afectado por la luz
-        descendant.SizingMode = Enum.SurfaceGuiSizingMode.PixelsPerStud -- Ajusta el modo de tamaño
-        -- Busca y elimina las texturas en ImageLabel o ImageButton
-        for _, child in ipairs(descendant:GetDescendants()) do
-            if child:IsA("ImageLabel") or child:IsA("ImageButton") then
-                child.Image = "" -- Elimina la textura
-            elseif child:IsA("TextLabel") or child:IsA("TextButton") then
-                child.Text = "" -- Elimina el texto si es necesario
-            end
-        end
-    end
-
-    -- Verifica si el descendiente es un BillboardGui
-    if descendant:IsA("BillboardGui") then
-        -- Configura el BillboardGui para que no tenga sombras y otros ajustes
-        descendant.LightInfluence = 0
-        -- Elimina las texturas en ImageLabel o ImageButton dentro del BillboardGui
-        for _, child in ipairs(descendant:GetDescendants()) do
-            if child:IsA("ImageLabel") or child:IsA("ImageButton") then
-                child.Image = "" -- Elimina la textura
-            elseif child:IsA("TextLabel") or child:IsA("TextButton") then
-                child.Text = "" -- Elimina el texto si es necesario
-            end
-        end
-    end
-
-    -- Verifica si el descendiente es un Model
-    if descendant:IsA("Model") then
-        -- Recorre todas las partes dentro del modelo
-        for _, part in ipairs(descendant:GetDescendants()) do
-            if part:IsA("BasePart") then
-                -- Desactiva CastShadow en todas las partes dentro del modelo
-                if part.CastShadow then
-                    part.CastShadow = false
-                end
-                -- Cambia el material a plástico
-                part.Material = Enum.Material.Plastic
-                -- Desactiva la sombra
-                part.CastShadow = false
-            end
-        end
-    end
-
-    -- Si el descendiente es un GuiObject, desactiva las imágenes y el texto
-    if descendant:IsA("GuiObject") then
-        -- Si es un ImageLabel o ImageButton, elimina la imagen
-        if descendant:IsA("ImageLabel") or descendant:IsA("ImageButton") then
-            descendant.Image = "" -- Elimina la textura
-        end
-        -- Si es un TextLabel o TextButton, elimina el texto
-        if descendant:IsA("TextLabel") or descendant:IsA("TextButton") then
-            descendant.Text = "" -- Elimina el texto
-        end
-    end
-
-    -- Elimina los objetos llamados "Tree"
-    if descendant.Name == "Tree" then
-        descendant:Destroy() -- Elimina el objeto
-    end
-end
-
-local function processWorkspaceImmediately()
-    -- Obtiene todos los descendientes de Workspace
-    local descendants = workspace:GetDescendants()
-
-    -- Procesa cada descendiente de golpe
-    for _, descendant in ipairs(descendants) do
-        -- Procesa el objeto actual
-        processDescendantsImmediately(descendant)
-    end
-end
-
--- Realiza la comprobación una sola vez
-processWorkspaceImmediately()
-
-end)
+   end,
+})
 
 
 
--- Controlar el cierre y apertura del menú
-game:GetService("UserInputService").InputBegan:Connect(function(input)
-    if input.KeyCode == Enum.KeyCode.LeftAlt then
-        MainFrame.Visible = not MainFrame.Visible
-    end
-end)
+local BuyChipIce = Tab:CreateButton({
+   Name = "Comprar Chip De Hielo",
+   Callback = function()
 
 
--- Crear la Part
-local WalkWater11 = Instance.new("Part")
-WalkWater11.Name = "WalkWater"
-WalkWater11.Size = Vector3.new(1800, 4, 1800)
-WalkWater11.Anchored = true
-WalkWater11.CanCollide = true
-WalkWater11.Transparency = 1
-WalkWater11.BrickColor = BrickColor.new("White")  -- Cambia el color si lo deseas
-WalkWater11.Parent = workspace
+function getNil(name,class) for _,v in pairs(getnilinstances())do if v.ClassName==class and v.Name==name then return v;end end end
 
--- Posicionar la Part encima de "WaterBase-Plane"
-local waterBasePlane11 = workspace.Map:WaitForChild("WaterBase-Plane")
-WalkWater11.Position = waterBasePlane11.Position + Vector3.new(0, WalkWater11.Size.Y / 2, 0)  -- Ajusta la altura
+local args = {
+    [1] = "RaidsNpc",
+    [2] = "Select",
+    [3] = "Ice"
+}
 
--- Función para cambiar la altura
-local function setHeight11(newHeight)
-    WalkWater11.Position = Vector3.new(WalkWater11.Position.X, newHeight + WalkWater11.Size.Y / 2, WalkWater11.Position.Z)
-end
-
-setHeight11(-7.7)
-
--- Función para seguir al jugador en X y Z
-local player11 = game.Players.LocalPlayer  -- Obtén al jugador local
-local character11 = player11.Character or player11.CharacterAdded:Wait()  -- Obtén el personaje del jugador
-local humanoidRootPart11 = character11:WaitForChild("HumanoidRootPart")  -- Obtén la parte raíz del personaje
-
--- Actualizar la posición de la Part cada 1.5 segundos
-while true do
-    -- Mantener la altura y seguir en X y Z
-    WalkWater11.Position = Vector3.new(humanoidRootPart11.Position.X, WalkWater11.Position.Y, humanoidRootPart11.Position.Z)
-    
-    -- Esperar 1.5 segundos antes de actualizar nuevamente
-    wait(1.5)
-end
+game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(unpack(args))
 
 
-wait(1)
+   end,
+})
 
-game.StarterGui:SetCore("SendNotification", {
-    Title = "Leelo completo.";
-    Text = "Gracias por usar mi script, Para poder minimizarlo presiona *Alt* y para agrandarlo Presionalo de nuevo, eso es todo Gracias.";
-    Duration = 10;
+
+
+local BuyChipLight = Tab:CreateButton({
+   Name = "Comprar Chip De Luz",
+   Callback = function()
+
+
+function getNil(name,class) for _,v in pairs(getnilinstances())do if v.ClassName==class and v.Name==name then return v;end end end
+
+local args = {
+    [1] = "RaidsNpc",
+    [2] = "Select",
+    [3] = "Light"
+}
+
+game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(unpack(args))
+
+
+   end,
+})
+
+
+
+local BuyChipBuddha = Tab:CreateButton({
+   Name = "Comprar Chip De Budda",
+   Callback = function()
+
+
+function getNil(name,class) for _,v in pairs(getnilinstances())do if v.ClassName==class and v.Name==name then return v;end end end
+
+local args = {
+    [1] = "RaidsNpc",
+    [2] = "Select",
+    [3] = "Buddha"
+}
+
+game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(unpack(args))
+
+
+   end,
+})
+
+
+
+local BuyChipRumble = Tab:CreateButton({
+   Name = "Comprar Chip De Trueno",
+   Callback = function()
+
+
+function getNil(name,class) for _,v in pairs(getnilinstances())do if v.ClassName==class and v.Name==name then return v;end end end
+
+local args = {
+    [1] = "RaidsNpc",
+    [2] = "Select",
+    [3] = "Rumble"
+}
+
+game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(unpack(args))
+
+
+   end,
+})
+
+
+
+local BuyChipDark = Tab:CreateButton({
+   Name = "Comprar Chip De Oscuridad",
+   Callback = function()
+
+
+function getNil(name,class) for _,v in pairs(getnilinstances())do if v.ClassName==class and v.Name==name then return v;end end end
+
+local args = {
+    [1] = "RaidsNpc",
+    [2] = "Select",
+    [3] = "Dark"
+}
+
+game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(unpack(args))
+
+
+   end,
+})
+
+
+
+local BuyChipPhoenix = Tab:CreateButton({
+   Name = "Comprar Chip De Fenix",
+   Callback = function()
+
+
+function getNil(name,class) for _,v in pairs(getnilinstances())do if v.ClassName==class and v.Name==name then return v;end end end
+
+local args = {
+    [1] = "RaidsNpc",
+    [2] = "Select",
+    [3] = "Phoenix"
+}
+
+game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(unpack(args))
+
+
+   end,
+})
+
+
+
+local BuyChipDough = Tab:CreateButton({
+   Name = "Comprar Chip De Masa",
+   Callback = function()
+
+
+function getNil(name,class) for _,v in pairs(getnilinstances())do if v.ClassName==class and v.Name==name then return v;end end end
+
+local args = {
+    [1] = "RaidsNpc",
+    [2] = "Select",
+    [3] = "Dough"
+}
+
+game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(unpack(args))
+
+
+   end,
+})
+
+local Tab = Window:CreateTab("Compras", nil)
+
+
+
+local BuyRandomFruitButton = Tab:CreateButton({
+   Name = "Comprar Fruta Random",
+   Callback = function()
+
+function getNil(name,class) for _,v in pairs(getnilinstances())do if v.ClassName==class and v.Name==name then return v;end end end
+
+local args = {
+    [1] = "Cousin",
+    [2] = "Buy"
+}
+
+game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(unpack(args))
+
+   end,
+})
+
+
+
+local Divider = Tab:CreateDivider()
+
+
+
+local BuyBlackLeg = Tab:CreateButton({
+    Name = "Comprar Black Leg",
+    Callback = function()
+
+function getNil(name,class) for _,v in pairs(getnilinstances())do if v.ClassName==class and v.Name==name then return v;end end end
+
+local args = {
+    [1] = "BuyBlackLeg"
+}
+
+game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(unpack(args))
+
+    end,
+})
+
+
+
+local BuyElectro = Tab:CreateButton({
+    Name = "Comprar Electro",
+    Callback = function()
+
+function getNil(name,class) for _,v in pairs(getnilinstances())do if v.ClassName==class and v.Name==name then return v;end end end
+
+local args = {
+    [1] = "BuyElectro"
+}
+
+game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(unpack(args))
+
+    end,
+})
+
+
+
+local BuyFishManKarate = Tab:CreateButton({
+    Name = "Comprar Fishman Karate",
+    Callback = function()
+
+function getNil(name,class) for _,v in pairs(getnilinstances())do if v.ClassName==class and v.Name==name then return v;end end end
+
+local args = {
+    [1] = "BuyFishmanKarate"
+}
+
+game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(unpack(args))
+
+    end,
+})
+
+
+
+local BuyDragonClaw = Tab:CreateButton({
+    Name = "Comprar Dragon Claw/Breath",
+    Callback = function()
+
+function getNil(name,class) for _,v in pairs(getnilinstances())do if v.ClassName==class and v.Name==name then return v;end end end
+
+local args = {
+    [1] = "BlackbeardReward",
+    [2] = "DragonClaw",
+    [3] = "2"
+}
+
+game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(unpack(args))
+
+    end,
+})
+
+
+
+local BuySuperHuman = Tab:CreateButton({
+    Name = "Comprar SuperHuman",
+    Callback = function()
+
+function getNil(name,class) for _,v in pairs(getnilinstances())do if v.ClassName==class and v.Name==name then return v;end end end
+
+local args = {
+    [1] = "BuySuperhuman"
+}
+
+game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(unpack(args))
+
+    end,
+})
+
+
+
+local BuyDeathStep = Tab:CreateButton({
+    Name = "Comprar Death Step",
+    Callback = function()
+
+function getNil(name,class) for _,v in pairs(getnilinstances())do if v.ClassName==class and v.Name==name then return v;end end end
+
+local args = {
+    [1] = "BuyDeathStep"
+}
+
+game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(unpack(args))
+
+    end,
+})
+
+
+
+local BuySharkmanKarate = Tab:CreateButton({
+    Name = "Comprar Sharkman Karate",
+    Callback = function()
+
+function getNil(name,class) for _,v in pairs(getnilinstances())do if v.ClassName==class and v.Name==name then return v;end end end
+
+local args = {
+    [1] = "BuySharkmanKarate"
+}
+
+game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(unpack(args))
+
+    end,
+})
+
+
+
+local BuyDragonTalon = Tab:CreateButton({
+    Name = "Comprar Dragon Talon",
+    Callback = function()
+
+function getNil(name,class) for _,v in pairs(getnilinstances())do if v.ClassName==class and v.Name==name then return v;end end end
+
+local args = {
+    [1] = "BuyDragonTalon"
+}
+
+game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(unpack(args))
+
+    end,
+})
+
+
+
+local BuyGodHuman = Tab:CreateButton({
+    Name = "Comprar God Human",
+    Callback = function()
+
+function getNil(name,class) for _,v in pairs(getnilinstances())do if v.ClassName==class and v.Name==name then return v;end end end
+
+local args = {
+    [1] = "BuyGodhuman"
+}
+
+game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(unpack(args))
+
+    end,
+})
+
+
+
+local BuySanguineArt = Tab:CreateButton({
+    Name = "Comprar Sanguine Art",
+    Callback = function()
+
+function getNil(name,class) for _,v in pairs(getnilinstances())do if v.ClassName==class and v.Name==name then return v;end end end
+
+local args = {
+    [1] = "BuySanguineArt"
+}
+
+game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(unpack(args))
+
+    end,
+})
+
+
+
+local Divider = Tab:CreateDivider()
+
+
+
+local BuyHakiGeppo = Tab:CreateButton({
+    Name = "Comprar Haki Geppo",
+    Callback = function()
+
+function getNil(name,class) for _,v in pairs(getnilinstances())do if v.ClassName==class and v.Name==name then return v;end end end
+
+local args = {
+    [1] = "BuyHaki",
+    [2] = "Geppo"
+}
+
+game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(unpack(args))
+
+
+    end,
+})
+
+
+
+local BuyHakiGeppo = Tab:CreateButton({
+    Name = "Comprar Haki Buso",
+    Callback = function()
+
+function getNil(name,class) for _,v in pairs(getnilinstances())do if v.ClassName==class and v.Name==name then return v;end end end
+
+local args = {
+    [1] = "BuyHaki",
+    [2] = "Buso"
+}
+
+game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(unpack(args))
+
+
+    end,
+})
+
+
+
+local BuyHakiGeppo = Tab:CreateButton({
+    Name = "Comprar Haki Soru",
+    Callback = function()
+
+function getNil(name,class) for _,v in pairs(getnilinstances())do if v.ClassName==class and v.Name==name then return v;end end end
+
+local args = {
+    [1] = "BuyHaki",
+    [2] = "Soru"
+}
+
+game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(unpack(args))
+
+
+    end,
+})
+
+
+
+local BuyHakiGeppo = Tab:CreateButton({
+    Name = "Comprar Haki De Observacion",
+    Callback = function()
+
+function getNil(name,class) for _,v in pairs(getnilinstances())do if v.ClassName==class and v.Name==name then return v;end end end
+
+local args = {
+    [1] = "KenTalk",
+    [2] = "Buy"
+}
+
+game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(unpack(args))
+
+
+    end,
+})
+
+
+
+local Divider = Tab:CreateDivider()
+
+
+
+local BuyKatana = Tab:CreateButton({
+    Name = "Comprar Katana",
+    Callback = function()
+
+function getNil(name,class) for _,v in pairs(getnilinstances())do if v.ClassName==class and v.Name==name then return v;end end end
+
+local args = {
+    [1] = "BuyItem",
+    [2] = "Katana"
+}
+
+game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(unpack(args))
+
+    end,
+})
+
+
+
+local BuyCutlass = Tab:CreateButton({
+    Name = "Comprar Cutlass",
+    Callback = function()
+
+function getNil(name,class) for _,v in pairs(getnilinstances())do if v.ClassName==class and v.Name==name then return v;end end end
+
+local args = {
+    [1] = "BuyItem",
+    [2] = "Cutlass"
+}
+
+game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(unpack(args))
+
+    end,
+})
+
+
+
+local BuyDualKatana = Tab:CreateButton({
+    Name = "Comprar Dual Katana",
+    Callback = function()
+
+function getNil(name,class) for _,v in pairs(getnilinstances())do if v.ClassName==class and v.Name==name then return v;end end end
+
+local args = {
+    [1] = "BuyItem",
+    [2] = "Dual Katana"
+}
+
+game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(unpack(args))
+
+    end,
+})
+
+
+
+local BuyIronMace = Tab:CreateButton({
+    Name = "Comprar Iron Mace",
+    Callback = function()
+
+function getNil(name,class) for _,v in pairs(getnilinstances())do if v.ClassName==class and v.Name==name then return v;end end end
+
+local args = {
+    [1] = "BuyItem",
+    [2] = "Iron Mace"
+}
+
+game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(unpack(args))
+
+    end,
+})
+
+
+
+local BuyTripleKatana = Tab:CreateButton({
+    Name = "Comprar Triple Katana",
+    Callback = function()
+
+function getNil(name,class) for _,v in pairs(getnilinstances())do if v.ClassName==class and v.Name==name then return v;end end end
+
+local args = {
+    [1] = "BuyItem",
+    [2] = "Triple Katana"
+}
+
+game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(unpack(args))
+
+    end,
+})
+
+
+
+local BuyPipe = Tab:CreateButton({
+    Name = "Comprar Pipe",
+    Callback = function()
+
+function getNil(name,class) for _,v in pairs(getnilinstances())do if v.ClassName==class and v.Name==name then return v;end end end
+
+local args = {
+    [1] = "BuyItem",
+    [2] = "Pipe"
+}
+
+game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(unpack(args))
+
+    end,
+})
+
+
+
+local BuyDualHeadedBlade = Tab:CreateButton({
+    Name = "Comprar Dual-Headed Blade",
+    Callback = function()
+
+function getNil(name,class) for _,v in pairs(getnilinstances())do if v.ClassName==class and v.Name==name then return v;end end end
+
+local args = {
+    [1] = "BuyItem",
+    [2] = "Dual-Headed Blade"
+}
+
+game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(unpack(args))
+
+    end,
+})
+
+
+
+local BuySoulCane = Tab:CreateButton({
+    Name = "Comprar Soul Cane",
+    Callback = function()
+
+function getNil(name,class) for _,v in pairs(getnilinstances())do if v.ClassName==class and v.Name==name then return v;end end end
+
+local args = {
+    [1] = "BuyItem",
+    [2] = "Soul Cane"
+}
+
+game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(unpack(args))
+
+    end,
+})
+
+
+
+local BuyBisento = Tab:CreateButton({
+    Name = "Comprar Bisento",
+    Callback = function()
+
+function getNil(name,class) for _,v in pairs(getnilinstances())do if v.ClassName==class and v.Name==name then return v;end end end
+
+local args = {
+    [1] = "BuyItem",
+    [2] = "Bisento"
+}
+
+game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(unpack(args))
+
+    end,
 })
