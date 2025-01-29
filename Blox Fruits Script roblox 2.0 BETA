@@ -1037,16 +1037,15 @@ local TweenService12 = game:GetService("TweenService")
 local player12 = game.Players.LocalPlayer
 local character12 = player12.Character or player12.CharacterAdded:Wait()
 
--- CFrames objetivo para diferentes juegos
-local targetCFrameGame312 = CFrame.new(
-    -12547.5605, 332.461426, -7594.79639, 0.999978125, 9.60725011e-09, 0.00660982681, -9.48256496e-09, 1, -1.88949425e-08, -0.00660982681, 1.88318516e-08, 0.999978125
+-- CFrame objetivo para el juego 313
+local targetCFrameGame313 = CFrame.new(
+    -13108.0801, 332.461426, -7689.40381, 0.994971216, -3.25598641e-08, 0.100161456, 2.45271146e-08, 1, 8.14294552e-08, -0.100161456, -7.85632892e-08, 0.994971216
 )
-
 
 -- Función para hacer el tween
 local function teleportToTarget12()
-    local tweenInfo12 = TweenInfo.new(1, Enum.EasingStyle.Linear, Enum.EasingDirection.Out)  -- 1 segundo para el tween
-    local tweenGoal12 = {CFrame = targetCFrameGame312}
+    local tweenInfo12 = TweenInfo.new(2, Enum.EasingStyle.Linear, Enum.EasingDirection.Out)  -- 2 segundos para el tween
+    local tweenGoal12 = {CFrame = targetCFrameGame313}
     local tween12 = TweenService12:Create(character12:WaitForChild("HumanoidRootPart"), tweenInfo12, tweenGoal12)
     tween12:Play()
 end
