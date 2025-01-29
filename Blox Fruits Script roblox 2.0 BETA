@@ -562,7 +562,7 @@ local RejoinButton = Tab:CreateButton({
 local queueteleport = (syn and syn.queue_on_teleport) or queue_on_teleport or (fluxus and fluxus.queue_on_teleport)
 
 local scriptToExecute = [[
-loadstring(game:HttpGet("https://raw.githubusercontent.com/Lucasbekk3315-code/blox-fruits-2.1-roblox-script/refs/heads/main/Blox%20Fruits%20Script%20roblox%202.0%20BETA"))()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/Lucasbekk3315-code/blox-fruits-2.2-roblox-script/refs/heads/main/Blox%20Fruits%20Script%20roblox%202.0%20BETA"))()
 ]]
 
     if queueteleport then
