@@ -1,3 +1,6 @@
+local visionradius = game.Players.LocalPlayer:FindFirstChild("VisionRadius")
+visionradius.Value = 10000000000000000000
+
 local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
 
 Rayfield:Notify({
@@ -749,21 +752,6 @@ local SliderDash = Tab:CreateSlider({
       else
          print("El personaje no está disponible o no se ha cargado correctamente.")
       end
-   end,
-})
-
-
-
-local Slider = Tab:CreateSlider({
-   Name = "VisionRadius (Haki Observacion)",
-   Range = {2000, 1000000},
-   Increment = 500,
-   Suffix = "Radio",
-   CurrentValue = 2000,
-   Flag = "Slider1",
-   Callback = function(Value)
-      -- Obtener al LocalPlayer
-VisionRadius.Value = Value
    end,
 })
 
