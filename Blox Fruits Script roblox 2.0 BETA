@@ -885,7 +885,7 @@ local AllChestTweenToggle = Tab:CreateToggle({
 
 
 
--- Función para teletransportarse a una Tool o Modelo, exactamente a la posición del objeto
+-- Función para teletransportarse a una Tool o Modelo, exactamente a la posición del objeto Handle dentro de la fruta
 local function TeletransportarAObjeto(objeto, alCentro)
     -- Verificar si el objeto es una herramienta o un modelo con PrimaryPart
     if objeto:IsA("Tool") then
@@ -920,6 +920,27 @@ local function TeletransportarAObjeto(objeto, alCentro)
     end
 end
 
+-- Función para teletransportarse al "Handle" de una fruta
+local function TeletransportarAHandleDeFruta(fruta)
+    -- Verificar si la fruta tiene un Handle
+    local handle = fruta:FindFirstChild("Handle")
+    if handle then
+        local jugador = game.Players.LocalPlayer
+        local personaje = jugador.Character
+        local humanoidRootPart = personaje and personaje:FindFirstChild("HumanoidRootPart")
+
+        if humanoidRootPart then
+            -- Teletransportar al jugador a la posición del Handle de la fruta
+            humanoidRootPart.CFrame = handle.CFrame
+            print("Teletransportado al Handle de la fruta: " .. fruta.Name) -- Depuración
+        else
+            print("No se encontró el HumanoidRootPart del jugador.") -- Depuración
+        end
+    else
+        print("La fruta no tiene un Handle.") -- Depuración
+    end
+end
+
 -- Variable para saber si el teletransporte está activado
 local isTeletransportActive = false
 
@@ -942,12 +963,12 @@ local TeletransportarseAFrutasToggle = Tab:CreateToggle({
                         if string.lower(child.Name):find("fruit") then
                             print("Objeto encontrado: " .. child.Name) -- Depuración
                             
-                            -- Teletransportarse al objeto sin importar cuántas veces se haya teletransportado
-                            TeletransportarAObjeto(child, true)
+                            -- Teletransportarse al Handle de la fruta
+                            TeletransportarAHandleDeFruta(child)
                             break -- Teletransportarse solo a la primera fruta que encuentre
                         end
                     end
-                    wait(0.01) -- Esperar un poco antes de comprobar nuevamente
+                    wait(0.005) -- Esperar un poco antes de comprobar nuevamente
                 end
             end)()
         else
@@ -965,8 +986,8 @@ workspace.ChildAdded:Connect(function(child)
         print("Nuevo objeto agregado: " .. child.Name) -- Depuración
         -- Verificar si el teletransporte está activado
         if isTeletransportActive then
-            -- Teletransportarse al objeto recién agregado
-            TeletransportarAObjeto(child, true)
+            -- Teletransportarse al Handle de la fruta recién agregada
+            TeletransportarAHandleDeFruta(child)
         end
     end
 end)
@@ -987,12 +1008,12 @@ local function onCharacterAdded(newCharacter)
                     if string.lower(child.Name):find("fruit") then
                         print("Objeto encontrado: " .. child.Name) -- Depuración
                         
-                        -- Teletransportarse al objeto recién agregado
-                        TeletransportarAObjeto(child, true)
+                        -- Teletransportarse al Handle de la fruta recién agregada
+                        TeletransportarAHandleDeFruta(child)
                         break -- Teletransportarse solo a la primera fruta que encuentre
                     end
                 end
-                wait(0.01) -- Esperar un poco antes de comprobar nuevamente
+                wait(0.005) -- Esperar un poco antes de comprobar nuevamente
             end
         end)()
     end
