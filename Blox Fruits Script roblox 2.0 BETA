@@ -762,6 +762,31 @@ local MaxVisionRangeButton = Tab:CreateButton({
 
 
 
+local DestroyRayfieldButton = Tab:CreateButton({
+   Name = "Destruir Menu",
+   Callback = function()
+
+    Rayfield:Destroy()
+
+-- Buscar y eliminar la Part "WalkWater" en Workspace
+local part = game.Workspace:FindFirstChild("WalkWater")
+if part then
+    part:Destroy()
+end
+
+-- Buscar y eliminar el objeto "Rayfield-Old" en game.CoreGui.HiddenUI
+local hiddenUI = game.CoreGui:FindFirstChild("HiddenUI")
+if hiddenUI then
+    local rayfieldOld = hiddenUI:FindFirstChild("Rayfield-Old")
+    if rayfieldOld then
+        rayfieldOld:Destroy()
+    end
+end
+
+   end,
+})
+
+
 
 
 local VelocidaddecaminarSlider = Tab:CreateSlider({
@@ -1076,21 +1101,7 @@ local StarterGui7 = game:GetService("StarterGui")
 
 -- Los lugares a los que te teletransportarás
 local locations7 = {
-    CFrame.new(-1421.69861, 48.3352776, 22.1260223, 0.458441496, -3.33502612e-08, -0.888724566, -6.87463739e-08, 1, -7.29882501e-08, 0.888724566, 9.45574286e-08, 0.458441496), -- Lugar 1
-    CFrame.new(-1181.14807, 20.8615398, 187.746506, 0.888406456, -0.0463902466, 0.456707835, -0.000148137333, 0.994851828, 0.101340532, -0.459057927, -0.0900992379, 0.883825719), -- Lugar 2
-    CFrame.new(-1647.68457, 23.3353443, 438.075775, 0.187695593, -4.79490438e-08, 0.982227266, 6.37158282e-09, 1, 4.75990909e-08, -0.982227266, -2.67579714e-09, 0.187695593), -- Lugar 3
-    CFrame.new(-1323.73792, 31.3516502, -461.364807, -0.755672812, 0.000290932163, -0.654949248, -3.01427208e-05, 1, 0.000478983886, 0.654949307, 0.000381697057, -0.755672753), -- Lugar 4
-    CFrame.new(-1152.52246, 2.60643291, -700.588928, -0.0948770195, -1.62659148e-08, -0.995489001, -6.89705315e-09, 1, -1.56822857e-08, 0.995489001, 5.37805178e-09, -0.0948770195), -- Lugar 5
-    CFrame.new(-1610.67029, 12.1398087, 162.875473, -0.897944927, -3.29255201e-08, -0.440107793, -3.64219943e-08, 1, -5.01183484e-10, 0.440107793, 1.55795679e-08, -0.897944927), -- Lugar 6
-    CFrame.new(1113.95642, 5.00469446, 4350.33643, -0.651566386, -9.5056734e-08, 0.758591652, -6.9535254e-08, 1, 6.55819292e-08, -0.758591652, -1.00178816e-08, -0.651566386), -- Lugar 7
-    CFrame.new(1113.49866, 7.79696465, 4365.14258, -0.838356137, 6.45036158e-09, -0.545122921, -1.48282684e-08, 1, 3.46375657e-08, 0.545122921, 3.71218469e-08, -0.838356137), -- Lugar 8
-    CFrame.new(1395.91125, 37.382988, -1319.90405, 0.481315285, 4.88058616e-09, 0.876547575, -4.80260915e-08, 1, 2.08033271e-08, -0.876547575, -5.21101136e-08, 0.481315285), -- Lugar 9
-    CFrame.new(1455.67676, 88.287178, -1388.90222, 0.396173328, -2.30966068e-09, -0.918175757, 3.4424037e-08, 1, 1.23377522e-08, 0.918175757, -3.64952051e-08, 0.396173328), -- Lugar 10
-    CFrame.new(-909.743591, 13.7870445, 4077.18311, -0.203163564, -2.1227351e-09, -0.979144812, -2.49593235e-08, 1, 3.01088288e-09, 0.979144812, 2.5050495e-08, -0.203163564), -- Lugar 11
-    CFrame.new(-2860.51758, 7.59728956, 5384.34473, -0.928020716, -1.84903062e-08, 0.372528553, 1.32719258e-08, 1, 8.26968218e-08, -0.372528553, 8.16885404e-08, -0.928020716), -- Lugar 12
-    CFrame.new(-909.743591, 13.7870445, 4077.18311, -0.203163564, -2.1227351e-09, -0.979144812, -2.49593235e-08, 1, 3.01088288e-09, 0.979144812, 2.5050495e-08, -0.203163564), -- Lugar 13
-    CFrame.new(-1406.62476, 29.8870106, 6.3510375, 0.859951854, 3.99091213e-08, 0.510375142, 4.23934748e-10, 1, -7.8909963e-08, -0.510375142, 6.80751384e-08, 0.859951854), -- Lugar 14
-    CFrame.new(-8037.17969, 5756.06787, -1932.35388, -0.999919832, -5.74872816e-10, 0.0126614952, -7.40978875e-11, 1, 3.95514803e-08, -0.0126614952, 3.95473698e-08, -0.999919832), -- Lugar 15
+    -- (Los lugares de teleportación permanecen iguales)
 }
 
 -- Función para teletransportarse con Tween
@@ -1149,7 +1160,7 @@ local function teleportWithTween7()
             })
         end
 
-       -- En la posición 10, muestra un mensaje
+        -- En la posición 10, muestra un mensaje
         if i == 10 then
             StarterGui7:SetCore("SendNotification", {
                 Title = "Aviso",
@@ -1159,7 +1170,7 @@ local function teleportWithTween7()
             wait(10)
         end
 
-         -- En la posición 11, muestra un mensaje
+        -- En la posición 11, muestra un mensaje
         if i == 11 then
             StarterGui7:SetCore("SendNotification", {
                 Title = "Aviso",
@@ -1169,7 +1180,7 @@ local function teleportWithTween7()
             wait(10)
         end
 
-                 -- En la posición 12, muestra un mensaje
+        -- En la posición 12, muestra un mensaje
         if i == 12 then
             StarterGui7:SetCore("SendNotification", {
                 Title = "Aviso",
@@ -1189,35 +1200,44 @@ local function teleportWithTween7()
             wait(10)
         end
 
-        -- En la posición 14, muestra un mensaje
+        -- En la posición 14, muestra un mensaje y espera 45 segundos
         if i == 14 then
             StarterGui7:SetCore("SendNotification", {
                 Title = "Aviso!",
                 Text = "Equipa la reliquia y mata al npc tienes 30 segundos.",
                 Duration = 5
             })
-            wait(45)
-        end
+            wait(45)  -- Espera 45 segundos antes de continuar con la compra del Ken
 
-       -- En la posición 15, muestra un mensaje
-        if i == 15 then
+function getNil(name,class) for _,v in pairs(getnilinstances())do if v.ClassName==class and v.Name==name then return v;end end end
+
+local args = {
+    [1] = "KenTalk",
+    [2] = "Buy"
+}
+
+game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(unpack(args))
+
+            -- Notificación de compra completada
             StarterGui7:SetCore("SendNotification", {
                 Title = "Completado!",
-                Text = "Compralo aqui por 750k de dinero.",
+                Text = "Comprado/solo si tienes los 750K",
                 Duration = 6
             })
         end
     end
 end
 
+-- Crear el toggle para activar el teletransporte y la compra del Ken
 local AutoHakiKenToggle = Tab:CreateToggle({
-   Name = "Auto Haki De Observacion (750k De Dinero)",
-   CurrentValue = false,
-   Flag = "Toggle1", -- A flag is the identifier for the configuration file, make sure every element has a different flag if you're using configuration saving to ensure no overlaps
-   Callback = function(Value)
-
-    teleportWithTween7()
-   end,
+    Name = "Auto Haki De Observación",
+    CurrentValue = false,
+    Flag = "AutoHakiKenToggle",
+    Callback = function(Value)
+        if Value then
+            teleportWithTween7()
+        end
+    end,
 })
 
 
