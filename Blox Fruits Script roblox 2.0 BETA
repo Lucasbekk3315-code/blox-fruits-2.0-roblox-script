@@ -1,5 +1,21 @@
 local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
 
+-- Buscar y eliminar la Part "WalkWater" en Workspace
+local part = game.Workspace:FindFirstChild("WalkWater")
+if part then
+    part:Destroy()
+end
+
+-- Buscar y eliminar el objeto "Rayfield-Old" en game.CoreGui.HiddenUI
+local hiddenUI = game.CoreGui:FindFirstChild("HiddenUI")
+if hiddenUI then
+    local rayfieldOld = hiddenUI:FindFirstChild("Rayfield-Old")
+    if rayfieldOld then
+        rayfieldOld:Destroy()
+    end
+end
+
+
 Rayfield:Notify({
    Title = "Cargando Espera.",
    Content = "",
@@ -50,9 +66,14 @@ Rayfield:Notify({
    Image = nil,
 })
 
+
+
 -- Variables para controlar la Part y el seguimiento del caminar sobre el agua
 local WalkWater11 = nil
 local followCoroutine = nil
+local player11 = game.Players.LocalPlayer
+local character11 = player11.Character or player11.CharacterAdded:Wait()
+local humanoidRootPart11 = character11:WaitForChild("HumanoidRootPart")
 
 -- Crear el Toggle para activar/desactivar caminar sobre el agua
 local ToggleWalkWater = Tab:CreateToggle({
@@ -61,50 +82,48 @@ local ToggleWalkWater = Tab:CreateToggle({
    Flag = "ToggleWalkWater", -- Asegúrate de que este Flag sea único si estás usando guardado de configuración
    Callback = function(Value)
       if Value then
-         -- Crear la Part para caminar sobre el agua
-         WalkWater11 = Instance.new("Part")
-         WalkWater11.Name = "WalkWater"
-         WalkWater11.Size = Vector3.new(1800, 4, 1800)
-         WalkWater11.Anchored = true
-         WalkWater11.CanCollide = true
-         WalkWater11.Transparency = 1
-         WalkWater11.BrickColor = BrickColor.new("White") -- Cambia el color si lo deseas
-         WalkWater11.Parent = workspace
+         -- Crear la Part para caminar sobre el agua si no existe
+         if not WalkWater11 then
+            WalkWater11 = Instance.new("Part")
+            WalkWater11.Name = "WalkWater"
+            WalkWater11.Size = Vector3.new(800, 4, 800)
+            WalkWater11.Anchored = true
+            WalkWater11.CanCollide = true
+            WalkWater11.Transparency = 1
+            WalkWater11.BrickColor = BrickColor.new("White") -- Cambia el color si lo deseas
+            WalkWater11.Parent = workspace
 
-         -- Posicionar la Part encima de "WaterBase-Plane"
-         local waterBasePlane11 = workspace.Map:WaitForChild("WaterBase-Plane")
-         WalkWater11.Position = waterBasePlane11.Position + Vector3.new(0, WalkWater11.Size.Y / 2, 0)
+            -- Posicionar la Part encima de "WaterBase-Plane"
+            local waterBasePlane11 = workspace.Map:WaitForChild("WaterBase-Plane")
+            WalkWater11.Position = waterBasePlane11.Position + Vector3.new(0, WalkWater11.Size.Y / 2, 0)
 
-         -- Función para cambiar la altura
-         local function setHeight11(newHeight)
-            WalkWater11.Position = Vector3.new(
-               WalkWater11.Position.X,
-               newHeight + WalkWater11.Size.Y / 2,
-               WalkWater11.Position.Z
-            )
-         end
-
-         -- Ajustar la altura inicial
-         setHeight11(-7.7)
-
-         -- Función para seguir al jugador en X y Z
-         local player11 = game.Players.LocalPlayer
-         local character11 = player11.Character or player11.CharacterAdded:Wait()
-         local humanoidRootPart11 = character11:WaitForChild("HumanoidRootPart")
-
-         -- Crear una corrutina para actualizar la posición de la Part
-         followCoroutine = coroutine.create(function()
-            while WalkWater11 do
-               WalkWater11.Position = Vector3.new(
-                  humanoidRootPart11.Position.X,
-                  WalkWater11.Position.Y,
-                  humanoidRootPart11.Position.Z
-               )
-               wait(1.5) -- Actualizar cada 1.5 segundos
+            -- Función para cambiar la altura de la Part
+            local function setHeight11(newHeight)
+                WalkWater11.Position = Vector3.new(
+                   WalkWater11.Position.X,
+                   newHeight + WalkWater11.Size.Y / 2,
+                   WalkWater11.Position.Z
+                )
             end
-         end)
 
-         coroutine.resume(followCoroutine)
+            -- Ajustar la altura inicial
+            setHeight11(-7.7)
+            
+            -- Función de seguimiento del jugador en X y Z
+            local function followPlayerPosition()
+                while WalkWater11 do
+                    if character11 and humanoidRootPart11 then
+                        local newPos = humanoidRootPart11.Position
+                        WalkWater11.Position = Vector3.new(newPos.X, WalkWater11.Position.Y, newPos.Z)
+                    end
+                    wait(0.1)  -- Actualiza la posición más rápidamente (10 veces por segundo)
+                end
+            end
+
+            -- Crear la corrutina de seguimiento
+            followCoroutine = coroutine.create(followPlayerPosition)
+            coroutine.resume(followCoroutine)
+         end
       else
          -- Detener el seguimiento y eliminar la Part
          if WalkWater11 then
@@ -119,6 +138,26 @@ local ToggleWalkWater = Tab:CreateToggle({
       end
    end,
 })
+
+-- Escuchar el evento de respawn del jugador para seguir el nuevo personaje solo si el toggle está activado
+player11.CharacterAdded:Connect(function(newCharacter)
+    character11 = newCharacter
+    humanoidRootPart11 = newCharacter:WaitForChild("HumanoidRootPart")
+    
+    -- Si el Toggle está activado y "WalkWater" ya está creado, reiniciar el seguimiento
+    if ToggleWalkWater.CurrentValue and WalkWater11 then
+        followCoroutine = coroutine.create(function()
+            while WalkWater11 do
+                if character11 and humanoidRootPart11 then
+                    local newPos = humanoidRootPart11.Position
+                    WalkWater11.Position = Vector3.new(newPos.X, WalkWater11.Position.Y, newPos.Z)
+                end
+                wait(0.1)  -- Actualiza la posición más rápidamente (10 veces por segundo)
+            end
+        end)
+        coroutine.resume(followCoroutine)
+    end
+end)
 
 
 
@@ -579,85 +618,116 @@ Rayfield:Notify({
 local RejoinButton = Tab:CreateButton({
     Name = "Rejoin",
     Callback = function()
-local queueteleport = (syn and syn.queue_on_teleport) or queue_on_teleport or (fluxus and fluxus.queue_on_teleport)
+        local teleportService = game:GetService("TeleportService")
+        local player = game.Players.LocalPlayer
 
-local scriptToExecute = [[
-loadstring(game:HttpGet("https://raw.githubusercontent.com/Lucasbekk3315-code/blox-fruits-2.2-roblox-script/refs/heads/main/Blox%20Fruits%20Script%20roblox%202.0%20BETA"))()
-]]
+        if not player then
+            warn("No se pudo encontrar el jugador local.")
+            return
+        end
 
-    if queueteleport then
-        queueteleport(scriptToExecute)
-    end
+        local queueTeleport = syn and syn.queue_on_teleport 
+                            or queue_on_teleport 
+                            or (fluxus and fluxus.queue_on_teleport)
 
-    game.Players.LocalPlayer:Kick("\nRejoining...")
-    game:GetService("TeleportService"):TeleportToPlaceInstance(game.PlaceId, game.JobId, game.Players.LocalPlayer)
+        local scriptToExecute = [[
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/Lucasbekk3315-code/blox-fruits-2.2-roblox-script/refs/heads/main/Blox%20Fruits%20Script%20roblox%202.0%20BETA"))()
+        ]]
+
+        -- Si el ejecutor admite `queue_on_teleport`, ejecuta el script después del teletransporte
+        if queueTeleport then
+            pcall(function()
+                queueTeleport(scriptToExecute)
+            end)
+        end
+
+        -- Mensaje de reingreso y teletransporte seguro
+        player:Kick("\nRejoining...")
+
+        -- Espera un poco antes de teletransportar para evitar errores
+        task.wait(1)  
+
+        pcall(function()
+            teleportService:TeleportToPlaceInstance(game.PlaceId, game.JobId, player)
+        end)
     end,
 })
+
 
 
 local OptimizarButton = Tab:CreateButton({
     Name = "Optimizar",
     Callback = function()
-        -- Función para procesar descendientes de "Chest"
-        local function processChestDescendants(chestModel)
-            for _, descendant in ipairs(chestModel:GetDescendants()) do
-                if descendant:IsA("BasePart") or descendant:IsA("MeshPart") or descendant:IsA("UnionOperation") then
-                    descendant.CastShadow = false
-                    descendant.Material = Enum.Material.Plastic
-                elseif descendant:IsA("Decal") then
-                    descendant.Texture = ""
-                elseif descendant:IsA("Animation") then
-                    descendant:Destroy()
-                end
-            end
+        -- Función para optimizar partes específicas
+        local function optimizePart(part)
+            part.CastShadow = false
+            part.Material = Enum.Material.Plastic
         end
 
-        -- Función para procesar cada descendiente individualmente
-        local function processDescendantsImmediately(descendant)
-            if descendant:IsA("BasePart") or descendant:IsA("MeshPart") or descendant:IsA("UnionOperation") then
-                descendant.CastShadow = false
-                descendant.Material = Enum.Material.Plastic
-            elseif descendant:IsA("Decal") then
-                descendant.Texture = ""
-            elseif descendant:IsA("SurfaceGui") or descendant:IsA("BillboardGui") then
-                descendant.LightInfluence = 0
-                for _, child in ipairs(descendant:GetDescendants()) do
+        -- Función para optimizar GUI y Luces
+        local function optimizeObject(object)
+            if object:IsA("Decal") then
+                object.Texture = ""
+            elseif object:IsA("SurfaceGui") or object:IsA("BillboardGui") then
+                object.LightInfluence = 0
+                for _, child in ipairs(object:GetDescendants()) do
                     if child:IsA("ImageLabel") or child:IsA("ImageButton") then
                         child.Image = ""
                     elseif child:IsA("TextLabel") or child:IsA("TextButton") then
                         child.Text = ""
                     end
                 end
-            elseif descendant:IsA("GuiObject") then
-                if descendant:IsA("ImageLabel") or descendant:IsA("ImageButton") then
-                    descendant.Image = ""
-                elseif descendant:IsA("TextLabel") or descendant:IsA("TextButton") then
-                    descendant.Text = ""
+            elseif object:IsA("GuiObject") then
+                if object:IsA("ImageLabel") or object:IsA("ImageButton") then
+                    object.Image = ""
+                elseif object:IsA("TextLabel") or object:IsA("TextButton") then
+                    object.Text = ""
                 end
-            elseif descendant:IsA("PointLight") or descendant:IsA("SpotLight") or descendant:IsA("SurfaceLight") then
-                descendant.Brightness = math.clamp(descendant.Brightness * 0.5, 0, 2) -- Reduce el brillo a la mitad
-                descendant.Range = math.clamp(descendant.Range * 0.8, 2, 30) -- Reduce el rango un 20%
-                descendant.Shadows = false -- Desactiva sombras para mejorar rendimiento
+            elseif object:IsA("PointLight") or object:IsA("SpotLight") or object:IsA("SurfaceLight") then
+                object.Brightness = math.clamp(object.Brightness * 0.5, 0, 2) -- Reduce el brillo a la mitad
+                object.Range = math.clamp(object.Range * 0.8, 2, 30) -- Reduce el rango un 20%
+                object.Shadows = false -- Desactiva sombras para mejorar rendimiento
             end
         end
 
-        -- Función para procesar todo el Workspace
-        local function processWorkspaceImmediately()
-            for _, descendant in ipairs(workspace:GetDescendants()) do
-                if descendant:IsA("Model") and string.find(descendant.Name, "Chest") then
-                    processChestDescendants(descendant)
+        -- Función para procesar descendientes de "Chest"
+        local function processChestDescendants(chestModel)
+            for _, descendant in ipairs(chestModel:GetDescendants()) do
+                if not descendant.Name:lower():find("tree") then -- Evitar optimizar "Tree"
+                    if descendant:IsA("BasePart") or descendant:IsA("MeshPart") or descendant:IsA("UnionOperation") then
+                        optimizePart(descendant)
+                    elseif descendant:IsA("Decal") or descendant:IsA("GuiObject") or descendant:IsA("Light") then
+                        optimizeObject(descendant)
+                    elseif descendant:IsA("Animation") then
+                        descendant:Destroy()
+                    end
                 end
-                processDescendantsImmediately(descendant)
+            end
+        end
+
+        -- Función para optimizar todo el Workspace
+        local function processWorkspace()
+            for _, descendant in ipairs(workspace:GetDescendants()) do
+                if not descendant.Name:lower():find("tree") then -- No modificar "Tree"
+                    if descendant:IsA("Model") and descendant.Name:find("Chest") then
+                        processChestDescendants(descendant)
+                    end
+                    if descendant:IsA("BasePart") or descendant:IsA("MeshPart") or descendant:IsA("UnionOperation") then
+                        optimizePart(descendant)
+                    elseif descendant:IsA("Decal") or descendant:IsA("GuiObject") or descendant:IsA("Light") then
+                        optimizeObject(descendant)
+                    end
+                end
             end
         end
 
         -- Ejecutar optimización
-        processWorkspaceImmediately()
+        processWorkspace()
 
         -- Notificación de éxito
         Rayfield:Notify({
             Title = "Optimizado!",
-            Content = "",
+            Content = "Se aplicaron mejoras sin afectar los árboles.",
             Duration = 1.5,
             Image = nil,
         })
