@@ -1,6 +1,3 @@
-local visionradius = game.Players.LocalPlayer:FindFirstChild("VisionRadius")
-visionradius.Value = 10000000000000000000
-
 local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
 
 Rayfield:Notify({
@@ -669,7 +666,35 @@ local OptimizarButton = Tab:CreateButton({
 
 
 
-local Slider = Tab:CreateSlider({
+local RunService = game:GetService("RunService")
+local player = game.Players.LocalPlayer
+local visionLoop = nil -- Variable para almacenar la conexión
+
+local MaxVisionRangeButton = Tab:CreateButton({
+   Name = "Ver de lejos con Haki de Observación",
+   Callback = function()
+      if visionLoop then
+         visionLoop:Disconnect()
+         visionLoop = nil
+      else
+         visionLoop = RunService.RenderStepped:Connect(function()
+            if player and player.Character then
+               if player:FindFirstChild("VisionRadius") then
+                  player.VisionRadius.Value = math.huge
+               end
+
+               player.Character:SetAttribute("ObservationRange", math.huge)
+            end
+         end)
+      end
+   end,
+})
+
+
+
+
+
+local VelocidaddecaminarSlider = Tab:CreateSlider({
    Name = "Cambiar Velocidad De Caminar",
    Range = {1, 10},
    Increment = 1,
@@ -677,27 +702,19 @@ local Slider = Tab:CreateSlider({
    CurrentValue = 1,
    Flag = "Slider1",
    Callback = function(Value)
-      -- Obtener al LocalPlayer
       local player = game.Players.LocalPlayer
-      
-      -- Verificar si el jugador tiene un personaje
-      if player and player.Character then
-         -- Obtener el atributo "SpeedMultiplier" dentro del Character
-         local character = player.Character
-         
-         -- Verificar si el atributo "SpeedMultiplier" existe en el Character
-         if character:FindFirstChild("SpeedMultiplier") then
-            -- Establecer el valor del atributo SpeedMultiplier según el valor del slider
-            character:SetAttribute("SpeedMultiplier", Value)
-            print("Nuevo valor de SpeedMultiplier en el Character: " .. Value)
-         else
-            -- Si no existe el atributo, crearlo
-            character:SetAttribute("SpeedMultiplier", Value)
-            print("Atributo SpeedMultiplier creado en el Character con valor: " .. Value)
-         end
+      if not player or not player.Character then
+         warn("El personaje no está disponible o no se ha cargado correctamente.")
+         return
       end
+
+      local character = player.Character
+
+      -- Establecer el atributo directamente (lo crea si no existe)
+      character:SetAttribute("SpeedMultiplier", Value)
    end,
 })
+
 
 
 
@@ -709,48 +726,20 @@ local SliderDash = Tab:CreateSlider({
    CurrentValue = 1,
    Flag = "SliderDash",
    Callback = function(Value)
-      -- Obtener al LocalPlayer
       local player = game.Players.LocalPlayer
+      if not player or not player.Character then
+         warn("El personaje no está disponible o no se ha cargado correctamente.")
+         return
+      end
 
-      -- Verificar si el jugador tiene un personaje
-      if player and player.Character then
-         -- Obtener el Character
-         local character = player.Character
+      local character = player.Character
 
-         -- Verificar si el atributo "DashLength" existe en el Character
-         if character:FindFirstChild("DashLength") then
-            -- Establecer el valor del atributo DashLength según el valor del slider
-            character:SetAttribute("DashLength", Value)
-            print("Nuevo valor de DashLength en el Character: " .. Value)
-         else
-            -- Si no existe el atributo, crearlo
-            character:SetAttribute("DashLength", Value)
-            print("Atributo DashLength creado en el Character con valor: " .. Value)
-         end
+      -- Lista de atributos a modificar
+      local atributos = { "DashLength", "DashSpeed", "DashLengthAir", "DashLengthGround" }
 
-         -- Verificar si el atributo "DashSpeed" existe en el Character
-         if character:FindFirstChild("DashSpeed") then
-            -- Establecer el valor del atributo DashSpeed según el valor del slider
-            character:SetAttribute("DashSpeed", Value)
-            print("Nuevo valor de DashSpeed en el Character: " .. Value)
-         else
-            -- Si no existe el atributo, crearlo
-            character:SetAttribute("DashSpeed", Value)
-            print("Atributo DashSpeed creado en el Character con valor: " .. Value)
-         end
-
-         -- Verificar si el atributo "DashLengthAir" existe en el Character
-         if character:FindFirstChild("DashLengthAir") then
-            -- Establecer el valor del atributo DashLengthAir según el valor del slider
-            character:SetAttribute("DashLengthAir", Value)
-            print("Nuevo valor de DashLengthAir en el Character: " .. Value)
-         else
-            -- Si no existe el atributo, crearlo
-            character:SetAttribute("DashLengthAir", Value)
-            print("Atributo DashLengthAir creado en el Character con valor: " .. Value)
-         end
-      else
-         print("El personaje no está disponible o no se ha cargado correctamente.")
+      -- Asignar el valor a cada atributo
+      for _, atributo in ipairs(atributos) do
+         character:SetAttribute(atributo, Value)
       end
    end,
 })
