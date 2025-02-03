@@ -161,6 +161,95 @@ end)
 
 
 
+local VirtualInputManager = game:GetService("VirtualInputManager")
+local Players = game:GetService("Players")
+local UserInputService = game:GetService("UserInputService")
+
+local player = Players.LocalPlayer
+local maxIdleTime = 20 * 60 -- 20 minutos antes del kick
+local idleTime = 0
+local isActive = false -- Toggle inicial
+local updateConnection -- Conexión para actualizar el contador
+
+-- Crear GUI
+local screenGui = Instance.new("ScreenGui", player:WaitForChild("PlayerGui"))
+
+local timerLabel = Instance.new("TextLabel", screenGui)
+timerLabel.Size = UDim2.new(0.3, 0, 0.05, 0)
+timerLabel.Position = UDim2.new(0.35, 0, 0.05, 0)
+timerLabel.BackgroundTransparency = 1
+timerLabel.TextScaled = true
+timerLabel.TextColor3 = Color3.new(1, 1, 1)
+timerLabel.Font = Enum.Font.SourceSansBold
+timerLabel.Visible = false
+
+-- Actualizar contador en pantalla
+local function updateTimer()
+    local remainingTime = maxIdleTime - idleTime
+    local minutes = math.floor(remainingTime / 60)
+    local tenths = math.floor((remainingTime % 60) / 6)
+    
+    timerLabel.Text = "Kick por inactividad en: " .. minutes .. "." .. tenths .. " mins"
+    
+    if remainingTime <= 0 then
+        timerLabel.Text = "¡Serás kickeado en cualquier momento!"
+    end
+end
+
+-- Reiniciar el contador si el jugador se mueve o presiona una tecla
+local function resetIdleTime()
+    if isActive then
+        idleTime = 0
+        updateTimer()
+    end
+end
+
+UserInputService.InputBegan:Connect(resetIdleTime)
+UserInputService.InputEnded:Connect(resetIdleTime)
+
+-- Simular la tecla "M" cada 5 segundos para evitar el kick
+local function preventKick()
+    while isActive do
+        wait(5)
+        VirtualInputManager:SendKeyEvent(true, Enum.KeyCode.M, false, game)
+        wait(0.1)
+        VirtualInputManager:SendKeyEvent(false, Enum.KeyCode.M, false, game)
+    end
+end
+
+-- Bucle para actualizar el contador cada 1 segundo
+local function startIdleCheck()
+    while isActive do
+        wait(1)
+        idleTime = idleTime + 1
+        updateTimer()
+    end
+end
+
+-- Toggle usando Rayfield
+local Toggle = Tab:CreateToggle({
+   Name = "Anti Afk",
+   CurrentValue = false,
+   Flag = "IdleToggle",
+   Callback = function(Value)
+       isActive = Value
+       timerLabel.Visible = isActive
+       
+       if isActive then
+           idleTime = 0
+           updateTimer()
+           task.spawn(preventKick)
+           updateConnection = task.spawn(startIdleCheck)
+       else
+           if updateConnection then
+               task.cancel(updateConnection)
+           end
+       end
+   end,
+})
+
+
+
 local AimLockJugadorButton = Tab:CreateButton({
     Name = "Abrir menu de aimlock para jugadores",
     Callback = function()
